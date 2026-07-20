@@ -1,0 +1,29 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.cilium.io/en/stable/security/
+summary:
+  types: [none-local-socket, mutualTLS]
+  api_key_in: []
+  oauth2_flows: []
+notes: >-
+  The cilium-agent and cilium-health REST APIs declare no securityScheme in their
+  Swagger specs. Access control is enforced at the transport layer: the APIs are
+  served over local Unix domain sockets (unix:///var/run/cilium/cilium.sock and
+  .../health.sock) reachable only from within the agent's node/pod, not over the
+  network. The Hubble Observer/Relay gRPC APIs support optional mutual TLS (mTLS)
+  between Hubble peers and Relay, configured via Cilium's Hubble TLS settings, and
+  RBAC when exposed through Kubernetes. There is no API-key or OAuth surface.
+schemes:
+- name: unix-socket
+  type: transport
+  scheme: local-unix-socket
+  applies_to:
+  - openapi/isovalent-cilium-agent-openapi.yml
+  - openapi/isovalent-cilium-health-openapi.yml
+- name: hubble-mtls
+  type: mutualTLS
+  scheme: mtls
+  docs: https://docs.cilium.io/en/stable/observability/hubble/configuration/tls/
+  applies_to:
+  - grpc/isovalent-hubble-observer.proto
+  - grpc/isovalent-hubble-relay.proto
