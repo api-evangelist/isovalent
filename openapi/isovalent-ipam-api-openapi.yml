@@ -1,0 +1,218 @@
+swagger: '2.0'
+info:
+  title: Cilium bgp ipam API
+  description: Cilium
+  version: v1beta1
+basePath: /v1
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: ipam
+paths:
+  /ipam:
+    post:
+      summary: Allocate an IP address
+      tags:
+      - ipam
+      parameters:
+      - $ref: '#/parameters/ipam-family'
+      - $ref: '#/parameters/ipam-owner'
+      - $ref: '#/parameters/ipam-pool'
+      - $ref: '#/parameters/ipam-expiration'
+      responses:
+        '201':
+          description: Success
+          schema:
+            $ref: '#/definitions/IPAMResponse'
+        '403':
+          description: Forbidden
+        '502':
+          description: Allocation failure
+          x-go-name: Failure
+          schema:
+            $ref: '#/definitions/Error'
+  /ipam/{ip}:
+    post:
+      summary: Allocate an IP address
+      tags:
+      - ipam
+      parameters:
+      - $ref: '#/parameters/ipam-ip'
+      - $ref: '#/parameters/ipam-owner'
+      - $ref: '#/parameters/ipam-pool'
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Invalid IP address
+          x-go-name: Invalid
+        '403':
+          description: Forbidden
+        '409':
+          description: IP already allocated
+          x-go-name: Exists
+        '500':
+          description: IP allocation failure. Details in message.
+          x-go-name: Failure
+          schema:
+            $ref: '#/definitions/Error'
+        '501':
+          description: Allocation for address family disabled
+          x-go-name: Disabled
+    delete:
+      summary: Release an allocated IP address
+      tags:
+      - ipam
+      parameters:
+      - $ref: '#/parameters/ipam-ip'
+      - $ref: '#/parameters/ipam-pool'
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Invalid IP address
+          x-go-name: Invalid
+        '403':
+          description: Forbidden
+        '404':
+          description: IP address not found
+        '500':
+          description: Address release failure
+          x-go-name: Failure
+          schema:
+            $ref: '#/definitions/Error'
+        '501':
+          description: Allocation for address family disabled
+          x-go-name: Disabled
+definitions:
+  IPAMAddressResponse:
+    description: IPAM configuration of an individual address family
+    type: object
+    properties:
+      ip:
+        description: Allocated IP for endpoint
+        type: string
+      gateway:
+        description: IP of gateway
+        type: string
+      cidrs:
+        description: List of CIDRs out of which IPs are allocated
+        type: array
+        items:
+          type: string
+      master-mac:
+        type: string
+        description: MAC of master interface if address is a slave/secondary of a master interface
+      expiration-uuid:
+        type: string
+        description: 'The UUID for the expiration timer. Set when expiration has been
+
+          enabled while allocating.
+
+          '
+      interface-number:
+        type: string
+        description: 'InterfaceNumber is a field for generically identifying an interface. This is only useful in ENI mode.
+
+          '
+      skip-masquerade:
+        type: boolean
+        description: 'SkipMasquerade indicates whether the datapath should avoid masquerading connections from this IP.
+
+          '
+  NodeAddressingElement:
+    description: Addressing information
+    type: object
+    properties:
+      enabled:
+        description: True if address family is enabled
+        type: boolean
+      ip:
+        description: IP address of node
+        type: string
+      alloc-range:
+        description: Address pool to be used for local endpoints
+        type: string
+      address-type:
+        description: Node address type, one of HostName, ExternalIP or InternalIP
+        type: string
+  IPAMResponse:
+    description: IPAM configuration of an endpoint
+    type: object
+    required:
+    - address
+    - host-addressing
+    properties:
+      address:
+        $ref: '#/definitions/AddressPair'
+      ipv4:
+        $ref: '#/definitions/IPAMAddressResponse'
+      ipv6:
+        $ref: '#/definitions/IPAMAddressResponse'
+      host-addressing:
+        $ref: '#/definitions/NodeAddressing'
+  Error:
+    type: string
+  AddressPair:
+    description: Addressing information of an endpoint
+    type: object
+    properties:
+      ipv4:
+        description: IPv4 address
+        type: string
+      ipv4-expiration-uuid:
+        description: UUID of IPv4 expiration timer
+        type: string
+      ipv4-pool-name:
+        description: IPAM pool from which this IPv4 address was allocated
+        type: string
+      ipv6:
+        description: IPv6 address
+        type: string
+      ipv6-expiration-uuid:
+        description: UUID of IPv6 expiration timer
+        type: string
+      ipv6-pool-name:
+        description: IPAM pool from which this IPv6 address was allocated
+        type: string
+  NodeAddressing:
+    description: 'Addressing information of a node for all address families
+
+
+      +k8s:deepcopy-gen=true'
+    type: object
+    properties:
+      ipv6:
+        $ref: '#/definitions/NodeAddressingElement'
+      ipv4:
+        $ref: '#/definitions/NodeAddressingElement'
+parameters:
+  ipam-family:
+    name: family
+    in: query
+    type: string
+    enum:
+    - ipv4
+    - ipv6
+  ipam-ip:
+    name: ip
+    description: IP address
+    in: path
+    required: true
+    type: string
+  ipam-expiration:
+    name: expiration
+    in: header
+    type: boolean
+  ipam-pool:
+    name: pool
+    in: query
+    type: string
+  ipam-owner:
+    name: owner
+    in: query
+    type: string
+x-schemes:
+- unix

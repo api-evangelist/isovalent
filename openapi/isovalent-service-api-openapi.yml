@@ -1,0 +1,248 @@
+swagger: '2.0'
+info:
+  title: Cilium bgp service API
+  description: Cilium
+  version: v1beta1
+basePath: /v1
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: service
+paths:
+  /lrp:
+    get:
+      summary: Retrieve list of all local redirect policies
+      tags:
+      - service
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/LRPSpec'
+  /service:
+    get:
+      summary: Retrieve list of all services
+      tags:
+      - service
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Service'
+definitions:
+  LRPSpec:
+    description: Configuration of an LRP
+    type: object
+    properties:
+      uid:
+        description: Unique identification
+        type: string
+      name:
+        description: LRP service name
+        type: string
+      namespace:
+        description: LRP service namespace
+        type: string
+      frontend-type:
+        description: LRP frontend type
+        type: string
+      lrp-type:
+        description: LRP config type
+        type: string
+      service-id:
+        description: matching k8s service namespace and name
+        type: string
+      frontend-mappings:
+        description: mapping of frontends to pod backends
+        type: array
+        items:
+          $ref: '#/definitions/FrontendMapping'
+  FrontendAddress:
+    description: 'Layer 4 address. The protocol is currently ignored, all services will
+
+      behave as if protocol any is specified. To restrict to a particular
+
+      protocol, use policy.
+
+      '
+    type: object
+    properties:
+      ip:
+        description: Layer 3 address
+        type: string
+      protocol:
+        description: Layer 4 protocol
+        type: string
+        enum:
+        - tcp
+        - udp
+        - any
+      scope:
+        description: Load balancing scope for frontend address
+        type: string
+        enum:
+        - external
+        - internal
+      port:
+        description: Layer 4 port number
+        type: integer
+        format: uint16
+  ServiceStatus:
+    description: Configuration of a service
+    type: object
+    properties:
+      realized:
+        $ref: '#/definitions/ServiceSpec'
+  ServiceSpec:
+    description: Configuration of a service
+    type: object
+    required:
+    - frontend-address
+    properties:
+      id:
+        description: Unique identification
+        type: integer
+      frontend-address:
+        description: Frontend address
+        $ref: '#/definitions/FrontendAddress'
+      backend-addresses:
+        description: List of backend addresses
+        type: array
+        items:
+          $ref: '#/definitions/BackendAddress'
+      flags:
+        description: Optional service configuration flags
+        type: object
+        properties:
+          type:
+            description: Service type
+            type: string
+            enum:
+            - ClusterIP
+            - NodePort
+            - ExternalIPs
+            - HostPort
+            - LoadBalancer
+            - LocalRedirect
+          trafficPolicy:
+            description: Service external traffic policy (deprecated in favor of extTrafficPolicy)
+            type: string
+            enum:
+            - Cluster
+            - Local
+          extTrafficPolicy:
+            description: Service external traffic policy
+            type: string
+            enum:
+            - Cluster
+            - Local
+          intTrafficPolicy:
+            description: Service internal traffic policy
+            type: string
+            enum:
+            - Cluster
+            - Local
+          natPolicy:
+            description: Service protocol NAT policy
+            type: string
+            enum:
+            - None
+            - Nat46
+            - Nat64
+          healthCheckNodePort:
+            description: Service health check node port
+            type: integer
+            format: uint16
+          name:
+            description: Service name  (e.g. Kubernetes service name)
+            type: string
+          namespace:
+            description: Service namespace  (e.g. Kubernetes namespace)
+            type: string
+          cluster:
+            description: Service cluster
+            type: string
+      updateServices:
+        description: 'Update all services selecting the backends with their given states
+
+          (id and frontend are ignored)
+
+          '
+        type: boolean
+  LRPBackend:
+    description: Pod backend of an LRP
+    type: object
+    properties:
+      pod-id:
+        description: Namespace and name of the backend pod
+        type: string
+      backend-address:
+        $ref: '#/definitions/BackendAddress'
+  BackendAddress:
+    description: Service backend address
+    type: object
+    required:
+    - ip
+    properties:
+      ip:
+        description: Layer 3 address
+        type: string
+      protocol:
+        description: Layer 4 protocol (TCP, UDP, etc)
+        type: string
+      port:
+        description: Layer 4 port number
+        type: integer
+        format: uint16
+      nodeName:
+        description: Optional name of the node on which this backend runs
+        type: string
+      state:
+        description: State of the backend for load-balancing service traffic
+        type: string
+        enum:
+        - active
+        - terminating
+        - terminating-not-serving
+        - quarantined
+        - maintenance
+      preferred:
+        description: 'Indicator if this backend is preferred in the context of clustermesh service affinity. The value is set based
+
+          on related annotation of global service. Applicable for active state only.'
+        type: boolean
+      weight:
+        description: Backend weight
+        type: integer
+        format: uint16
+        x-nullable: true
+      zone:
+        description: Optional name of the zone in which this backend runs
+        type: string
+  Service:
+    description: Collection of endpoints to be served
+    type: object
+    properties:
+      spec:
+        $ref: '#/definitions/ServiceSpec'
+      status:
+        $ref: '#/definitions/ServiceStatus'
+  FrontendMapping:
+    description: Mapping of frontend to backend pods of an LRP
+    type: object
+    properties:
+      frontend-address:
+        $ref: '#/definitions/FrontendAddress'
+      backends:
+        description: Pod backends of an LRP
+        type: array
+        items:
+          $ref: '#/definitions/LRPBackend'
+x-schemes:
+- unix

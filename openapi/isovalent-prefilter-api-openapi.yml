@@ -1,0 +1,111 @@
+swagger: '2.0'
+info:
+  title: Cilium bgp prefilter API
+  description: Cilium
+  version: v1beta1
+basePath: /v1
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: prefilter
+paths:
+  /prefilter:
+    get:
+      summary: Retrieve list of CIDRs
+      tags:
+      - prefilter
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Prefilter'
+        '500':
+          description: Prefilter get failed
+          x-go-name: Failure
+          schema:
+            $ref: '#/definitions/Error'
+    patch:
+      summary: Update list of CIDRs
+      tags:
+      - prefilter
+      parameters:
+      - $ref: '#/parameters/prefilter-spec'
+      responses:
+        '200':
+          description: Updated
+          schema:
+            $ref: '#/definitions/Prefilter'
+        '403':
+          description: Forbidden
+        '461':
+          description: Invalid CIDR prefix
+          x-go-name: InvalidCIDR
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Prefilter update failed
+          x-go-name: Failure
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      summary: Delete list of CIDRs
+      tags:
+      - prefilter
+      parameters:
+      - $ref: '#/parameters/prefilter-spec'
+      responses:
+        '200':
+          description: Deleted
+          schema:
+            $ref: '#/definitions/Prefilter'
+        '403':
+          description: Forbidden
+        '461':
+          description: Invalid CIDR prefix
+          x-go-name: InvalidCIDR
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Prefilter delete failed
+          x-go-name: Failure
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Error:
+    type: string
+  Prefilter:
+    description: Collection of endpoints to be served
+    type: object
+    properties:
+      spec:
+        $ref: '#/definitions/PrefilterSpec'
+      status:
+        $ref: '#/definitions/PrefilterStatus'
+  PrefilterSpec:
+    description: CIDR ranges implemented in the Prefilter
+    type: object
+    properties:
+      revision:
+        type: integer
+      deny:
+        type: array
+        items:
+          type: string
+  PrefilterStatus:
+    description: CIDR ranges implemented in the Prefilter
+    type: object
+    properties:
+      realized:
+        $ref: '#/definitions/PrefilterSpec'
+parameters:
+  prefilter-spec:
+    name: prefilter-spec
+    description: List of CIDR ranges for filter table
+    required: true
+    in: body
+    schema:
+      $ref: '#/definitions/PrefilterSpec'
+x-schemes:
+- unix

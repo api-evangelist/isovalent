@@ -1,0 +1,75 @@
+swagger: '2.0'
+info:
+  title: Cilium bgp Healthz API
+  description: Cilium
+  version: v1beta1
+basePath: /v1
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: Healthz
+paths:
+  /healthz:
+    get:
+      summary: Get health of Cilium node
+      description: 'Returns health and status information of the local node including
+
+        load and uptime, as well as the status of related components including
+
+        the Cilium daemon.
+
+        '
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/HealthResponse'
+        '500':
+          description: Failed to contact local Cilium daemon
+          x-go-name: Failed
+          schema:
+            $ref: ../openapi.yaml#/definitions/Error
+      tags:
+      - Healthz
+definitions:
+  HealthResponse:
+    description: Health and status information of local node
+    type: object
+    properties:
+      cilium:
+        description: Status of Cilium daemon
+        $ref: '#/definitions/StatusResponse'
+      uptime:
+        description: Uptime of cilium-health instance
+        type: string
+      system-load:
+        description: System load on node
+        $ref: '#/definitions/LoadResponse'
+  StatusResponse:
+    type: object
+    description: Status of Cilium daemon
+    x-go-type:
+      type: StatusResponse
+      import:
+        package: github.com/cilium/cilium/api/v1/models
+        alias: ciliumModels
+      hint:
+        kind: object
+        nullable: true
+  LoadResponse:
+    description: System load on node
+    type: object
+    properties:
+      last1min:
+        description: Load average over the past minute
+        type: string
+      last5min:
+        description: Load average over the past 5 minutes
+        type: string
+      last15min:
+        description: Load average over the past 15 minutes
+        type: string
+x-schemes:
+- unix

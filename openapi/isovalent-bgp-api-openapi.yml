@@ -1,0 +1,463 @@
+swagger: '2.0'
+info:
+  title: Cilium bgp API
+  description: Cilium
+  version: v1beta1
+basePath: /v1
+consumes:
+- application/json
+produces:
+- application/json
+tags:
+- name: bgp
+paths:
+  /bgp/peers:
+    get:
+      summary: Lists operational state of BGP peers
+      description: 'Retrieves current operational state of BGP peers created by
+
+        Cilium BGP virtual router. This includes session state, uptime,
+
+        information per address family, etc.
+
+        Deprecated: This will be removed in the future.
+
+        '
+      deprecated: true
+      tags:
+      - bgp
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/BgpPeer'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+        '501':
+          description: BGP Control Plane disabled
+          x-go-name: Disabled
+          schema:
+            $ref: '#/definitions/Error'
+  /bgp/routes:
+    get:
+      summary: Lists BGP routes from BGP Control Plane RIB.
+      description: 'Retrieves routes from BGP Control Plane RIB filtered by parameters you specify.
+
+        Deprecated: This will be removed in the future.
+
+        '
+      deprecated: true
+      tags:
+      - bgp
+      parameters:
+      - $ref: '#/parameters/bgp-table-type'
+      - $ref: '#/parameters/bgp-afi'
+      - $ref: '#/parameters/bgp-safi'
+      - $ref: '#/parameters/bgp-router-asn'
+      - $ref: '#/parameters/bgp-neighbor-address'
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/BgpRoute'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+        '501':
+          description: BGP Control Plane disabled
+          x-go-name: Disabled
+          schema:
+            $ref: '#/definitions/Error'
+  /bgp/route-policies:
+    get:
+      summary: Lists BGP route policies configured in BGP Control Plane.
+      description: 'Retrieves route policies from BGP Control Plane.
+
+        Deprecated: This will be removed in the future.
+
+        '
+      deprecated: true
+      tags:
+      - bgp
+      parameters:
+      - $ref: '#/parameters/bgp-router-asn'
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/BgpRoutePolicy'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+        '501':
+          description: BGP Control Plane disabled
+          x-go-name: Disabled
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  BgpNlri:
+    description: Network Layer Reachability Information (NLRI) of the path
+    properties:
+      base64:
+        description: Base64-encoded NLRI in the BGP UPDATE message format
+        type: string
+  BgpRoutePolicyMatchType:
+    description: Defines BGP route policy matching logic in case of multiple match elements.
+    type: string
+    enum:
+    - any
+    - all
+    - invert
+  BgpRoutePolicyStatement:
+    description: Single BGP route policy statement
+    properties:
+      match-neighbors:
+        description: Matches BGP neighbor IP address with the provided match rules
+        $ref: '#/definitions/BgpRoutePolicyNeighborMatch'
+      match-families:
+        description: Matches any of the provided address families. If empty matches all address families.
+        type: array
+        items:
+          $ref: '#/definitions/BgpFamily'
+      match-prefixes:
+        description: Matches CIDR prefix with the provided match rules
+        $ref: '#/definitions/BgpRoutePolicyPrefixMatch'
+      route-action:
+        description: RIB processing action taken on the matched route
+        type: string
+        enum:
+        - none
+        - accept
+        - reject
+      add-communities:
+        description: List of BGP standard community values to be added to the matched route
+        type: array
+        items:
+          type: string
+      add-large-communities:
+        description: List of BGP large community values to be added to the matched route
+        type: array
+        items:
+          type: string
+      set-local-preference:
+        description: BGP local preference value to be set on the matched route
+        type: integer
+      nexthop:
+        description: BGP nexthop action
+        $ref: '#/definitions/BgpRoutePolicyNexthopAction'
+  BgpRoutePolicyPrefix:
+    description: Matches a CIDR prefix in a BGP route policy
+    properties:
+      cidr:
+        description: CIDR prefix to match with
+        type: string
+      prefix-len-min:
+        description: Minimal prefix length that will match if it falls under CIDR
+        type: integer
+      prefix-len-max:
+        description: Maximal prefix length that will match if it falls under CIDR
+        type: integer
+  BgpRoutePolicyPrefixMatch:
+    description: Matches a CIDR prefix in a BGP route policy
+    properties:
+      type:
+        description: Defines matching logic in case of multiple prefixes
+        $ref: '#/definitions/BgpRoutePolicyMatchType'
+      prefixes:
+        description: Prefixes to match with
+        type: array
+        items:
+          $ref: '#/definitions/BgpRoutePolicyPrefix'
+  BgpRoutePolicy:
+    description: 'Single BGP route policy retrieved from the underlying router
+
+      Deprecated: This will be removed in the future.
+
+      '
+    properties:
+      router-asn:
+        description: Autonomous System Number (ASN) identifying a BGP virtual router instance
+        type: integer
+      name:
+        description: Name of the route policy
+        type: string
+      type:
+        description: Type of the route policy
+        type: string
+        enum:
+        - export
+        - import
+      statements:
+        description: List of the route policy statements
+        type: array
+        items:
+          $ref: '#/definitions/BgpRoutePolicyStatement'
+  BgpPeerFamilies:
+    description: BGP AFI SAFI state of the peer
+    properties:
+      afi:
+        description: BGP address family indicator
+        type: string
+      safi:
+        description: BGP subsequent address family indicator
+        type: string
+      received:
+        description: Number of routes received from the peer of this address family
+        type: integer
+      accepted:
+        description: Number of routes accepted from the peer of this address family
+        type: integer
+      advertised:
+        description: Number of routes advertised of this address family to the peer
+        type: integer
+  BgpRoute:
+    description: 'Single BGP route retrieved from the RIB of underlying router
+
+      Deprecated: This will be removed in the future.
+
+      '
+    properties:
+      router-asn:
+        description: Autonomous System Number (ASN) identifying a BGP virtual router instance
+        type: integer
+      neighbor:
+        description: IP address specifying a BGP neighbor if the source table type is adj-rib-in or adj-rib-out
+        type: string
+      prefix:
+        description: IP prefix of the route
+        type: string
+      paths:
+        description: List of routing paths leading towards the prefix
+        type: array
+        items:
+          $ref: '#/definitions/BgpPath'
+  BgpFamily:
+    description: Address Family Indicator (AFI) and Subsequent Address Family Indicator (SAFI) of the path
+    properties:
+      afi:
+        description: Address Family Indicator (AFI) of the path
+        type: string
+      safi:
+        description: Subsequent Address Family Indicator (SAFI) of the path
+        type: string
+  Error:
+    type: string
+  BgpRoutePolicyNexthopAction:
+    description: BGP nexthop action
+    properties:
+      self:
+        description: Set nexthop to the IP address of itself
+        type: boolean
+      unchanged:
+        description: Don't change nexthop
+        type: boolean
+  BgpPeer:
+    description: 'State of a BGP Peer
+
+      Deprecated: This will be removed in the future.
+
+
+      +k8s:deepcopy-gen=true'
+    properties:
+      name:
+        description: Name of peer
+        type: string
+      local-asn:
+        description: Local AS Number
+        type: integer
+      peer-asn:
+        description: Peer AS Number
+        type: integer
+      peer-address:
+        description: IP Address of peer
+        type: string
+      tcp-password-enabled:
+        description: Set when a TCP password is configured for communications with this peer
+        type: boolean
+      ebgp-multihop-ttl:
+        description: 'Time To Live (TTL) value used in BGP packets sent to the eBGP neighbor.
+
+          1 implies that eBGP multi-hop feature is disabled (only a single hop is allowed).
+
+          '
+        type: integer
+      peer-port:
+        description: TCP port number of peer
+        type: integer
+        minimum: 1
+        maximum: 65535
+      session-state:
+        description: 'BGP peer operational state as described here
+
+          https://www.rfc-editor.org/rfc/rfc4271#section-8.2.2
+
+          '
+        type: string
+      uptime-nanoseconds:
+        description: BGP peer connection uptime in nano seconds.
+        type: integer
+      graceful-restart:
+        description: Graceful restart capability
+        $ref: '#/definitions/BgpGracefulRestart'
+      families:
+        description: BGP peer address family state
+        type: array
+        items:
+          $ref: '#/definitions/BgpPeerFamilies'
+      connect-retry-time-seconds:
+        description: Initial value for the BGP ConnectRetryTimer (RFC 4271, Section 8) in seconds
+        type: integer
+      configured-hold-time-seconds:
+        description: 'Configured initial value for the BGP HoldTimer (RFC 4271, Section 4.2) in seconds.
+
+          The configured value will be used for negotiation with the peer during the BGP session establishment.
+
+          '
+        type: integer
+      applied-hold-time-seconds:
+        description: 'Applied initial value for the BGP HoldTimer (RFC 4271, Section 4.2) in seconds.
+
+          The applied value holds the value that is in effect on the current BGP session.
+
+          '
+        type: integer
+      configured-keep-alive-time-seconds:
+        description: 'Configured initial value for the BGP KeepaliveTimer (RFC 4271, Section 8) in seconds.
+
+          The applied value may be different than the configured value, as it depends on the negotiated hold time interval.
+
+          '
+        type: integer
+      applied-keep-alive-time-seconds:
+        description: 'Applied initial value for the BGP KeepaliveTimer (RFC 4271, Section 8) in seconds.
+
+          The applied value holds the value that is in effect on the current BGP session.
+
+          '
+        type: integer
+      local-capabilities:
+        description: Capabilities announced by the local peer
+        type: array
+        items:
+          $ref: '#/definitions/BgpCapabilities'
+      remote-capabilities:
+        description: Capabilities announced by the remote peer
+        type: array
+        items:
+          $ref: '#/definitions/BgpCapabilities'
+  BgpPath:
+    description: Single BGP routing Path containing BGP Network Layer Reachability Information (NLRI) and path attributes
+    properties:
+      family:
+        description: Address Family Indicator (AFI) and Subsequent Address Family Indicator (SAFI) of the path
+        $ref: '#/definitions/BgpFamily'
+      nlri:
+        description: Network Layer Reachability Information of the path
+        $ref: '#/definitions/BgpNlri'
+      path-attributes:
+        description: List of BGP path attributes specific for the path
+        type: array
+        items:
+          $ref: '#/definitions/BgpPathAttribute'
+      age-nanoseconds:
+        description: Age of the path (time since its creation) in nanoseconds
+        type: integer
+      best:
+        description: True value flags the best path towards the destination prefix
+        type: boolean
+      stale:
+        description: True value marks the path as stale
+        type: boolean
+  BgpCapabilities:
+    description: Represents the BGP capabilities.
+    properties:
+      capabilities:
+        description: Base64-encoded BGP capabilities details
+        type: string
+  BgpGracefulRestart:
+    description: BGP graceful restart parameters negotiated with the peer.
+    properties:
+      enabled:
+        description: 'When set, graceful restart capability is negotiated for all AFI/SAFIs of
+
+          this peer.'
+        type: boolean
+      restart-time-seconds:
+        description: 'This is the time advertised to peer for the BGP session to be re-established
+
+          after a restart. After this period, peer will remove stale routes.
+
+          (RFC 4724 section 4.2)'
+        type: integer
+  BgpPathAttribute:
+    description: Single BGP path attribute specific for the path
+    properties:
+      base64:
+        description: Base64-encoded BGP path attribute in the BGP UPDATE message format
+        type: string
+  BgpRoutePolicyNeighborMatch:
+    description: Matches a neighbor in a BGP route policy
+    properties:
+      type:
+        description: Defines matching logic in case of multiple neighbors
+        $ref: '#/definitions/BgpRoutePolicyMatchType'
+      neighbors:
+        description: Neighbor IP addresses to match with
+        type: array
+        items:
+          type: string
+parameters:
+  bgp-afi:
+    name: afi
+    description: Address Family Indicator (AFI) of a BGP route
+    required: true
+    in: query
+    type: string
+  bgp-neighbor-address:
+    name: neighbor
+    description: 'IP address specifying a BGP neighbor.
+
+      Has to be specified only when table type is adj-rib-in or adj-rib-out.
+
+      '
+    required: false
+    in: query
+    type: string
+  bgp-router-asn:
+    name: router_asn
+    description: 'Autonomous System Number (ASN) identifying a BGP virtual router instance.
+
+      If not specified, all virtual router instances are selected.
+
+      '
+    required: false
+    in: query
+    type: integer
+  bgp-table-type:
+    name: table_type
+    description: BGP Routing Information Base (RIB) table type
+    required: true
+    in: query
+    type: string
+    enum:
+    - loc-rib
+    - adj-rib-in
+    - adj-rib-out
+  bgp-safi:
+    name: safi
+    description: Subsequent Address Family Indicator (SAFI) of a BGP route
+    required: true
+    in: query
+    type: string
+x-schemes:
+- unix
