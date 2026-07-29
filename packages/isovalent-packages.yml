@@ -1,0 +1,46 @@
+generated: '2026-07-19'
+method: searched
+source: pkg.go.dev + formulae.brew.sh
+packages:
+- language: go
+  registry: go
+  name: github.com/cilium/cilium
+  url: https://pkg.go.dev/github.com/cilium/cilium
+  install: go get github.com/cilium/cilium
+  official: true
+  notes: >-
+    Primary module; provides the Cilium API client (pkg/client) and generated
+    API models (api/v1/models) for the cilium-agent REST API.
+- language: go
+  registry: go
+  name: github.com/cilium/cilium/pkg/client
+  url: https://pkg.go.dev/github.com/cilium/cilium/pkg/client
+  install: go get github.com/cilium/cilium/pkg/client
+  official: true
+  notes: First-party Go client for the cilium-agent JSON REST API.
+- language: go
+  registry: go
+  name: github.com/cilium/cilium-cli
+  url: https://pkg.go.dev/github.com/cilium/cilium-cli
+  install: go get github.com/cilium/cilium-cli
+  official: true
+  notes: Go module behind the cilium management CLI.
+- language: go
+  registry: go
+  name: github.com/cilium/hubble
+  url: https://pkg.go.dev/github.com/cilium/hubble
+  install: go get github.com/cilium/hubble
+  official: true
+  notes: Hubble CLI and gRPC observability client.
+- language: cli
+  registry: homebrew
+  name: cilium-cli
+  url: https://formulae.brew.sh/formula/cilium-cli
+  install: brew install cilium-cli
+  official: true
+- language: cli
+  registry: homebrew
+  name: hubble
+  url: https://formulae.brew.sh/formula/hubble
+  install: brew install hubble
+  official: true

@@ -1,0 +1,12 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Cilium Health API
+  version: 1.0.0
+extends: openapi/isovalent-cilium-health-openapi.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: isovalent
+    x-apievangelist-product: Cilium
+    x-apievangelist-transport: unix-socket
+    x-apievangelist-purpose: node-to-node and endpoint connectivity health

@@ -1,0 +1,30 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.cilium.io/en/stable/contributing/development/api_stability/
+versioning:
+  scheme: uri-path + semver-releases
+  api_version: v1beta1
+  current_release_line: '1.19'
+  docs: https://docs.cilium.io/en/stable/contributing/development/api_stability/
+  notes: >-
+    The cilium-agent REST API is versioned v1beta1 under base path /v1. Cilium
+    software follows semantic versioning with stable minor release lines (e.g.
+    1.17, 1.18, 1.19) and patch releases; a new minor is released roughly
+    quarterly with an oldstable/stable/dev support window.
+releases:
+  url: https://github.com/cilium/cilium/releases
+  supported_lines: ['1.17', '1.18', '1.19']
+deprecation:
+  policy_url: https://docs.cilium.io/en/stable/contributing/development/api_stability/
+  notes: >-
+    Cilium documents an API stability and deprecation policy; stable API elements
+    are supported across a minor line and removals are announced ahead of time in
+    release notes and upgrade guides.
+status_page:
+  present: false
+  notes: >-
+    Cilium is self-hosted software rather than a hosted SaaS, so there is no
+    provider-run uptime status page. Operational health is observed in-cluster via
+    the cilium-health API and Hubble. Commercial Isovalent Enterprise support is
+    provided under support agreements.
+deprecated_operations: []

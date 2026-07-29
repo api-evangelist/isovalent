@@ -1,0 +1,25 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Cilium Agent API
+  version: 1.0.0
+extends: openapi/isovalent-cilium-agent-openapi.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: isovalent
+    x-apievangelist-product: Cilium
+    x-apievangelist-transport: unix-socket
+    x-apievangelist-artifacts:
+      authentication: authentication/isovalent-authentication.yml
+      conventions: conventions/isovalent-conventions.yml
+      errors: errors/isovalent-problem-types.yml
+      lifecycle: lifecycle/isovalent-lifecycle.yml
+      data-model: data-model/isovalent-data-model.yml
+- target: $.info
+  update:
+    x-apievangelist-tags:
+    - eBPF
+    - Kubernetes
+    - Networking
+    - Security
+    - Observability

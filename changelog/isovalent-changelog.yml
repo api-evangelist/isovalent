@@ -1,0 +1,27 @@
+generated: '2026-07-19'
+method: searched
+source: https://github.com/cilium/cilium/releases
+scheme: semver
+docs: https://docs.cilium.io/en/stable/operations/upgrade/
+release_notes: https://github.com/cilium/cilium/releases
+current_stable_line: '1.19'
+supported_lines: ['1.17', '1.18', '1.19']
+notes: >-
+  Cilium ships dated GitHub Releases per patch version across its supported minor
+  lines, with per-release notes and per-minor upgrade guides. Recent activity at
+  capture time spanned the 1.17.x, 1.18.x, and 1.19.x stable lines with a 1.20
+  release candidate in progress. The live releases page is the source of truth for
+  exact versions and dates; only the recent window is summarized here.
+entries:
+- line: '1.19'
+  channel: stable
+  highlights: Current stable release line; latest patch releases published on the 1.19.x series.
+- line: '1.18'
+  channel: oldstable
+  highlights: Maintained stable line receiving backported fixes.
+- line: '1.17'
+  channel: maintenance
+  highlights: Maintained stable line receiving backported fixes.
+- line: '1.20'
+  channel: pre-release
+  highlights: Next minor line in release-candidate stage at capture time.

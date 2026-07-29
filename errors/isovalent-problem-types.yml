@@ -1,0 +1,100 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/isovalent-cilium-agent-openapi.yml
+format: json
+envelope:
+  model: Error
+  fields:
+    code: int64
+    message: string
+problems:
+- status: 400
+  title: Bad Request
+  description: Invalid request (error parsing parameters)
+  occurrences: 17
+  example_operations:
+  - DELETE /endpoint
+  - DELETE /endpoint/{id}
+  - DELETE /fqdn/cache
+- status: 403
+  title: Forbidden
+  description: Forbidden
+  occurrences: 12
+  example_operations:
+  - DELETE /endpoint/{id}
+  - DELETE /fqdn/cache
+  - DELETE /ipam/{ip}
+- status: 404
+  title: Not Found
+  description: Endpoint not found
+  occurrences: 21
+  example_operations:
+  - DELETE /endpoint
+  - DELETE /endpoint/{id}
+  - DELETE /ipam/{ip}
+- status: 409
+  title: Conflict
+  description: Endpoint already exists
+  occurrences: 2
+  example_operations:
+  - POST /ipam/{ip}
+  - PUT /endpoint/{id}
+- status: 429
+  title: Too Many Requests
+  description: Rate-limiting too many requests in the given time frame
+  occurrences: 12
+  example_operations:
+  - DELETE /endpoint
+  - DELETE /endpoint/{id}
+  - GET /endpoint
+- status: 461
+  title: Invalid CIDR prefix
+  description: Invalid CIDR prefix
+  occurrences: 2
+  example_operations:
+  - DELETE /prefilter
+  - PATCH /prefilter
+- status: 500
+  title: Internal Server Error
+  description: Internal Server Error
+  occurrences: 15
+  example_operations:
+  - DELETE /ipam/{ip}
+  - DELETE /prefilter
+  - GET /bgp/peers
+- status: 501
+  title: Not Implemented
+  description: BGP Control Plane disabled
+  occurrences: 5
+  example_operations:
+  - DELETE /ipam/{ip}
+  - GET /bgp/peers
+  - GET /bgp/route-policies
+- status: 502
+  title: Bad Gateway
+  description: Allocation failure
+  occurrences: 1
+  example_operations:
+  - POST /ipam
+- status: 503
+  title: Service Unavailable
+  description: Service Unavailable
+  occurrences: 6
+  example_operations:
+  - DELETE /endpoint
+  - DELETE /endpoint/{id}
+  - PATCH /endpoint/{id}
+- status: 520
+  title: Cannot allocate IP
+  description: Identity storage unreachable. Likely a network problem.
+  occurrences: 2
+  example_operations:
+  - GET /identity
+  - GET /identity/{id}
+- status: 521
+  title: Cannot release IP
+  description: Invalid identity format in storage
+  occurrences: 2
+  example_operations:
+  - GET /identity
+  - GET /identity/{id}

@@ -1,0 +1,62 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.cilium.io/en/stable/cmdref/
+clis:
+- name: cilium (agent CLI)
+  description: >-
+    In-cluster CLI that talks to the local cilium-agent REST API over its Unix
+    socket to inspect and manage endpoints, identities, policy, services, BGP,
+    BPF maps, and daemon status.
+  docs: https://docs.cilium.io/en/stable/cmdref/cilium-dbg/
+  install:
+  - method: bundled
+    detail: Shipped inside the cilium-agent container image.
+  command_groups:
+  - status
+  - endpoint
+  - identity
+  - policy
+  - service
+  - bpf
+  - config
+  - map
+  - fqdn
+  - bgp
+  - monitor
+  - debuginfo
+- name: cilium-cli
+  description: >-
+    Standalone CLI to install, manage, upgrade, and troubleshoot Cilium on a
+    Kubernetes cluster, run connectivity tests, and manage ClusterMesh and Hubble.
+  docs: https://docs.cilium.io/en/stable/gettingstarted/k8s-install-default/
+  repo: https://github.com/cilium/cilium-cli
+  install:
+  - method: homebrew
+    detail: brew install cilium-cli
+  - method: binary
+    detail: Download release binary from github.com/cilium/cilium-cli/releases
+  command_groups:
+  - install
+  - upgrade
+  - status
+  - connectivity
+  - hubble
+  - clustermesh
+  - config
+  - sysdump
+- name: hubble
+  description: >-
+    CLI client for the Hubble Observer/Relay gRPC API to query and stream
+    network flows, service maps, and connectivity events.
+  docs: https://docs.cilium.io/en/stable/observability/hubble/
+  repo: https://github.com/cilium/hubble
+  install:
+  - method: homebrew
+    detail: brew install hubble
+  - method: binary
+    detail: Download release binary from github.com/cilium/hubble/releases
+  command_groups:
+  - observe
+  - status
+  - config
+  - list

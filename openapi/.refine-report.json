@@ -1,0 +1,30 @@
+{
+  "provider": "isovalent",
+  "sources": [
+    "isovalent-bgp-api-openapi.yml",
+    "isovalent-connectivity-api-openapi.yml",
+    "isovalent-daemon-api-openapi.yml",
+    "isovalent-endpoint-api-openapi.yml",
+    "isovalent-healthz-api-openapi.yml",
+    "isovalent-ipam-api-openapi.yml",
+    "isovalent-policy-api-openapi.yml",
+    "isovalent-prefilter-api-openapi.yml",
+    "isovalent-service-api-openapi.yml"
+  ],
+  "outputs": [
+    "isovalent-bgp-api-openapi.yml",
+    "isovalent-connectivity-api-openapi.yml",
+    "isovalent-daemon-api-openapi.yml",
+    "isovalent-endpoint-api-openapi.yml",
+    "isovalent-healthz-api-openapi.yml",
+    "isovalent-ipam-api-openapi.yml",
+    "isovalent-policy-api-openapi.yml",
+    "isovalent-prefilter-api-openapi.yml",
+    "isovalent-service-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

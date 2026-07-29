@@ -1,0 +1,18 @@
+generated: '2026-07-19'
+method: generated
+skills:
+- file: isovalent-inspect-endpoints-and-identities.md
+  name: Inspect Cilium endpoints and identities
+  api: openapi/isovalent-cilium-agent-openapi.yml
+  operations:
+  - GET /endpoint
+  - GET /endpoint/{id}
+  - GET /identity
+  - GET /identity/{id}
+- file: isovalent-observe-network-flows-with-hubble.md
+  name: Observe network flows with Hubble
+  api: grpc/isovalent-hubble-observer.proto
+  operations:
+  - Observer.GetFlows
+  - Observer.GetNodes
+  - Observer.ServerStatus

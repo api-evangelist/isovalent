@@ -1,7 +1,19 @@
 aid: isovalent
 name: Isovalent
-description: Isovalent is a company surfaced as a portfolio company of a16z and added to the API Evangelist
-  network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: >-
+  Isovalent is the company founded in 2017 by the creators of Cilium, the eBPF-based
+  networking, security, and observability platform for Kubernetes and cloud-native
+  infrastructure. Isovalent builds and maintains the open source Cilium project (a
+  CNCF graduated project), the Hubble observability layer, and the Tetragon runtime
+  security engine, and offers commercial Isovalent Enterprise for Cilium and Isovalent
+  Enterprise for Tetragon distributions with hardened builds, support, and advanced
+  features. Cilium replaces kube-proxy and traditional CNI plugins with identity-aware,
+  eBPF-powered dataplane networking, network policy, service mesh, multi-cluster mesh,
+  and deep flow-level observability. The developer surface spans the JSON REST API
+  served by the cilium-agent, the cilium-health connectivity API, the gRPC Hubble
+  Observer/Relay flow APIs, first-party Go client packages, and the cilium and hubble
+  command-line tools. Isovalent was acquired by Cisco in 2024 and its technology now
+  underpins Cisco's cloud-native security portfolio.
 url: https://raw.githubusercontent.com/api-evangelist/isovalent/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -9,14 +21,237 @@ x-backed-by:
 - a16z
 x-tier: stub
 x-tier-reason: portfolio-lead
+accessModel:
+  pricing: unknown
+  onboarding: approval
+  trial: false
+  try_now: false
+  public: false
+  label: Requires approval
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-19'
+image: https://isovalent.com/favicon.ico
 tags:
 - Company
-apis: []
+- Networking
+- Kubernetes
+- eBPF
+- Security
+- Observability
+- Cloud Native
+- Service Mesh
+- CNI
+- Container Networking
+apis:
+- name: Hubble Observer API
+  description: >-
+    The gRPC Hubble Observer, Relay, and Peer APIs that stream real-time network flow, service-map, and
+    connectivity observability events from Cilium's eBPF dataplane.
+  humanURL: https://docs.cilium.io/en/stable/observability/hubble/
+  baseURL: hubble-relay.kube-system.svc.cluster.local:80
+  properties:
+  - type: Protobuf
+    url: grpc/isovalent-hubble-observer.proto
+  - type: Protobuf
+    url: grpc/isovalent-hubble-flow.proto
+  - type: Protobuf
+    url: grpc/isovalent-hubble-relay.proto
+  - type: Protobuf
+    url: grpc/isovalent-hubble-peer.proto
+- aid: isovalent:isovalent-bgp-api
+  name: Isovalent bgp API
+  description: The bgp API from Isovalent — 3 operation(s) for bgp.
+  humanURL: https://docs.cilium.io/en/stable/api/
+  baseURL: unix:///var/run/cilium/cilium.sock
+  tags:
+  - bgp
+  properties:
+  - type: OpenAPI
+    url: openapi/isovalent-bgp-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cilium.io/en/stable/api/
+- aid: isovalent:isovalent-connectivity-api
+  name: Isovalent connectivity API
+  description: The connectivity API from Isovalent — 2 operation(s) for connectivity.
+  humanURL: https://docs.cilium.io/en/stable/api/
+  baseURL: unix:///var/run/cilium/cilium.sock
+  tags:
+  - connectivity
+  properties:
+  - type: OpenAPI
+    url: openapi/isovalent-connectivity-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cilium.io/en/stable/api/
+- aid: isovalent:isovalent-daemon-api
+  name: Isovalent daemon API
+  description: The daemon API from Isovalent — 9 operation(s) for daemon.
+  humanURL: https://docs.cilium.io/en/stable/api/
+  baseURL: unix:///var/run/cilium/cilium.sock
+  tags:
+  - daemon
+  properties:
+  - type: OpenAPI
+    url: openapi/isovalent-daemon-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cilium.io/en/stable/api/
+- aid: isovalent:isovalent-endpoint-api
+  name: Isovalent endpoint API
+  description: The endpoint API from Isovalent — 6 operation(s) for endpoint.
+  humanURL: https://docs.cilium.io/en/stable/api/
+  baseURL: unix:///var/run/cilium/cilium.sock
+  tags:
+  - endpoint
+  properties:
+  - type: OpenAPI
+    url: openapi/isovalent-endpoint-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cilium.io/en/stable/api/
+- aid: isovalent:isovalent-healthz-api
+  name: Isovalent Healthz API
+  description: The Healthz API from Isovalent — 1 operation(s) for healthz.
+  humanURL: https://docs.cilium.io/en/stable/api/
+  baseURL: unix:///var/run/cilium/cilium.sock
+  tags:
+  - Healthz
+  properties:
+  - type: OpenAPI
+    url: openapi/isovalent-healthz-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cilium.io/en/stable/api/
+- aid: isovalent:isovalent-ipam-api
+  name: Isovalent ipam API
+  description: The ipam API from Isovalent — 2 operation(s) for ipam.
+  humanURL: https://docs.cilium.io/en/stable/api/
+  baseURL: unix:///var/run/cilium/cilium.sock
+  tags:
+  - ipam
+  properties:
+  - type: OpenAPI
+    url: openapi/isovalent-ipam-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cilium.io/en/stable/api/
+- aid: isovalent:isovalent-policy-api
+  name: Isovalent policy API
+  description: The policy API from Isovalent — 10 operation(s) for policy.
+  humanURL: https://docs.cilium.io/en/stable/api/
+  baseURL: unix:///var/run/cilium/cilium.sock
+  tags:
+  - policy
+  properties:
+  - type: OpenAPI
+    url: openapi/isovalent-policy-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cilium.io/en/stable/api/
+- aid: isovalent:isovalent-prefilter-api
+  name: Isovalent prefilter API
+  description: The prefilter API from Isovalent — 1 operation(s) for prefilter.
+  humanURL: https://docs.cilium.io/en/stable/api/
+  baseURL: unix:///var/run/cilium/cilium.sock
+  tags:
+  - prefilter
+  properties:
+  - type: OpenAPI
+    url: openapi/isovalent-prefilter-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cilium.io/en/stable/api/
+- aid: isovalent:isovalent-service-api
+  name: Isovalent service API
+  description: The service API from Isovalent — 2 operation(s) for service.
+  humanURL: https://docs.cilium.io/en/stable/api/
+  baseURL: unix:///var/run/cilium/cilium.sock
+  tags:
+  - service
+  properties:
+  - type: OpenAPI
+    url: openapi/isovalent-service-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cilium.io/en/stable/api/
+common:
+- type: VulnerabilityDisclosure
+  url: security/isovalent-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/isovalent-domain-security.yml
+- type: AgenticAccess
+  url: agentic-access/isovalent-agentic-access.yml
+- type: Security
+  url: security/isovalent-vulnerability-disclosure.yml
+- type: Packages
+  url: packages/isovalent-packages.yml
+- type: SDKs
+  url: packages/isovalent-packages.yml
+- type: CLI
+  url: cli/isovalent-cli.yml
+- type: Authentication
+  url: authentication/isovalent-authentication.yml
+- type: Conventions
+  url: conventions/isovalent-conventions.yml
+- type: ErrorCatalog
+  url: errors/isovalent-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/isovalent-lifecycle.yml
+- type: Deprecation
+  url: lifecycle/isovalent-lifecycle.yml
+- type: Conformance
+  url: conformance/isovalent-conformance.yml
+- type: DataModel
+  url: data-model/isovalent-data-model.yml
+- type: ChangeLog
+  url: changelog/isovalent-changelog.yml
+- type: Sandbox
+  url: sandbox/isovalent-sandbox.yml
+- type: MCPServer
+  url: mcp/isovalent-mcp.yml
+- type: LLMsTxt
+  url: llms/isovalent-llms.txt
+- type: Overlay
+  url: overlays/isovalent-cilium-agent-overlay.yaml
+- type: Overlay
+  url: overlays/isovalent-cilium-health-overlay.yaml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Protobuf
+  url: grpc/isovalent-hubble-observer.proto
+- type: Website
+  url: https://isovalent.com/
+- type: DeveloperPortal
+  url: https://docs.cilium.io/en/stable/
+- type: Documentation
+  url: https://docs.cilium.io/en/stable/
+- type: APIReference
+  url: https://docs.cilium.io/en/stable/api/
+- type: GettingStarted
+  url: https://docs.cilium.io/en/stable/gettingstarted/
+- type: Blog
+  url: https://isovalent.com/blog/
+- type: BlogRSS
+  url: https://isovalent.com/blog/rss.xml
+- type: GitHubOrganization
+  url: https://github.com/cilium
+- type: Roadmap
+  url: https://docs.cilium.io/en/stable/community/roadmap/
+- type: Support
+  url: https://isovalent.com/support/
+- type: Community
+  url: https://cilium.io/get-involved/
+- type: Pricing
+  url: https://isovalent.com/pricing/
+- type: TermsOfService
+  url: https://isovalent.com/terms-of-service/
+- type: PrivacyPolicy
+  url: https://isovalent.com/privacy-policy/
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

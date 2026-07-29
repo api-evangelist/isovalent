@@ -1,0 +1,144 @@
+generated: '2026-07-19'
+method: derived
+status: candidate
+source: openapi/isovalent-cilium-agent-openapi.yml
+notes: No official hosted Isovalent/Cilium MCP server was found. This is a CANDIDATE tool list derived
+  one-per-operation from the cilium-agent Swagger spec; the underlying API is served over a local Unix
+  socket, so an MCP wrapper would run co-located with the agent.
+server:
+  name: isovalent-cilium-agent
+  transport: stdio
+  url: null
+tools:
+- name: get_cluster_nodes
+  description: Get nodes information stored in the cilium-agent
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /cluster/nodes
+- name: get_healthz
+  description: Get health of Cilium daemon
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /healthz
+- name: get_config
+  description: Get configuration of Cilium daemon
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /config
+- name: update_config
+  description: Modify daemon configuration
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#PATCH /config
+- name: get_endpoint_id
+  description: Get endpoint by endpoint ID
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /endpoint/{id}
+- name: put_endpoint_id
+  description: Create endpoint
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#PUT /endpoint/{id}
+- name: update_endpoint_id
+  description: Modify existing endpoint
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#PATCH /endpoint/{id}
+- name: delete_endpoint_id
+  description: Delete endpoint
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#DELETE /endpoint/{id}
+- name: get_endpoint
+  description: Retrieves a list of endpoints that have metadata matching the provided parameters.
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /endpoint
+- name: delete_endpoint
+  description: Deletes a list of endpoints
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#DELETE /endpoint
+- name: get_endpoint_id_config
+  description: Retrieve endpoint configuration
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /endpoint/{id}/config
+- name: update_endpoint_id_config
+  description: Modify mutable endpoint configuration
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#PATCH /endpoint/{id}/config
+- name: get_endpoint_id_labels
+  description: Retrieves the list of labels associated with an endpoint.
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /endpoint/{id}/labels
+- name: update_endpoint_id_labels
+  description: Set label configuration of endpoint
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#PATCH /endpoint/{id}/labels
+- name: get_endpoint_id_log
+  description: Retrieves the status logs associated with this endpoint.
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /endpoint/{id}/log
+- name: get_endpoint_id_healthz
+  description: Retrieves the status logs associated with this endpoint.
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /endpoint/{id}/healthz
+- name: get_identity
+  description: Retrieves a list of identities that have metadata matching the provided parameters.
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /identity
+- name: get_identity_id
+  description: Retrieve identity
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /identity/{id}
+- name: get_identity_endpoints
+  description: Retrieve identities which are being used by local endpoints
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /identity/endpoints
+- name: create_ipam
+  description: Allocate an IP address
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#POST /ipam
+- name: create_ipam_ip
+  description: Allocate an IP address
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#POST /ipam/{ip}
+- name: delete_ipam_ip
+  description: Release an allocated IP address
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#DELETE /ipam/{ip}
+- name: get_policy
+  description: Retrieve entire policy tree
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /policy
+- name: get_policy_selectors
+  description: See what selectors match which identities
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /policy/selectors
+- name: get_policy_subject_selectors
+  description: See what subject selectors match which identities on the local node
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /policy/subject-selectors
+- name: get_lrp
+  description: Retrieve list of all local redirect policies
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /lrp
+- name: get_service
+  description: Retrieve list of all services
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /service
+- name: get_prefilter
+  description: Retrieve list of CIDRs
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /prefilter
+- name: update_prefilter
+  description: Update list of CIDRs
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#PATCH /prefilter
+- name: delete_prefilter
+  description: Delete list of CIDRs
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#DELETE /prefilter
+- name: get_debuginfo
+  description: Retrieve information about the agent and environment for debugging
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /debuginfo
+- name: get_cgroup_dump_metadata
+  description: Retrieve cgroup metadata for all pods
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /cgroup-dump-metadata
+- name: get_map
+  description: List all open maps
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /map
+- name: get_map_name
+  description: Retrieve contents of BPF map
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /map/{name}
+- name: get_map_name_events
+  description: Retrieves the recent event logs associated with this endpoint.
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /map/{name}/events
+- name: get_fqdn_cache
+  description: Retrieves the list of DNS lookups intercepted from all endpoints.
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /fqdn/cache
+- name: delete_fqdn_cache
+  description: Deletes matching DNS lookups from the policy-generation cache.
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#DELETE /fqdn/cache
+- name: get_fqdn_cache_id
+  description: Retrieves the list of DNS lookups intercepted from an endpoint.
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /fqdn/cache/{id}
+- name: get_fqdn_names
+  description: List internal DNS selector representations
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /fqdn/names
+- name: get_ip
+  description: Lists information about known IP addresses
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /ip
+- name: get_node_ids
+  description: List information about known node IDs
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /node/ids
+- name: get_bgp_peers
+  description: Lists operational state of BGP peers
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /bgp/peers
+- name: get_bgp_routes
+  description: Lists BGP routes from BGP Control Plane RIB.
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /bgp/routes
+- name: get_bgp_route_policies
+  description: Lists BGP route policies configured in BGP Control Plane.
+  source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /bgp/route-policies

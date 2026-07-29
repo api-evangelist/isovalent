@@ -1,0 +1,21 @@
+generated: '2026-07-19'
+method: searched
+source: https://labs.isovalent.com/
+type: interactive-labs
+notes: >-
+  Isovalent publishes free, browser-based hands-on labs that provision a live,
+  temporary Kubernetes environment with Cilium, Hubble, and Tetragon pre-installed
+  so developers can run real cilium and hubble commands against a working dataplane
+  without local setup. This is the provider's interactive playground / console
+  surface rather than a payments-style test-credential sandbox; there are no test
+  cards or magic identifiers to capture.
+surfaces:
+- name: Isovalent Labs
+  url: https://labs.isovalent.com/
+  description: Interactive, guided, browser-based Cilium/Hubble/Tetragon labs on live clusters.
+- name: cilium connectivity test
+  docs: https://docs.cilium.io/en/stable/gettingstarted/k8s-install-connectivity-test/
+  description: >-
+    Built-in end-to-end connectivity test suite (`cilium connectivity test`) that
+    validates a Cilium install by exercising real network paths in a test namespace.
+test_values: []

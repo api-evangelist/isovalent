@@ -1,0 +1,75 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/isovalent-cilium-agent-openapi.yml
+notes: >-
+  Derived from the cilium-agent Swagger definitions and path structure. Cilium's
+  core domain models workload endpoints, their security identities, the network
+  policy that governs them, and the services and IP addresses they expose.
+entities:
+- name: Endpoint
+  path: /endpoint/{id}
+  schema: Endpoint
+  key: id
+  description: A managed workload (pod/container) network endpoint.
+- name: Identity
+  path: /identity/{id}
+  schema: Identity
+  key: id
+  description: A security identity derived from the set of labels on endpoints.
+- name: Policy
+  path: /policy
+  schema: Policy
+  description: The network policy tree enforced by the agent.
+- name: Service
+  path: /service
+  schema: Service
+  description: A load-balanced service with frontend and backend addresses.
+- name: Node
+  path: /cluster/nodes
+  schema: NodeElement
+  description: A node participating in the Cilium cluster / cluster mesh.
+- name: IPAM
+  path: /ipam
+  schema: IPAMResponse
+  description: IP address management allocation records.
+- name: Prefilter
+  path: /prefilter
+  schema: Prefilter
+  description: CIDR prefilter (XDP/pre-policy CIDR drop) configuration.
+- name: BGPPeer
+  path: /bgp/peers
+  schema: BgpPeer
+  description: BGP control-plane peer state.
+relationships:
+- from: Endpoint
+  to: Identity
+  type: belongs_to
+  via: status.identity
+- from: Endpoint
+  to: Label
+  type: has_many
+  via: status.labels
+- from: Endpoint
+  to: EndpointPolicy
+  type: has_one
+  via: status.policy
+- from: Identity
+  to: Label
+  type: has_many
+  via: labels
+- from: Service
+  to: BackendAddress
+  type: has_many
+  via: spec.backend-addresses
+- from: Service
+  to: FrontendAddress
+  type: has_one
+  via: spec.frontend-address
+- from: Policy
+  to: PolicyRule
+  type: has_many
+  via: policy
+- from: BGPPeer
+  to: BgpRoute
+  type: has_many
+  via: routes

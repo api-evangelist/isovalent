@@ -1,0 +1,50 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/isovalent-cilium-agent-openapi.yml
+media_types:
+  request: application/json
+  response: application/json
+versioning:
+  scheme: uri-path
+  agent_version: v1beta1
+  health_version: v1beta
+  base_path: /v1
+authentication:
+  ref: authentication/isovalent-authentication.yml
+  style: local-unix-socket + optional Hubble mTLS
+idempotency:
+  supported: false
+  notes: >-
+    The cilium-agent API does not document an idempotency-key header. Resource
+    mutation is achieved through method semantics (PUT/PATCH/DELETE on
+    /endpoint/{id}, PATCH /config, POST /ipam). No Idempotency-Key parameter is
+    present in the spec, so no Idempotency pointer is emitted.
+pagination:
+  supported: false
+  notes: >-
+    List endpoints (/endpoint, /identity, /service, /policy) return full result
+    sets. /cluster/nodes supports an incremental diff via a client-id header
+    (Client UUID) returning nodes added/removed since the last request for that
+    client, rather than page-based pagination.
+error_envelope:
+  ref: errors/isovalent-problem-types.yml
+  model: Error
+  shape: '{ code: int64, message: string }'
+  format: json
+rate_limiting:
+  signaled: false
+  notes: >-
+    Local socket API; no rate-limit headers documented. A 429 (Too Many Requests)
+    response is defined on endpoint creation when the agent is at capacity.
+tags:
+- bgp
+- daemon
+- endpoint
+- ipam
+- policy
+- prefilter
+- service
+cross_links:
+  errors: errors/isovalent-problem-types.yml
+  lifecycle: lifecycle/isovalent-lifecycle.yml
+  authentication: authentication/isovalent-authentication.yml

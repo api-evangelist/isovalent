@@ -1,0 +1,30 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/isovalent-cilium-agent-openapi.yml, grpc/, docs.cilium.io
+standards:
+- id: openapi-swagger2
+  conforms: true
+  evidence: cilium-agent and cilium-health APIs published as Swagger 2.0 documents
+- id: grpc-protobuf
+  conforms: true
+  evidence: Hubble Observer/Relay/Peer APIs defined as proto3 gRPC services
+- id: json
+  conforms: true
+  evidence: REST APIs produce/consume application/json
+- id: oauth2
+  conforms: false
+  evidence: no oauth2 securityScheme in specs
+- id: oidc
+  conforms: false
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: errors use a custom {code,message} Error model, not application/problem+json
+- id: mutual-tls
+  conforms: true
+  evidence: Hubble Relay/peer communication supports mTLS
+- id: cncf-graduated
+  conforms: true
+  evidence: Cilium is a CNCF graduated project
+- id: cni-spec
+  conforms: true
+  evidence: Cilium implements the Kubernetes Container Network Interface (CNI) specification
