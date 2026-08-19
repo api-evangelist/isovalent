@@ -1,0 +1,91 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cilium bgp API",
+    "version": "v1beta1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "bgp",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Lists operational state of BGP peers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/bgp/peers"
+          },
+          "docs": "Retrieves current operational state of BGP peers created by\nCilium BGP virtual router. This includes session state, uptime,\ninformation per address family, etc.\nDeprecated: This will be removed in the future.\n"
+        },
+        {
+          "info": {
+            "name": "Lists BGP routes from BGP Control Plane RIB.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/bgp/routes",
+            "params": [
+              {
+                "name": "table_type",
+                "value": "",
+                "type": "query",
+                "description": "BGP Routing Information Base (RIB) table type"
+              },
+              {
+                "name": "afi",
+                "value": "",
+                "type": "query",
+                "description": "Address Family Indicator (AFI) of a BGP route"
+              },
+              {
+                "name": "safi",
+                "value": "",
+                "type": "query",
+                "description": "Subsequent Address Family Indicator (SAFI) of a BGP route"
+              },
+              {
+                "name": "router_asn",
+                "value": "",
+                "type": "query",
+                "description": "Autonomous System Number (ASN) identifying a BGP virtual router instance.\nIf not specified, all virtual router instances are selected.\n"
+              },
+              {
+                "name": "neighbor",
+                "value": "",
+                "type": "query",
+                "description": "IP address specifying a BGP neighbor.\nHas to be specified only when table type is adj-rib-in or adj-rib-out.\n"
+              }
+            ]
+          },
+          "docs": "Retrieves routes from BGP Control Plane RIB filtered by parameters you specify.\nDeprecated: This will be removed in the future.\n"
+        },
+        {
+          "info": {
+            "name": "Lists BGP route policies configured in BGP Control Plane.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/bgp/route-policies",
+            "params": [
+              {
+                "name": "router_asn",
+                "value": "",
+                "type": "query",
+                "description": "Autonomous System Number (ASN) identifying a BGP virtual router instance.\nIf not specified, all virtual router instances are selected.\n"
+              }
+            ]
+          },
+          "docs": "Retrieves route policies from BGP Control Plane.\nDeprecated: This will be removed in the future.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

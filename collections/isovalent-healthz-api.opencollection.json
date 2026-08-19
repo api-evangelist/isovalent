@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cilium bgp Healthz API",
+    "version": "v1beta1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Healthz",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get health of Cilium node",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/healthz"
+          },
+          "docs": "Returns health and status information of the local node including\nload and uptime, as well as the status of related components including\nthe Cilium daemon.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

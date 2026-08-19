@@ -1,0 +1,1654 @@
+{
+  "item": [
+    {
+      "id": "bcf218ac-49a5-4255-817e-af92af3654f6",
+      "name": "policy",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "940e54b0-5cd1-4613-8f28-cd2e3be44dfb",
+          "name": "Retrieves a list of identities that have metadata matching the provided parameters.",
+          "request": {
+            "name": "Retrieves a list of identities that have metadata matching the provided parameters.",
+            "description": {
+              "content": "Retrieves a list of identities that have metadata matching the provided parameters, or all identities if no parameters are provided.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "identity"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  \"<string>\",\n  \"<string>\"\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0d68d399-d025-4243-86f1-5ce00102052d",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "identity"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 5806,\n    \"labels\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"labelsSHA256\": \"string\"\n  },\n  {\n    \"id\": 7164,\n    \"labels\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"labelsSHA256\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b3ea611d-5182-4117-9cf8-6cb92b8bd9b1",
+              "name": "Identities with provided parameters not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "identity"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1c24ed40-a5d4-4bd8-999c-528f527abd25",
+              "name": "Identity storage unreachable. Likely a network problem.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "identity"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "code": 520,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "687242ae-3331-4e5a-bfe5-fc0abe215758",
+              "name": "Invalid identity format in storage",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "identity"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "code": 521,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5c5f4bf7-ab6f-4d01-ba9c-a65e53aa532a",
+          "name": "Retrieve identity",
+          "request": {
+            "name": "Retrieve identity",
+            "description": {},
+            "url": {
+              "path": [
+                "identity",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Cluster wide unique identifier of a security identity.\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "10ac8632-7404-44b8-9090-7601bcf558e9",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "identity",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Cluster wide unique identifier of a security identity.\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 9943,\n  \"labels\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"labelsSHA256\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "42928c40-6805-43a0-86ce-1eb5a62ebfcc",
+              "name": "Invalid identity provided",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "identity",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Cluster wide unique identifier of a security identity.\n"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ad2d0d33-7c10-4ddf-9f7c-798d85cfe0aa",
+              "name": "Identity not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "identity",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Cluster wide unique identifier of a security identity.\n"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "da3c8d67-2af3-4c7a-a197-cdf40ce2c99c",
+              "name": "Identity storage unreachable. Likely a network problem.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "identity",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Cluster wide unique identifier of a security identity.\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "code": 520,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e51a5520-0f8d-4638-a5cd-30a8342b9c5a",
+              "name": "Invalid identity format in storage",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "identity",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Cluster wide unique identifier of a security identity.\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "code": 521,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "44f16821-a6dc-43ca-9b21-a38e976e7ca2",
+          "name": "Retrieve identities which are being used by local endpoints",
+          "request": {
+            "name": "Retrieve identities which are being used by local endpoints",
+            "description": {},
+            "url": {
+              "path": [
+                "identity",
+                "endpoints"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ecef69a1-8b3f-4733-8f53-4ddd24b2b9a5",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "identity",
+                    "endpoints"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"identity\": {\n      \"id\": 1168,\n      \"labels\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"labelsSHA256\": \"string\"\n    },\n    \"refCount\": 3294\n  },\n  {\n    \"identity\": {\n      \"id\": 8005,\n      \"labels\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"labelsSHA256\": \"string\"\n    },\n    \"refCount\": 9182\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7e2b343c-0968-460f-a785-27ec5f145853",
+              "name": "Set of identities which are being used by local endpoints could not be found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "identity",
+                    "endpoints"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "73824e45-3c14-4157-b0fd-424feb801dc9",
+          "name": "Retrieve entire policy tree",
+          "request": {
+            "name": "Retrieve entire policy tree",
+            "description": {
+              "content": "Returns the entire policy tree with all children.\n\nDeprecated: will be removed in v1.19\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "policy"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "45ddc3b9-1183-4794-a35f-205a8cecda8b",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "policy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"revision\": 9892,\n  \"policy\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ddae3033-374d-4bd7-807a-3d3808f47607",
+              "name": "No policy rules found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "policy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ee717073-ee44-442b-a908-29673ab9da9f",
+          "name": "See what selectors match which identities",
+          "request": {
+            "name": "See what selectors match which identities",
+            "description": {},
+            "url": {
+              "path": [
+                "policy",
+                "selectors"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "10452a83-6abc-43ae-849c-215b12612fff",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "policy",
+                    "selectors"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"selector\": \"string\",\n    \"labels\": [\n      [\n        {\n          \"key\": \"string\",\n          \"value\": \"string\",\n          \"source\": \"string\"\n        },\n        {\n          \"key\": \"string\",\n          \"value\": \"string\",\n          \"source\": \"string\"\n        }\n      ],\n      [\n        {\n          \"key\": \"string\",\n          \"value\": \"string\",\n          \"source\": \"string\"\n        },\n        {\n          \"key\": \"string\",\n          \"value\": \"string\",\n          \"source\": \"string\"\n        }\n      ]\n    ],\n    \"identities\": [\n      5445,\n      8047\n    ],\n    \"users\": 6954\n  },\n  {\n    \"selector\": \"string\",\n    \"labels\": [\n      [\n        {\n          \"key\": \"string\",\n          \"value\": \"string\",\n          \"source\": \"string\"\n        },\n        {\n          \"key\": \"string\",\n          \"value\": \"string\",\n          \"source\": \"string\"\n        }\n      ],\n      [\n        {\n          \"key\": \"string\",\n          \"value\": \"string\",\n          \"source\": \"string\"\n        },\n        {\n          \"key\": \"string\",\n          \"value\": \"string\",\n          \"source\": \"string\"\n        }\n      ]\n    ],\n    \"identities\": [\n      5106,\n      1187\n    ],\n    \"users\": 6879\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cab6460d-9635-42ef-8c8e-322b31049ca7",
+          "name": "See what subject selectors match which identities on the local node",
+          "request": {
+            "name": "See what subject selectors match which identities on the local node",
+            "description": {},
+            "url": {
+              "path": [
+                "policy",
+                "subject-selectors"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e6b9d09e-daef-4fc2-8dea-8cdd7660ef2d",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "policy",
+                    "subject-selectors"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"selector\": \"string\",\n    \"labels\": [\n      [\n        {\n          \"key\": \"string\",\n          \"value\": \"string\",\n          \"source\": \"string\"\n        },\n        {\n          \"key\": \"string\",\n          \"value\": \"string\",\n          \"source\": \"string\"\n        }\n      ],\n      [\n        {\n          \"key\": \"string\",\n          \"value\": \"string\",\n          \"source\": \"string\"\n        },\n        {\n          \"key\": \"string\",\n          \"value\": \"string\",\n          \"source\": \"string\"\n        }\n      ]\n    ],\n    \"identities\": [\n      561,\n      784\n    ],\n    \"users\": 4125\n  },\n  {\n    \"selector\": \"string\",\n    \"labels\": [\n      [\n        {\n          \"key\": \"string\",\n          \"value\": \"string\",\n          \"source\": \"string\"\n        },\n        {\n          \"key\": \"string\",\n          \"value\": \"string\",\n          \"source\": \"string\"\n        }\n      ],\n      [\n        {\n          \"key\": \"string\",\n          \"value\": \"string\",\n          \"source\": \"string\"\n        },\n        {\n          \"key\": \"string\",\n          \"value\": \"string\",\n          \"source\": \"string\"\n        }\n      ]\n    ],\n    \"identities\": [\n      6522,\n      1670\n    ],\n    \"users\": 4506\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "42af198d-cdf2-4e0b-a489-12daace8b8e4",
+          "name": "Retrieves the list of DNS lookups intercepted from all endpoints.",
+          "request": {
+            "name": "Retrieves the list of DNS lookups intercepted from all endpoints.",
+            "description": {
+              "content": "Retrieves the list of DNS lookups intercepted from endpoints,\noptionally filtered by DNS name, CIDR IP range or source.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "fqdn",
+                "cache"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "matchpattern",
+                  "value": "<string>",
+                  "description": "A toFQDNs compatible matchPattern expression"
+                },
+                {
+                  "disabled": false,
+                  "key": "cidr",
+                  "value": "<string>",
+                  "description": "A CIDR range of IPs"
+                },
+                {
+                  "disabled": false,
+                  "key": "source",
+                  "value": "<string>",
+                  "description": "Source from which FQDN entries come from"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1a177dcc-e0b4-4872-af55-5bc758162f38",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fqdn",
+                    "cache"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "matchpattern",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cidr",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "source",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"ips\": [\n      \"string\",\n      \"string\"\n    ],\n    \"fqdn\": \"string\",\n    \"ttl\": 6614,\n    \"lookup-time\": \"1952-11-01T04:42:37.230Z\",\n    \"expiration-time\": \"1959-10-10T20:46:19.019Z\",\n    \"endpoint-id\": 2761,\n    \"source\": \"string\"\n  },\n  {\n    \"ips\": [\n      \"string\",\n      \"string\"\n    ],\n    \"fqdn\": \"string\",\n    \"ttl\": 8780,\n    \"lookup-time\": \"1964-11-08T00:56:29.607Z\",\n    \"expiration-time\": \"1946-08-31T05:43:13.022Z\",\n    \"endpoint-id\": 3594,\n    \"source\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fe616b98-e0df-4e6d-a7d0-19e7611edb11",
+              "name": "Invalid request (error parsing parameters)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fqdn",
+                    "cache"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "matchpattern",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cidr",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "source",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "02b4ad16-a644-4f1b-83df-72c00c8ebc6f",
+              "name": "No DNS data with provided parameters found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fqdn",
+                    "cache"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "matchpattern",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cidr",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "source",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d157b960-fe29-43ad-9aaf-e9e3a2733ba0",
+          "name": "Deletes matching DNS lookups from the policy-generation cache.",
+          "request": {
+            "name": "Deletes matching DNS lookups from the policy-generation cache.",
+            "description": {
+              "content": "Deletes matching DNS lookups from the cache, optionally restricted by\nDNS name. The removed IP data will no longer be used in generated\npolicies.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "fqdn",
+                "cache"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "matchpattern",
+                  "value": "<string>",
+                  "description": "A toFQDNs compatible matchPattern expression"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1be3a878-de9a-4990-9ae5-482b0b201c94",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fqdn",
+                    "cache"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "matchpattern",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9caaf23b-b931-4ce4-b21b-dd53b442ee9a",
+              "name": "Invalid request (error parsing parameters)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fqdn",
+                    "cache"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "matchpattern",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "70e25eb9-a556-40da-9741-15007a24e4d5",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fqdn",
+                    "cache"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "matchpattern",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "60eada90-372a-4430-b68b-a3466b5235cb",
+          "name": "Retrieves the list of DNS lookups intercepted from an endpoint.",
+          "request": {
+            "name": "Retrieves the list of DNS lookups intercepted from an endpoint.",
+            "description": {
+              "content": "Retrieves the list of DNS lookups intercepted from the specific endpoint,\noptionally filtered by endpoint id, DNS name, CIDR IP range or source.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "fqdn",
+                "cache",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "matchpattern",
+                  "value": "<string>",
+                  "description": "A toFQDNs compatible matchPattern expression"
+                },
+                {
+                  "disabled": false,
+                  "key": "cidr",
+                  "value": "<string>",
+                  "description": "A CIDR range of IPs"
+                },
+                {
+                  "disabled": false,
+                  "key": "source",
+                  "value": "<string>",
+                  "description": "Source from which FQDN entries come from"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) String describing an endpoint with the format ``[prefix:]id``. If no prefix\nis specified, a prefix of ``cilium-local:`` is assumed. Not all endpoints\nwill be addressable by all endpoint ID prefixes with the exception of the\nlocal Cilium UUID which is assigned to all endpoints.\n\nSupported endpoint id prefixes:\n  - cilium-local: Local Cilium endpoint UUID, e.g. cilium-local:3389595\n  - cilium-global: Global Cilium endpoint UUID, e.g. cilium-global:cluster1:nodeX:452343\n  - cni-attachment-id: CNI attachment ID, e.g. cni-attachment-id:22222:eth0\n  - cep-name: cep name for this container if K8s is enabled, e.g. pod-name:default:foobar-net1\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "61475b49-09d4-4cfb-ad35-782b5170bfe0",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fqdn",
+                    "cache",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "matchpattern",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cidr",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "source",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) String describing an endpoint with the format ``[prefix:]id``. If no prefix\nis specified, a prefix of ``cilium-local:`` is assumed. Not all endpoints\nwill be addressable by all endpoint ID prefixes with the exception of the\nlocal Cilium UUID which is assigned to all endpoints.\n\nSupported endpoint id prefixes:\n  - cilium-local: Local Cilium endpoint UUID, e.g. cilium-local:3389595\n  - cilium-global: Global Cilium endpoint UUID, e.g. cilium-global:cluster1:nodeX:452343\n  - cni-attachment-id: CNI attachment ID, e.g. cni-attachment-id:22222:eth0\n  - cep-name: cep name for this container if K8s is enabled, e.g. pod-name:default:foobar-net1\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"ips\": [\n      \"string\",\n      \"string\"\n    ],\n    \"fqdn\": \"string\",\n    \"ttl\": 245,\n    \"lookup-time\": \"1981-08-07T10:50:25.307Z\",\n    \"expiration-time\": \"1962-02-23T15:06:44.882Z\",\n    \"endpoint-id\": 7033,\n    \"source\": \"string\"\n  },\n  {\n    \"ips\": [\n      \"string\",\n      \"string\"\n    ],\n    \"fqdn\": \"string\",\n    \"ttl\": 4797,\n    \"lookup-time\": \"1959-12-31T09:14:45.636Z\",\n    \"expiration-time\": \"1995-03-21T19:35:39.519Z\",\n    \"endpoint-id\": 1363,\n    \"source\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6438022b-3ff0-4379-a7f2-96509ee5c1f1",
+              "name": "Invalid request (error parsing parameters)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fqdn",
+                    "cache",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "matchpattern",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cidr",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "source",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) String describing an endpoint with the format ``[prefix:]id``. If no prefix\nis specified, a prefix of ``cilium-local:`` is assumed. Not all endpoints\nwill be addressable by all endpoint ID prefixes with the exception of the\nlocal Cilium UUID which is assigned to all endpoints.\n\nSupported endpoint id prefixes:\n  - cilium-local: Local Cilium endpoint UUID, e.g. cilium-local:3389595\n  - cilium-global: Global Cilium endpoint UUID, e.g. cilium-global:cluster1:nodeX:452343\n  - cni-attachment-id: CNI attachment ID, e.g. cni-attachment-id:22222:eth0\n  - cep-name: cep name for this container if K8s is enabled, e.g. pod-name:default:foobar-net1\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b1fd57a5-3698-4e62-b21e-2206cf3d0c6f",
+              "name": "No DNS data with provided parameters found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fqdn",
+                    "cache",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "matchpattern",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cidr",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "source",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) String describing an endpoint with the format ``[prefix:]id``. If no prefix\nis specified, a prefix of ``cilium-local:`` is assumed. Not all endpoints\nwill be addressable by all endpoint ID prefixes with the exception of the\nlocal Cilium UUID which is assigned to all endpoints.\n\nSupported endpoint id prefixes:\n  - cilium-local: Local Cilium endpoint UUID, e.g. cilium-local:3389595\n  - cilium-global: Global Cilium endpoint UUID, e.g. cilium-global:cluster1:nodeX:452343\n  - cni-attachment-id: CNI attachment ID, e.g. cni-attachment-id:22222:eth0\n  - cep-name: cep name for this container if K8s is enabled, e.g. pod-name:default:foobar-net1\n"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4532b484-4c53-406e-9fad-8ced362530fd",
+          "name": "List internal DNS selector representations",
+          "request": {
+            "name": "List internal DNS selector representations",
+            "description": {
+              "content": "Retrieves the list of DNS-related fields (names to poll, selectors and\ntheir corresponding regexes).\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "fqdn",
+                "names"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e338609b-5928-47cf-a0a5-1583bde531fd",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fqdn",
+                    "names"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"DNSPollNames\": [\n    \"string\",\n    \"string\"\n  ],\n  \"FQDNPolicySelectors\": [\n    {\n      \"selectorString\": \"string\",\n      \"regexString\": \"string\"\n    },\n    {\n      \"selectorString\": \"string\",\n      \"regexString\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "daf5e442-b2e1-4f68-b9c8-917bd94284fd",
+              "name": "Invalid request (error parsing parameters)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fqdn",
+                    "names"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "beab2cf6-1551-4d56-8c6d-b21c1d5accba",
+          "name": "Lists information about known IP addresses",
+          "request": {
+            "name": "Lists information about known IP addresses",
+            "description": {
+              "content": "Retrieves a list of IPs with known associated information such as\ntheir identities, host addresses, Kubernetes pod names, etc.\nThe list can optionally filtered by a CIDR IP range.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ip"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cidr",
+                  "value": "<string>",
+                  "description": "A CIDR range of IPs"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  \"<string>\",\n  \"<string>\"\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "52ac3d85-5e23-4dd1-87bb-127b2b74688b",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ip"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cidr",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"cidr\": \"string\",\n    \"identity\": 8993,\n    \"hostIP\": \"string\",\n    \"encryptKey\": 1883,\n    \"metadata\": {\n      \"source\": \"k8s\",\n      \"namespace\": \"string\",\n      \"name\": \"string\"\n    }\n  },\n  {\n    \"cidr\": \"string\",\n    \"identity\": 2933,\n    \"hostIP\": \"string\",\n    \"encryptKey\": 1927,\n    \"metadata\": {\n      \"source\": \"k8s\",\n      \"namespace\": \"string\",\n      \"name\": \"string\"\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "66fedca2-a9a7-48b9-819d-43543e46a271",
+              "name": "Invalid request (error parsing parameters)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ip"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cidr",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5d2d2087-2bf8-4070-9f85-7f2e50514502",
+              "name": "No IP cache entries with provided parameters found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ip"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cidr",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "3855d9dc-2e1a-4720-993e-c87c1a9f5e43",
+    "name": "Cilium bgp policy API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Cilium",
+      "type": "text/plain"
+    }
+  }
+}

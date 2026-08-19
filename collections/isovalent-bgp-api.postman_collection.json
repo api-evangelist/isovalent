@@ -1,0 +1,580 @@
+{
+  "item": [
+    {
+      "id": "47623ec1-8ae0-431a-b063-0bb86f6a06a0",
+      "name": "bgp",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "87a02122-99b3-4c7d-8587-e0b649fbccc3",
+          "name": "Lists operational state of BGP peers",
+          "request": {
+            "name": "Lists operational state of BGP peers",
+            "description": {
+              "content": "Retrieves current operational state of BGP peers created by\nCilium BGP virtual router. This includes session state, uptime,\ninformation per address family, etc.\nDeprecated: This will be removed in the future.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "bgp",
+                "peers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "47e5ecc0-db09-4ed2-9a04-8a372eb55189",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bgp",
+                    "peers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"name\": \"string\",\n    \"local-asn\": 3611,\n    \"peer-asn\": 6371,\n    \"peer-address\": \"string\",\n    \"tcp-password-enabled\": true,\n    \"ebgp-multihop-ttl\": 4848,\n    \"peer-port\": 64819,\n    \"session-state\": \"string\",\n    \"uptime-nanoseconds\": 7224,\n    \"graceful-restart\": {\n      \"enabled\": false,\n      \"restart-time-seconds\": 3525\n    },\n    \"families\": [\n      {\n        \"afi\": \"string\",\n        \"safi\": \"string\",\n        \"received\": 9979,\n        \"accepted\": 9114,\n        \"advertised\": 9679\n      },\n      {\n        \"afi\": \"string\",\n        \"safi\": \"string\",\n        \"received\": 7054,\n        \"accepted\": 4185,\n        \"advertised\": 6435\n      }\n    ],\n    \"connect-retry-time-seconds\": 1155,\n    \"configured-hold-time-seconds\": 5953,\n    \"applied-hold-time-seconds\": 9978,\n    \"configured-keep-alive-time-seconds\": 2164,\n    \"applied-keep-alive-time-seconds\": 7549,\n    \"local-capabilities\": [\n      {\n        \"capabilities\": \"string\"\n      },\n      {\n        \"capabilities\": \"string\"\n      }\n    ],\n    \"remote-capabilities\": [\n      {\n        \"capabilities\": \"string\"\n      },\n      {\n        \"capabilities\": \"string\"\n      }\n    ]\n  },\n  {\n    \"name\": \"string\",\n    \"local-asn\": 9235,\n    \"peer-asn\": 158,\n    \"peer-address\": \"string\",\n    \"tcp-password-enabled\": false,\n    \"ebgp-multihop-ttl\": 3769,\n    \"peer-port\": 38095,\n    \"session-state\": \"string\",\n    \"uptime-nanoseconds\": 5234,\n    \"graceful-restart\": {\n      \"enabled\": false,\n      \"restart-time-seconds\": 685\n    },\n    \"families\": [\n      {\n        \"afi\": \"string\",\n        \"safi\": \"string\",\n        \"received\": 4967,\n        \"accepted\": 7442,\n        \"advertised\": 3015\n      },\n      {\n        \"afi\": \"string\",\n        \"safi\": \"string\",\n        \"received\": 3958,\n        \"accepted\": 5939,\n        \"advertised\": 7267\n      }\n    ],\n    \"connect-retry-time-seconds\": 1326,\n    \"configured-hold-time-seconds\": 2622,\n    \"applied-hold-time-seconds\": 1841,\n    \"configured-keep-alive-time-seconds\": 1737,\n    \"applied-keep-alive-time-seconds\": 4610,\n    \"local-capabilities\": [\n      {\n        \"capabilities\": \"string\"\n      },\n      {\n        \"capabilities\": \"string\"\n      }\n    ],\n    \"remote-capabilities\": [\n      {\n        \"capabilities\": \"string\"\n      },\n      {\n        \"capabilities\": \"string\"\n      }\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "337e74fd-4c31-4fef-bfa6-cba63ceb936b",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bgp",
+                    "peers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "97c02837-20f7-490d-80e0-6cfe79e9b509",
+              "name": "BGP Control Plane disabled",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bgp",
+                    "peers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Implemented",
+              "code": 501,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ea034fbb-0a1b-4045-a99a-a2c0f7bd1bad",
+          "name": "Lists BGP routes from BGP Control Plane RIB.",
+          "request": {
+            "name": "Lists BGP routes from BGP Control Plane RIB.",
+            "description": {
+              "content": "Retrieves routes from BGP Control Plane RIB filtered by parameters you specify.\nDeprecated: This will be removed in the future.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "bgp",
+                "routes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "table_type",
+                  "value": "<string>",
+                  "description": "(Required) BGP Routing Information Base (RIB) table type"
+                },
+                {
+                  "disabled": false,
+                  "key": "afi",
+                  "value": "<string>",
+                  "description": "(Required) Address Family Indicator (AFI) of a BGP route"
+                },
+                {
+                  "disabled": false,
+                  "key": "safi",
+                  "value": "<string>",
+                  "description": "(Required) Subsequent Address Family Indicator (SAFI) of a BGP route"
+                },
+                {
+                  "disabled": false,
+                  "key": "router_asn",
+                  "value": "<integer>",
+                  "description": "Autonomous System Number (ASN) identifying a BGP virtual router instance.\nIf not specified, all virtual router instances are selected.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "neighbor",
+                  "value": "<string>",
+                  "description": "IP address specifying a BGP neighbor.\nHas to be specified only when table type is adj-rib-in or adj-rib-out.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f773e93a-24ec-460a-bce3-0c7e017d26e9",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bgp",
+                    "routes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "table_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "afi",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "safi",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "router_asn",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "neighbor",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"router-asn\": 5320,\n    \"neighbor\": \"string\",\n    \"prefix\": \"string\",\n    \"paths\": [\n      {\n        \"family\": {\n          \"afi\": \"string\",\n          \"safi\": \"string\"\n        },\n        \"nlri\": {\n          \"base64\": \"string\"\n        },\n        \"path-attributes\": [\n          {\n            \"base64\": \"string\"\n          },\n          {\n            \"base64\": \"string\"\n          }\n        ],\n        \"age-nanoseconds\": 2173,\n        \"best\": true,\n        \"stale\": true\n      },\n      {\n        \"family\": {\n          \"afi\": \"string\",\n          \"safi\": \"string\"\n        },\n        \"nlri\": {\n          \"base64\": \"string\"\n        },\n        \"path-attributes\": [\n          {\n            \"base64\": \"string\"\n          },\n          {\n            \"base64\": \"string\"\n          }\n        ],\n        \"age-nanoseconds\": 535,\n        \"best\": false,\n        \"stale\": true\n      }\n    ]\n  },\n  {\n    \"router-asn\": 8929,\n    \"neighbor\": \"string\",\n    \"prefix\": \"string\",\n    \"paths\": [\n      {\n        \"family\": {\n          \"afi\": \"string\",\n          \"safi\": \"string\"\n        },\n        \"nlri\": {\n          \"base64\": \"string\"\n        },\n        \"path-attributes\": [\n          {\n            \"base64\": \"string\"\n          },\n          {\n            \"base64\": \"string\"\n          }\n        ],\n        \"age-nanoseconds\": 2423,\n        \"best\": false,\n        \"stale\": false\n      },\n      {\n        \"family\": {\n          \"afi\": \"string\",\n          \"safi\": \"string\"\n        },\n        \"nlri\": {\n          \"base64\": \"string\"\n        },\n        \"path-attributes\": [\n          {\n            \"base64\": \"string\"\n          },\n          {\n            \"base64\": \"string\"\n          }\n        ],\n        \"age-nanoseconds\": 8803,\n        \"best\": false,\n        \"stale\": false\n      }\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6e03ad18-0f7a-4fee-b690-10ec5bfeacd0",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bgp",
+                    "routes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "table_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "afi",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "safi",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "router_asn",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "neighbor",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5cd5060b-7b51-4092-a775-02c41ed075c6",
+              "name": "BGP Control Plane disabled",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bgp",
+                    "routes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "table_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "afi",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "safi",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "router_asn",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "neighbor",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Implemented",
+              "code": 501,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b74cf727-3b66-49e7-8bb5-4d7e93eb1b88",
+          "name": "Lists BGP route policies configured in BGP Control Plane.",
+          "request": {
+            "name": "Lists BGP route policies configured in BGP Control Plane.",
+            "description": {
+              "content": "Retrieves route policies from BGP Control Plane.\nDeprecated: This will be removed in the future.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "bgp",
+                "route-policies"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "router_asn",
+                  "value": "<integer>",
+                  "description": "Autonomous System Number (ASN) identifying a BGP virtual router instance.\nIf not specified, all virtual router instances are selected.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a0b43049-3cb2-4f3f-8e6d-7a385da4794e",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bgp",
+                    "route-policies"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "router_asn",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"router-asn\": 4213,\n    \"name\": \"string\",\n    \"type\": \"export\",\n    \"statements\": [\n      {\n        \"match-neighbors\": {\n          \"type\": \"invert\",\n          \"neighbors\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        \"match-families\": [\n          {\n            \"afi\": \"string\",\n            \"safi\": \"string\"\n          },\n          {\n            \"afi\": \"string\",\n            \"safi\": \"string\"\n          }\n        ],\n        \"match-prefixes\": {\n          \"type\": \"any\",\n          \"prefixes\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"route-action\": \"none\",\n        \"add-communities\": [\n          \"string\",\n          \"string\"\n        ],\n        \"add-large-communities\": [\n          \"string\",\n          \"string\"\n        ],\n        \"set-local-preference\": 6348,\n        \"nexthop\": {\n          \"self\": true,\n          \"unchanged\": false\n        }\n      },\n      {\n        \"match-neighbors\": {\n          \"type\": \"all\",\n          \"neighbors\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        \"match-families\": [\n          {\n            \"afi\": \"string\",\n            \"safi\": \"string\"\n          },\n          {\n            \"afi\": \"string\",\n            \"safi\": \"string\"\n          }\n        ],\n        \"match-prefixes\": {\n          \"type\": \"any\",\n          \"prefixes\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"route-action\": \"reject\",\n        \"add-communities\": [\n          \"string\",\n          \"string\"\n        ],\n        \"add-large-communities\": [\n          \"string\",\n          \"string\"\n        ],\n        \"set-local-preference\": 7848,\n        \"nexthop\": {\n          \"self\": true,\n          \"unchanged\": false\n        }\n      }\n    ]\n  },\n  {\n    \"router-asn\": 4805,\n    \"name\": \"string\",\n    \"type\": \"export\",\n    \"statements\": [\n      {\n        \"match-neighbors\": {\n          \"type\": \"invert\",\n          \"neighbors\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        \"match-families\": [\n          {\n            \"afi\": \"string\",\n            \"safi\": \"string\"\n          },\n          {\n            \"afi\": \"string\",\n            \"safi\": \"string\"\n          }\n        ],\n        \"match-prefixes\": {\n          \"type\": \"invert\",\n          \"prefixes\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"route-action\": \"accept\",\n        \"add-communities\": [\n          \"string\",\n          \"string\"\n        ],\n        \"add-large-communities\": [\n          \"string\",\n          \"string\"\n        ],\n        \"set-local-preference\": 6853,\n        \"nexthop\": {\n          \"self\": true,\n          \"unchanged\": true\n        }\n      },\n      {\n        \"match-neighbors\": {\n          \"type\": \"any\",\n          \"neighbors\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        \"match-families\": [\n          {\n            \"afi\": \"string\",\n            \"safi\": \"string\"\n          },\n          {\n            \"afi\": \"string\",\n            \"safi\": \"string\"\n          }\n        ],\n        \"match-prefixes\": {\n          \"type\": \"invert\",\n          \"prefixes\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"route-action\": \"accept\",\n        \"add-communities\": [\n          \"string\",\n          \"string\"\n        ],\n        \"add-large-communities\": [\n          \"string\",\n          \"string\"\n        ],\n        \"set-local-preference\": 8222,\n        \"nexthop\": {\n          \"self\": true,\n          \"unchanged\": true\n        }\n      }\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "38a808ef-6d92-40e0-b2bd-20c24edca5fd",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bgp",
+                    "route-policies"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "router_asn",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "19f3e5a4-ae57-4f8e-9277-a6ce92541e0c",
+              "name": "BGP Control Plane disabled",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bgp",
+                    "route-policies"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "router_asn",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Implemented",
+              "code": 501,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "cc8fda1a-90c9-4259-968e-4ad1d17a8bca",
+    "name": "Cilium bgp API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Cilium",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,166 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cilium bgp daemon API",
+    "version": "v1beta1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "daemon",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get nodes information stored in the cilium-agent",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/cluster/nodes",
+            "headers": [
+              {
+                "name": "client-id",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Get nodes information stored in the cilium-agent"
+        },
+        {
+          "info": {
+            "name": "Get health of Cilium daemon",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/healthz",
+            "headers": [
+              {
+                "name": "brief",
+                "value": ""
+              },
+              {
+                "name": "require-k8s-connectivity",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Returns health and status information of the Cilium daemon and related\ncomponents such as the connected datastore, Kubernetes integration and\nHubble.\n"
+        },
+        {
+          "info": {
+            "name": "Get configuration of Cilium daemon",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/config"
+          },
+          "docs": "Returns the configuration of the Cilium daemon.\n"
+        },
+        {
+          "info": {
+            "name": "Modify daemon configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/config"
+          },
+          "docs": "Updates the daemon configuration by applying the provided\nConfigurationMap and regenerates & recompiles all required datapath\ncomponents.\n"
+        },
+        {
+          "info": {
+            "name": "Retrieve information about the agent and environment for debugging",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/debuginfo"
+          },
+          "docs": "Retrieve information about the agent and environment for debugging"
+        },
+        {
+          "info": {
+            "name": "Retrieve cgroup metadata for all pods",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/cgroup-dump-metadata"
+          },
+          "docs": "Retrieve cgroup metadata for all pods"
+        },
+        {
+          "info": {
+            "name": "List all open maps",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/map"
+          },
+          "docs": "List all open maps"
+        },
+        {
+          "info": {
+            "name": "Retrieve contents of BPF map",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/map/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Name of map"
+              }
+            ]
+          },
+          "docs": "Retrieve contents of BPF map"
+        },
+        {
+          "info": {
+            "name": "Retrieves the recent event logs associated with this endpoint.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/map/:name/events",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Name of map"
+              },
+              {
+                "name": "follow",
+                "value": "",
+                "type": "query",
+                "description": "Whether to follow streamed requests"
+              }
+            ]
+          },
+          "docs": "Retrieves the recent event logs associated with this endpoint."
+        },
+        {
+          "info": {
+            "name": "List information about known node IDs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/node/ids"
+          },
+          "docs": "Retrieves a list of node IDs allocated by the agent and their\nassociated node IP addresses.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

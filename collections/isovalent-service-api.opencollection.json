@@ -1,0 +1,40 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cilium bgp service API",
+    "version": "v1beta1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "service",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve list of all local redirect policies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/lrp"
+          },
+          "docs": "Retrieve list of all local redirect policies"
+        },
+        {
+          "info": {
+            "name": "Retrieve list of all services",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/service"
+          },
+          "docs": "Retrieve list of all services"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

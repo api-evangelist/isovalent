@@ -1,0 +1,40 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cilium bgp connectivity API",
+    "version": "v1beta1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "connectivity",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Run synchronous connectivity probe to determine status of the Cilium cluster",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/status/probe"
+          },
+          "docs": "Runs a synchronous probe to all other cilium-health instances and\nreturns the connectivity status.\n"
+        },
+        {
+          "info": {
+            "name": "Get connectivity status of the Cilium cluster",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/status"
+          },
+          "docs": "Returns the connectivity status to all other cilium-health instances\nusing interval-based probing.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

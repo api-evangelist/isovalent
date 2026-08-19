@@ -142,3 +142,9 @@ tools:
 - name: get_bgp_route_policies
   description: Lists BGP route policies configured in BGP Control Plane.
   source_operation: openapi/isovalent-cilium-agent-openapi.yml#GET /bgp/route-policies
+deployment:
+  mode: none
+  verified: derived
+  tools: 44
+  checked: '2026-08-12'
+  source: catalog MCP census

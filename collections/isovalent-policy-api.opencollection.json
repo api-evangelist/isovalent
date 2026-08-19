@@ -1,0 +1,209 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cilium bgp policy API",
+    "version": "v1beta1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "policy",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieves a list of identities that have metadata matching the provided parameters.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/identity"
+          },
+          "docs": "Retrieves a list of identities that have metadata matching the provided parameters, or all identities if no parameters are provided.\n"
+        },
+        {
+          "info": {
+            "name": "Retrieve identity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/identity/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Cluster wide unique identifier of a security identity.\n"
+              }
+            ]
+          },
+          "docs": "Retrieve identity"
+        },
+        {
+          "info": {
+            "name": "Retrieve identities which are being used by local endpoints",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/identity/endpoints"
+          },
+          "docs": "Retrieve identities which are being used by local endpoints"
+        },
+        {
+          "info": {
+            "name": "Retrieve entire policy tree",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/policy"
+          },
+          "docs": "Returns the entire policy tree with all children.\n\nDeprecated: will be removed in v1.19\n"
+        },
+        {
+          "info": {
+            "name": "See what selectors match which identities",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/policy/selectors"
+          },
+          "docs": "See what selectors match which identities"
+        },
+        {
+          "info": {
+            "name": "See what subject selectors match which identities on the local node",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/policy/subject-selectors"
+          },
+          "docs": "See what subject selectors match which identities on the local node"
+        },
+        {
+          "info": {
+            "name": "Retrieves the list of DNS lookups intercepted from all endpoints.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/fqdn/cache",
+            "params": [
+              {
+                "name": "matchpattern",
+                "value": "",
+                "type": "query",
+                "description": "A toFQDNs compatible matchPattern expression"
+              },
+              {
+                "name": "cidr",
+                "value": "",
+                "type": "query",
+                "description": "A CIDR range of IPs"
+              },
+              {
+                "name": "source",
+                "value": "",
+                "type": "query",
+                "description": "Source from which FQDN entries come from"
+              }
+            ]
+          },
+          "docs": "Retrieves the list of DNS lookups intercepted from endpoints,\noptionally filtered by DNS name, CIDR IP range or source.\n"
+        },
+        {
+          "info": {
+            "name": "Deletes matching DNS lookups from the policy-generation cache.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/fqdn/cache",
+            "params": [
+              {
+                "name": "matchpattern",
+                "value": "",
+                "type": "query",
+                "description": "A toFQDNs compatible matchPattern expression"
+              }
+            ]
+          },
+          "docs": "Deletes matching DNS lookups from the cache, optionally restricted by\nDNS name. The removed IP data will no longer be used in generated\npolicies.\n"
+        },
+        {
+          "info": {
+            "name": "Retrieves the list of DNS lookups intercepted from an endpoint.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/fqdn/cache/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "String describing an endpoint with the format ``[prefix:]id``. If no prefix\nis specified, a prefix of ``cilium-local:`` is assumed. Not all endpoints\nwill be addressable by all endpoint ID prefixes with the exception of the\nlocal Cilium UUID which is assigned to all endpoints.\n\nSupported endpoint id prefixes:\n  - cilium-local: Local Cilium endpoint UUID, e.g. cilium-local:3389595\n  - cilium-global: Global Cilium endpoint UUID, e.g. cilium-global:cluster1:nodeX:452343\n  - cni-attachment-id: CNI attachment ID, e.g. cni-attachment-id:22222:eth0\n  - cep-name: cep name for this container if K8s is enabled, e.g. pod-name:default:foobar-net1\n"
+              },
+              {
+                "name": "matchpattern",
+                "value": "",
+                "type": "query",
+                "description": "A toFQDNs compatible matchPattern expression"
+              },
+              {
+                "name": "cidr",
+                "value": "",
+                "type": "query",
+                "description": "A CIDR range of IPs"
+              },
+              {
+                "name": "source",
+                "value": "",
+                "type": "query",
+                "description": "Source from which FQDN entries come from"
+              }
+            ]
+          },
+          "docs": "Retrieves the list of DNS lookups intercepted from the specific endpoint,\noptionally filtered by endpoint id, DNS name, CIDR IP range or source.\n"
+        },
+        {
+          "info": {
+            "name": "List internal DNS selector representations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/fqdn/names"
+          },
+          "docs": "Retrieves the list of DNS-related fields (names to poll, selectors and\ntheir corresponding regexes).\n"
+        },
+        {
+          "info": {
+            "name": "Lists information about known IP addresses",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/ip",
+            "params": [
+              {
+                "name": "cidr",
+                "value": "",
+                "type": "query",
+                "description": "A CIDR range of IPs"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of IPs with known associated information such as\ntheir identities, host addresses, Kubernetes pod names, etc.\nThe list can optionally filtered by a CIDR IP range.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

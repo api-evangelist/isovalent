@@ -1,0 +1,51 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cilium bgp prefilter API",
+    "version": "v1beta1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "prefilter",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve list of CIDRs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/prefilter"
+          },
+          "docs": "Retrieve list of CIDRs"
+        },
+        {
+          "info": {
+            "name": "Update list of CIDRs",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/prefilter"
+          },
+          "docs": "Update list of CIDRs"
+        },
+        {
+          "info": {
+            "name": "Delete list of CIDRs",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/prefilter"
+          },
+          "docs": "Delete list of CIDRs"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

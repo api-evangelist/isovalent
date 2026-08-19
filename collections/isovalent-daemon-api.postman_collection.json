@@ -1,0 +1,1094 @@
+{
+  "item": [
+    {
+      "id": "582acbc6-8481-416a-a1ee-f3f57592b3e0",
+      "name": "daemon",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "83d00cc3-ea17-41aa-a348-16bd1c06d46b",
+          "name": "Get nodes information stored in the cilium-agent",
+          "request": {
+            "name": "Get nodes information stored in the cilium-agent",
+            "description": {},
+            "url": {
+              "path": [
+                "cluster",
+                "nodes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Client UUID should be used when the client wants to request\na diff of nodes added and / or removed since the last time\nthat client has made a request.\n",
+                "key": "client-id",
+                "value": "<integer>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ecd12fd2-0ef6-4f25-acee-8e6427366728",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cluster",
+                    "nodes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Client UUID should be used when the client wants to request\na diff of nodes added and / or removed since the last time\nthat client has made a request.\n",
+                    "key": "client-id",
+                    "value": "<integer>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"self\": \"string\",\n  \"nodes-added\": [\n    {\n      \"name\": \"string\",\n      \"primary-address\": {\n        \"ipv6\": {\n          \"enabled\": true,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        },\n        \"ipv4\": {\n          \"enabled\": false,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        }\n      },\n      \"secondary-addresses\": [\n        {\n          \"enabled\": true,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        },\n        {\n          \"enabled\": false,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        }\n      ],\n      \"health-endpoint-address\": {\n        \"ipv6\": {\n          \"enabled\": false,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        },\n        \"ipv4\": {\n          \"enabled\": false,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        }\n      },\n      \"ingress-address\": {\n        \"ipv6\": {\n          \"enabled\": false,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        },\n        \"ipv4\": {\n          \"enabled\": false,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        }\n      },\n      \"source\": \"string\"\n    },\n    {\n      \"name\": \"string\",\n      \"primary-address\": {\n        \"ipv6\": {\n          \"enabled\": true,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        },\n        \"ipv4\": {\n          \"enabled\": true,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        }\n      },\n      \"secondary-addresses\": [\n        {\n          \"enabled\": true,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        },\n        {\n          \"enabled\": false,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        }\n      ],\n      \"health-endpoint-address\": {\n        \"ipv6\": {\n          \"enabled\": false,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        },\n        \"ipv4\": {\n          \"enabled\": false,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        }\n      },\n      \"ingress-address\": {\n        \"ipv6\": {\n          \"enabled\": true,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        },\n        \"ipv4\": {\n          \"enabled\": false,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        }\n      },\n      \"source\": \"string\"\n    }\n  ],\n  \"nodes-removed\": [\n    {\n      \"name\": \"string\",\n      \"primary-address\": {\n        \"ipv6\": {\n          \"enabled\": false,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        },\n        \"ipv4\": {\n          \"enabled\": true,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        }\n      },\n      \"secondary-addresses\": [\n        {\n          \"enabled\": false,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        },\n        {\n          \"enabled\": true,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        }\n      ],\n      \"health-endpoint-address\": {\n        \"ipv6\": {\n          \"enabled\": false,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        },\n        \"ipv4\": {\n          \"enabled\": false,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        }\n      },\n      \"ingress-address\": {\n        \"ipv6\": {\n          \"enabled\": false,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        },\n        \"ipv4\": {\n          \"enabled\": true,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        }\n      },\n      \"source\": \"string\"\n    },\n    {\n      \"name\": \"string\",\n      \"primary-address\": {\n        \"ipv6\": {\n          \"enabled\": false,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        },\n        \"ipv4\": {\n          \"enabled\": false,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        }\n      },\n      \"secondary-addresses\": [\n        {\n          \"enabled\": true,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        },\n        {\n          \"enabled\": false,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        }\n      ],\n      \"health-endpoint-address\": {\n        \"ipv6\": {\n          \"enabled\": true,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        },\n        \"ipv4\": {\n          \"enabled\": true,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        }\n      },\n      \"ingress-address\": {\n        \"ipv6\": {\n          \"enabled\": true,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        },\n        \"ipv4\": {\n          \"enabled\": true,\n          \"ip\": \"string\",\n          \"alloc-range\": \"string\",\n          \"address-type\": \"string\"\n        }\n      },\n      \"source\": \"string\"\n    }\n  ],\n  \"client-id\": 7470\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6a5b84f7-4a82-4ced-a8af-f5a8e52eb613",
+          "name": "Get health of Cilium daemon",
+          "request": {
+            "name": "Get health of Cilium daemon",
+            "description": {
+              "content": "Returns health and status information of the Cilium daemon and related\ncomponents such as the connected datastore, Kubernetes integration and\nHubble.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "healthz"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Brief will return a brief representation of the Cilium status.\n",
+                "key": "brief",
+                "value": "<boolean>"
+              },
+              {
+                "disabled": false,
+                "description": "If set to true, failure of the agent to connect to the Kubernetes control plane will cause the agent's health status to also fail.\n",
+                "key": "require-k8s-connectivity",
+                "value": "true"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "979a776b-513b-48e3-a410-8152b29f7a9f",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "healthz"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Brief will return a brief representation of the Cilium status.\n",
+                    "key": "brief",
+                    "value": "<boolean>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "If set to true, failure of the agent to connect to the Kubernetes control plane will cause the agent's health status to also fail.\n",
+                    "key": "require-k8s-connectivity",
+                    "value": "true"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"cilium\": {\n    \"state\": \"Ok\",\n    \"msg\": \"string\"\n  },\n  \"kvstore\": {\n    \"state\": \"Warning\",\n    \"msg\": \"string\"\n  },\n  \"cni-file\": {\n    \"state\": \"Failure\",\n    \"msg\": \"string\"\n  },\n  \"host-firewall\": {\n    \"mode\": \"Enabled\",\n    \"devices\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"hubble\": {\n    \"state\": \"Failure\",\n    \"msg\": \"string\",\n    \"observer\": {\n      \"max-flows\": 2102,\n      \"current-flows\": 1064,\n      \"seen-flows\": 7450,\n      \"uptime\": \"string\"\n    }\n  },\n  \"hubble-metrics\": {\n    \"state\": \"Failure\",\n    \"msg\": \"string\"\n  },\n  \"kubernetes\": {\n    \"state\": \"Warning\",\n    \"k8s-api-versions\": [\n      \"string\",\n      \"string\"\n    ],\n    \"msg\": \"string\"\n  },\n  \"datapath-mode\": \"netkit\",\n  \"configured-datapath-mode\": \"auto\",\n  \"attach-mode\": \"tcx\",\n  \"kube-proxy-replacement\": {\n    \"mode\": \"True\",\n    \"devices\": [\n      \"string\",\n      \"string\"\n    ],\n    \"deviceList\": [\n      {\n        \"name\": \"string\",\n        \"ip\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      {\n        \"name\": \"string\",\n        \"ip\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    ],\n    \"directRoutingDevice\": \"string\",\n    \"features\": {\n      \"nodePort\": {\n        \"enabled\": true,\n        \"mode\": \"DSR\",\n        \"dsrMode\": \"IP Option/Extension\",\n        \"algorithm\": \"Random\",\n        \"acceleration\": \"Best-Effort\",\n        \"portMin\": 3202,\n        \"portMax\": 5905,\n        \"lutSize\": 7804\n      },\n      \"hostPort\": {\n        \"enabled\": true\n      },\n      \"externalIPs\": {\n        \"enabled\": false\n      },\n      \"hostReachableServices\": {\n        \"enabled\": false,\n        \"protocols\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"socketLB\": {\n        \"enabled\": false\n      },\n      \"sessionAffinity\": {\n        \"enabled\": false\n      },\n      \"gracefulTermination\": {\n        \"enabled\": true\n      },\n      \"nat46X64\": {\n        \"enabled\": true,\n        \"service\": {\n          \"enabled\": true\n        },\n        \"gateway\": {\n          \"enabled\": false,\n          \"prefixes\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      },\n      \"socketLBTracing\": {\n        \"enabled\": true\n      },\n      \"bpfSocketLBHostnsOnly\": true,\n      \"annotations\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  },\n  \"ipam\": {\n    \"allocations\": {\n      \"key_0\": \"string\"\n    },\n    \"ipv4\": [\n      \"string\",\n      \"string\"\n    ],\n    \"ipv6\": [\n      \"string\",\n      \"string\"\n    ],\n    \"status\": \"string\"\n  },\n  \"nodeMonitor\": {\n    \"cpus\": 9055,\n    \"npages\": 961,\n    \"pagesize\": 7880,\n    \"lost\": 755,\n    \"unknown\": 8013\n  },\n  \"cluster\": {\n    \"ciliumHealth\": {\n      \"state\": \"Failure\",\n      \"msg\": \"string\"\n    },\n    \"self\": \"string\",\n    \"nodes\": [\n      {\n        \"name\": \"string\",\n        \"primary-address\": {\n          \"ipv6\": {\n            \"enabled\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"ip\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"alloc-range\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"address-type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"ipv4\": {\n            \"enabled\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"ip\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"alloc-range\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"address-type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"secondary-addresses\": [\n          {\n            \"enabled\": true,\n            \"ip\": \"string\",\n            \"alloc-range\": \"string\",\n            \"address-type\": \"string\"\n          },\n          {\n            \"enabled\": false,\n            \"ip\": \"string\",\n            \"alloc-range\": \"string\",\n            \"address-type\": \"string\"\n          }\n        ],\n        \"health-endpoint-address\": {\n          \"ipv6\": {\n            \"enabled\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"ip\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"alloc-range\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"address-type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"ipv4\": {\n            \"enabled\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"ip\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"alloc-range\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"address-type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"ingress-address\": {\n          \"ipv6\": {\n            \"enabled\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"ip\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"alloc-range\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"address-type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"ipv4\": {\n            \"enabled\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"ip\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"alloc-range\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"address-type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"source\": \"string\"\n      },\n      {\n        \"name\": \"string\",\n        \"primary-address\": {\n          \"ipv6\": {\n            \"enabled\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"ip\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"alloc-range\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"address-type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"ipv4\": {\n            \"enabled\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"ip\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"alloc-range\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"address-type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"secondary-addresses\": [\n          {\n            \"enabled\": false,\n            \"ip\": \"string\",\n            \"alloc-range\": \"string\",\n            \"address-type\": \"string\"\n          },\n          {\n            \"enabled\": false,\n            \"ip\": \"string\",\n            \"alloc-range\": \"string\",\n            \"address-type\": \"string\"\n          }\n        ],\n        \"health-endpoint-address\": {\n          \"ipv6\": {\n            \"enabled\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"ip\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"alloc-range\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"address-type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"ipv4\": {\n            \"enabled\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"ip\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"alloc-range\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"address-type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"ingress-address\": {\n          \"ipv6\": {\n            \"enabled\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"ip\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"alloc-range\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"address-type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"ipv4\": {\n            \"enabled\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"ip\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"alloc-range\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"address-type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"source\": \"string\"\n      }\n    ]\n  },\n  \"controllers\": [\n    {\n      \"name\": \"string\",\n      \"uuid\": \"50e8dfa9-a8d1-1b9a-168f-e17dbd6d8300\",\n      \"configuration\": {\n        \"interval\": \"string\",\n        \"error-retry-base\": \"string\",\n        \"error-retry\": false\n      },\n      \"status\": {\n        \"success-count\": 8206,\n        \"last-success-timestamp\": \"1972-09-27T21:31:34.284Z\",\n        \"failure-count\": 8925,\n        \"last-failure-timestamp\": \"1960-03-11T09:50:01.587Z\",\n        \"consecutive-failure-count\": 2437,\n        \"last-failure-msg\": \"string\"\n      }\n    },\n    {\n      \"name\": \"string\",\n      \"uuid\": \"f2f56547-6ca5-af53-f5bc-4b61f73adc83\",\n      \"configuration\": {\n        \"interval\": \"string\",\n        \"error-retry-base\": \"string\",\n        \"error-retry\": false\n      },\n      \"status\": {\n        \"success-count\": 6729,\n        \"last-success-timestamp\": \"1996-06-23T07:21:16.402Z\",\n        \"failure-count\": 3544,\n        \"last-failure-timestamp\": \"1980-06-12T02:42:11.264Z\",\n        \"consecutive-failure-count\": 1601,\n        \"last-failure-msg\": \"string\"\n      }\n    }\n  ],\n  \"proxy\": {\n    \"port-range\": \"string\",\n    \"ip\": \"string\",\n    \"total-redirects\": 2175,\n    \"total-ports\": 8390,\n    \"redirects\": [\n      {\n        \"name\": \"string\",\n        \"proxy\": \"string\",\n        \"proxy-port\": 7106\n      },\n      {\n        \"name\": \"string\",\n        \"proxy\": \"string\",\n        \"proxy-port\": 6528\n      }\n    ],\n    \"envoy-deployment-mode\": \"external\"\n  },\n  \"identity-range\": {\n    \"min-identity\": 1647,\n    \"max-identity\": 4388\n  },\n  \"ipv6-big-tcp\": {\n    \"enabled\": true,\n    \"maxGRO\": 8868,\n    \"maxGSO\": 1480\n  },\n  \"ipv4-big-tcp\": {\n    \"enabled\": false,\n    \"maxGRO\": 3452,\n    \"maxGSO\": 8606\n  },\n  \"bandwidth-manager\": {\n    \"enabled\": false,\n    \"devices\": [\n      \"string\",\n      \"string\"\n    ],\n    \"congestionControl\": \"bbr\"\n  },\n  \"masquerading\": {\n    \"enabled\": true,\n    \"enabledProtocols\": {\n      \"ipv4\": false,\n      \"ipv6\": true\n    },\n    \"mode\": \"iptables\",\n    \"ip-masq-agent\": false,\n    \"snat-exclusion-cidr\": \"string\",\n    \"snat-exclusion-cidr-v4\": \"string\",\n    \"snat-exclusion-cidr-v6\": \"string\"\n  },\n  \"routing\": {\n    \"inter-host-routing-mode\": \"Native\",\n    \"intra-host-routing-mode\": \"Legacy\",\n    \"tunnel-protocol\": \"string\"\n  },\n  \"clock-source\": {\n    \"mode\": \"ktime\",\n    \"hertz\": 1189\n  },\n  \"srv6\": {\n    \"enabled\": false,\n    \"srv6EncapMode\": \"Reduced\"\n  },\n  \"stale\": {\n    \"key_0\": \"1986-05-13T08:25:18.929Z\",\n    \"key_1\": \"2004-02-01T14:18:03.030Z\"\n  },\n  \"client-id\": 2184,\n  \"cluster-mesh\": {\n    \"clusters\": [\n      {\n        \"name\": \"string\",\n        \"ready\": true,\n        \"connected\": false,\n        \"synced\": {\n          \"nodes\": true,\n          \"services\": true,\n          \"endpoint-slices\": true,\n          \"service-exports\": true,\n          \"endpoints\": false,\n          \"identities\": true\n        },\n        \"config\": {\n          \"required\": false,\n          \"retrieved\": false,\n          \"cluster-id\": 5592,\n          \"kvstoremesh\": false,\n          \"sync-canaries\": true,\n          \"service-exports-enabled\": false,\n          \"endpoint-slices-export-mode\": \"services-and-endpointslices\"\n        },\n        \"num-nodes\": 5472,\n        \"num-shared-services\": 9134,\n        \"num-endpoint-slices\": 1988,\n        \"num-service-exports\": 3762,\n        \"num-identities\": 2843,\n        \"num-endpoints\": 8689,\n        \"status\": \"string\",\n        \"num-failures\": 3954,\n        \"last-failure\": \"1948-07-18T02:03:16.311Z\"\n      },\n      {\n        \"name\": \"string\",\n        \"ready\": false,\n        \"connected\": true,\n        \"synced\": {\n          \"nodes\": true,\n          \"services\": true,\n          \"endpoint-slices\": false,\n          \"service-exports\": true,\n          \"endpoints\": false,\n          \"identities\": false\n        },\n        \"config\": {\n          \"required\": false,\n          \"retrieved\": true,\n          \"cluster-id\": 5662,\n          \"kvstoremesh\": true,\n          \"sync-canaries\": true,\n          \"service-exports-enabled\": true,\n          \"endpoint-slices-export-mode\": \"endpointslices-only\"\n        },\n        \"num-nodes\": 8238,\n        \"num-shared-services\": 87,\n        \"num-endpoint-slices\": 1817,\n        \"num-service-exports\": 7387,\n        \"num-identities\": 3235,\n        \"num-endpoints\": 9767,\n        \"status\": \"string\",\n        \"num-failures\": 3837,\n        \"last-failure\": \"1974-12-04T11:33:18.288Z\"\n      }\n    ]\n  },\n  \"bpf-maps\": {\n    \"dynamic-size-ratio\": 1830.7789201237047,\n    \"maps\": [\n      {\n        \"name\": \"string\",\n        \"size\": 2474\n      },\n      {\n        \"name\": \"string\",\n        \"size\": 2390\n      }\n    ]\n  },\n  \"encryption\": {\n    \"mode\": \"Disabled\",\n    \"msg\": \"string\",\n    \"ipsec\": {\n      \"decrypt-interfaces\": [\n        \"string\",\n        \"string\"\n      ],\n      \"max-seq-number\": \"string\",\n      \"keys-in-use\": 6076,\n      \"error-count\": 6681,\n      \"xfrm-errors\": {\n        \"key_0\": 9612\n      }\n    },\n    \"wireguard\": {\n      \"node-encryption\": \"string\",\n      \"node-encrypt-opt-out-labels\": \"string\",\n      \"interfaces\": [\n        {\n          \"name\": \"string\",\n          \"public-key\": \"string\",\n          \"listen-port\": 1920,\n          \"peer-count\": 786,\n          \"peers\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        {\n          \"name\": \"string\",\n          \"public-key\": \"string\",\n          \"listen-port\": 2963,\n          \"peer-count\": 590,\n          \"peers\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      ]\n    }\n  },\n  \"cni-chaining\": {\n    \"mode\": \"flannel\"\n  },\n  \"auth-certificate-provider\": {\n    \"state\": \"Failure\",\n    \"msg\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9258f52c-62cf-43e7-8828-4c0f70f6df98",
+          "name": "Get configuration of Cilium daemon",
+          "request": {
+            "name": "Get configuration of Cilium daemon",
+            "description": {
+              "content": "Returns the configuration of the Cilium daemon.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "config"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ba57890d-6698-4dab-8b75-358df2f645ed",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "config"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"spec\": {\n    \"options\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\"\n    },\n    \"policy-enforcement\": \"default\"\n  },\n  \"status\": {\n    \"realized\": {\n      \"options\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\"\n      },\n      \"policy-enforcement\": \"default\"\n    },\n    \"immutable\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\",\n      \"key_2\": \"string\",\n      \"key_3\": \"string\"\n    },\n    \"addressing\": {\n      \"ipv6\": {\n        \"enabled\": true,\n        \"ip\": \"string\",\n        \"alloc-range\": \"string\",\n        \"address-type\": \"string\"\n      },\n      \"ipv4\": {\n        \"enabled\": false,\n        \"ip\": \"string\",\n        \"alloc-range\": \"string\",\n        \"address-type\": \"string\"\n      }\n    },\n    \"k8s-endpoint\": \"string\",\n    \"k8s-configuration\": \"string\",\n    \"nodeMonitor\": {\n      \"cpus\": 6341,\n      \"npages\": 4003,\n      \"pagesize\": 5624,\n      \"lost\": 4496,\n      \"unknown\": 5906\n    },\n    \"kvstoreConfiguration\": {\n      \"type\": \"string\",\n      \"options\": {\n        \"key_0\": \"string\"\n      }\n    },\n    \"deviceMTU\": 9231,\n    \"routeMTU\": 9645,\n    \"enableRouteMTUForCNIChaining\": false,\n    \"packetizationLayerPMTUDMode\": \"string\",\n    \"datapathMode\": \"netkit-l2\",\n    \"configuredDatapathMode\": \"netkit\",\n    \"ipam-mode\": \"string\",\n    \"masquerade\": true,\n    \"masqueradeProtocols\": {\n      \"ipv4\": true,\n      \"ipv6\": true\n    },\n    \"installUplinkRoutesForDelegatedIPAM\": true,\n    \"daemonConfigurationMap\": {\n      \"key_0\": {}\n    },\n    \"GSOMaxSize\": 5025,\n    \"GROMaxSize\": 9963,\n    \"GSOIPv4MaxSize\": 1007,\n    \"GROIPv4MaxSize\": 7640,\n    \"deviceHeadroom\": 2159,\n    \"deviceTailroom\": 668,\n    \"ipLocalReservedPorts\": \"string\",\n    \"enableBBRHostNamespaceOnly\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "90f3a2f5-e4e7-4c23-991f-d19030480d40",
+          "name": "Modify daemon configuration",
+          "request": {
+            "name": "Modify daemon configuration",
+            "description": {
+              "content": "Updates the daemon configuration by applying the provided\nConfigurationMap and regenerates & recompiles all required datapath\ncomponents.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "config"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"options\": {\n    \"key_0\": \"<string>\"\n  },\n  \"policy-enforcement\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "96e8aec5-95b8-42e3-91ee-531aff9d8348",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "config"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"options\": {\n    \"key_0\": \"<string>\"\n  },\n  \"policy-enforcement\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b09e89b4-ea6f-42e0-9a21-f051f805282f",
+              "name": "Bad configuration parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "config"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"options\": {\n    \"key_0\": \"<string>\"\n  },\n  \"policy-enforcement\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "66d0b84a-b83c-4412-b6ee-5751769dbd3b",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "config"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"options\": {\n    \"key_0\": \"<string>\"\n  },\n  \"policy-enforcement\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "81386f9f-f41b-4121-9ee9-603e2d3de1e9",
+              "name": "Recompilation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "config"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"options\": {\n    \"key_0\": \"<string>\"\n  },\n  \"policy-enforcement\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "65d62c15-747d-4e56-8bfa-613d8bd0d97d",
+          "name": "Retrieve information about the agent and environment for debugging",
+          "request": {
+            "name": "Retrieve information about the agent and environment for debugging",
+            "description": {},
+            "url": {
+              "path": [
+                "debuginfo"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "758a2203-dc88-49be-8c1d-43135f11c3d7",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "debuginfo"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"cilium-version\": \"string\",\n  \"kernel-version\": \"string\",\n  \"cilium-status\": {\n    \"cilium\": {\n      \"state\": \"Ok\",\n      \"msg\": \"string\"\n    },\n    \"kvstore\": {\n      \"state\": \"Disabled\",\n      \"msg\": \"string\"\n    },\n    \"cni-file\": {\n      \"state\": \"Disabled\",\n      \"msg\": \"string\"\n    },\n    \"host-firewall\": {\n      \"mode\": \"Enabled\",\n      \"devices\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"hubble\": {\n      \"state\": \"Disabled\",\n      \"msg\": \"string\",\n      \"observer\": {\n        \"max-flows\": 265,\n        \"current-flows\": 1774,\n        \"seen-flows\": 3382,\n        \"uptime\": \"string\"\n      }\n    },\n    \"hubble-metrics\": {\n      \"state\": \"Warning\",\n      \"msg\": \"string\"\n    },\n    \"kubernetes\": {\n      \"state\": \"Failure\",\n      \"k8s-api-versions\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\"\n    },\n    \"datapath-mode\": \"netkit\",\n    \"configured-datapath-mode\": \"auto\",\n    \"attach-mode\": \"tcx\",\n    \"kube-proxy-replacement\": {\n      \"mode\": \"False\",\n      \"devices\": [\n        \"string\",\n        \"string\"\n      ],\n      \"deviceList\": [\n        {\n          \"name\": \"string\",\n          \"ip\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"name\": \"string\",\n          \"ip\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"directRoutingDevice\": \"string\",\n      \"features\": {\n        \"nodePort\": {\n          \"enabled\": true,\n          \"mode\": \"DSR\",\n          \"dsrMode\": \"Geneve\",\n          \"algorithm\": \"Random\",\n          \"acceleration\": \"Generic\",\n          \"portMin\": 157,\n          \"portMax\": 2350,\n          \"lutSize\": 9188\n        },\n        \"hostPort\": {\n          \"enabled\": false\n        },\n        \"externalIPs\": {\n          \"enabled\": true\n        },\n        \"hostReachableServices\": {\n          \"enabled\": false,\n          \"protocols\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        \"socketLB\": {\n          \"enabled\": true\n        },\n        \"sessionAffinity\": {\n          \"enabled\": true\n        },\n        \"gracefulTermination\": {\n          \"enabled\": true\n        },\n        \"nat46X64\": {\n          \"enabled\": true,\n          \"service\": {\n            \"enabled\": false\n          },\n          \"gateway\": {\n            \"enabled\": false,\n            \"prefixes\": [\n              \"string\",\n              \"string\"\n            ]\n          }\n        },\n        \"socketLBTracing\": {\n          \"enabled\": true\n        },\n        \"bpfSocketLBHostnsOnly\": false,\n        \"annotations\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    },\n    \"ipam\": {\n      \"allocations\": {\n        \"key_0\": \"string\"\n      },\n      \"ipv4\": [\n        \"string\",\n        \"string\"\n      ],\n      \"ipv6\": [\n        \"string\",\n        \"string\"\n      ],\n      \"status\": \"string\"\n    },\n    \"nodeMonitor\": {\n      \"cpus\": 2129,\n      \"npages\": 5762,\n      \"pagesize\": 6031,\n      \"lost\": 2049,\n      \"unknown\": 7290\n    },\n    \"cluster\": {\n      \"ciliumHealth\": {\n        \"state\": \"Ok\",\n        \"msg\": \"string\"\n      },\n      \"self\": \"string\",\n      \"nodes\": [\n        {\n          \"name\": \"string\",\n          \"primary-address\": {\n            \"ipv6\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"ipv4\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"secondary-addresses\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"health-endpoint-address\": {\n            \"ipv6\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"ipv4\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"ingress-address\": {\n            \"ipv6\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"ipv4\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"source\": \"string\"\n        },\n        {\n          \"name\": \"string\",\n          \"primary-address\": {\n            \"ipv6\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"ipv4\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"secondary-addresses\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"health-endpoint-address\": {\n            \"ipv6\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"ipv4\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"ingress-address\": {\n            \"ipv6\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"ipv4\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"source\": \"string\"\n        }\n      ]\n    },\n    \"controllers\": [\n      {\n        \"name\": \"string\",\n        \"uuid\": \"d0397141-5f13-5c3a-bc21-8903fd755e8f\",\n        \"configuration\": {\n          \"interval\": \"string\",\n          \"error-retry-base\": \"string\",\n          \"error-retry\": false\n        },\n        \"status\": {\n          \"success-count\": 1818,\n          \"last-success-timestamp\": \"2001-06-26T06:21:24.678Z\",\n          \"failure-count\": 2334,\n          \"last-failure-timestamp\": \"1963-04-20T18:44:46.414Z\",\n          \"consecutive-failure-count\": 926,\n          \"last-failure-msg\": \"string\"\n        }\n      },\n      {\n        \"name\": \"string\",\n        \"uuid\": \"05d1007c-2bca-8ff4-c1bc-0c281b806930\",\n        \"configuration\": {\n          \"interval\": \"string\",\n          \"error-retry-base\": \"string\",\n          \"error-retry\": false\n        },\n        \"status\": {\n          \"success-count\": 7477,\n          \"last-success-timestamp\": \"2016-04-11T03:57:12.203Z\",\n          \"failure-count\": 9416,\n          \"last-failure-timestamp\": \"1991-04-08T22:16:45.627Z\",\n          \"consecutive-failure-count\": 5281,\n          \"last-failure-msg\": \"string\"\n        }\n      }\n    ],\n    \"proxy\": {\n      \"port-range\": \"string\",\n      \"ip\": \"string\",\n      \"total-redirects\": 3415,\n      \"total-ports\": 3116,\n      \"redirects\": [\n        {\n          \"name\": \"string\",\n          \"proxy\": \"string\",\n          \"proxy-port\": 4383\n        },\n        {\n          \"name\": \"string\",\n          \"proxy\": \"string\",\n          \"proxy-port\": 5981\n        }\n      ],\n      \"envoy-deployment-mode\": \"embedded\"\n    },\n    \"identity-range\": {\n      \"min-identity\": 3915,\n      \"max-identity\": 1559\n    },\n    \"ipv6-big-tcp\": {\n      \"enabled\": false,\n      \"maxGRO\": 3498,\n      \"maxGSO\": 287\n    },\n    \"ipv4-big-tcp\": {\n      \"enabled\": true,\n      \"maxGRO\": 1993,\n      \"maxGSO\": 7565\n    },\n    \"bandwidth-manager\": {\n      \"enabled\": false,\n      \"devices\": [\n        \"string\",\n        \"string\"\n      ],\n      \"congestionControl\": \"cubic\"\n    },\n    \"masquerading\": {\n      \"enabled\": false,\n      \"enabledProtocols\": {\n        \"ipv4\": false,\n        \"ipv6\": true\n      },\n      \"mode\": \"BPF\",\n      \"ip-masq-agent\": false,\n      \"snat-exclusion-cidr\": \"string\",\n      \"snat-exclusion-cidr-v4\": \"string\",\n      \"snat-exclusion-cidr-v6\": \"string\"\n    },\n    \"routing\": {\n      \"inter-host-routing-mode\": \"Native\",\n      \"intra-host-routing-mode\": \"Legacy\",\n      \"tunnel-protocol\": \"string\"\n    },\n    \"clock-source\": {\n      \"mode\": \"ktime\",\n      \"hertz\": 3312\n    },\n    \"srv6\": {\n      \"enabled\": true,\n      \"srv6EncapMode\": \"SRH\"\n    },\n    \"stale\": {\n      \"key_0\": \"2025-02-11T07:50:47.478Z\"\n    },\n    \"client-id\": 8785,\n    \"cluster-mesh\": {\n      \"clusters\": [\n        {\n          \"name\": \"string\",\n          \"ready\": true,\n          \"connected\": true,\n          \"synced\": {\n            \"nodes\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"services\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"endpoint-slices\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"service-exports\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"endpoints\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"identities\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"config\": {\n            \"required\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"retrieved\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cluster-id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"kvstoremesh\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sync-canaries\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"service-exports-enabled\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"endpoint-slices-export-mode\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"num-nodes\": 5090,\n          \"num-shared-services\": 3308,\n          \"num-endpoint-slices\": 6109,\n          \"num-service-exports\": 7579,\n          \"num-identities\": 1224,\n          \"num-endpoints\": 7429,\n          \"status\": \"string\",\n          \"num-failures\": 1742,\n          \"last-failure\": \"1990-06-21T18:16:18.790Z\"\n        },\n        {\n          \"name\": \"string\",\n          \"ready\": false,\n          \"connected\": false,\n          \"synced\": {\n            \"nodes\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"services\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"endpoint-slices\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"service-exports\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"endpoints\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"identities\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"config\": {\n            \"required\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"retrieved\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cluster-id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"kvstoremesh\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sync-canaries\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"service-exports-enabled\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"endpoint-slices-export-mode\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"num-nodes\": 6191,\n          \"num-shared-services\": 6757,\n          \"num-endpoint-slices\": 904,\n          \"num-service-exports\": 149,\n          \"num-identities\": 1998,\n          \"num-endpoints\": 1179,\n          \"status\": \"string\",\n          \"num-failures\": 2118,\n          \"last-failure\": \"2016-09-19T08:30:47.500Z\"\n        }\n      ]\n    },\n    \"bpf-maps\": {\n      \"dynamic-size-ratio\": 4193.899900189026,\n      \"maps\": [\n        {\n          \"name\": \"string\",\n          \"size\": 723\n        },\n        {\n          \"name\": \"string\",\n          \"size\": 5746\n        }\n      ]\n    },\n    \"encryption\": {\n      \"mode\": \"Disabled\",\n      \"msg\": \"string\",\n      \"ipsec\": {\n        \"decrypt-interfaces\": [\n          \"string\",\n          \"string\"\n        ],\n        \"max-seq-number\": \"string\",\n        \"keys-in-use\": 4520,\n        \"error-count\": 7174,\n        \"xfrm-errors\": {\n          \"key_0\": 7778\n        }\n      },\n      \"wireguard\": {\n        \"node-encryption\": \"string\",\n        \"node-encrypt-opt-out-labels\": \"string\",\n        \"interfaces\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"public-key\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"listen-port\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"peer-count\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"peers\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"public-key\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"listen-port\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"peer-count\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"peers\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ]\n      }\n    },\n    \"cni-chaining\": {\n      \"mode\": \"generic-veth\"\n    },\n    \"auth-certificate-provider\": {\n      \"state\": \"Failure\",\n      \"msg\": \"string\"\n    }\n  },\n  \"endpoint-list\": [\n    {\n      \"id\": 2184,\n      \"spec\": {\n        \"options\": {\n          \"key_0\": \"<string>\"\n        },\n        \"label-configuration\": {\n          \"user\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      },\n      \"status\": {\n        \"state\": \"restoring\",\n        \"external-identifiers\": {\n          \"cni-attachment-id\": \"string\",\n          \"container-id\": \"string\",\n          \"container-name\": \"string\",\n          \"docker-endpoint-id\": \"string\",\n          \"docker-network-id\": \"string\",\n          \"pod-name\": \"string\",\n          \"k8s-pod-name\": \"string\",\n          \"k8s-namespace\": \"string\"\n        },\n        \"identity\": {\n          \"id\": 6411,\n          \"labels\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"labelsSHA256\": \"string\"\n        },\n        \"labels\": {\n          \"realized\": {\n            \"user\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"security-relevant\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"derived\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"disabled\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"realized\": {\n          \"options\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"label-configuration\": {\n            \"user\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"networking\": {\n          \"addressing\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"host-addressing\": {\n            \"ipv6\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"ipv4\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"host-mac\": \"string\",\n          \"mac\": \"string\",\n          \"interface-name\": \"string\",\n          \"interface-index\": 5770,\n          \"container-interface-name\": \"string\"\n        },\n        \"policy\": {\n          \"spec\": {\n            \"policy-revision\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"policy-enabled\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"build\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"allowed-ingress-identities\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"denied-ingress-identities\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"allowed-egress-identities\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"denied-egress-identities\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"l4\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cidr-policy\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"realized\": {\n            \"policy-revision\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"policy-enabled\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"build\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"allowed-ingress-identities\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"denied-ingress-identities\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"allowed-egress-identities\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"denied-egress-identities\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"l4\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cidr-policy\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"proxy-policy-revision\": 256,\n          \"proxy-statistics\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"log\": [\n          {\n            \"timestamp\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"code\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"message\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"state\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"timestamp\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"code\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"message\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"state\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"controllers\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"uuid\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"configuration\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"uuid\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"configuration\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"health\": {\n          \"overallHealth\": \"OK\",\n          \"bpf\": \"Failure\",\n          \"policy\": \"Disabled\",\n          \"connected\": false\n        },\n        \"namedPorts\": [\n          {\n            \"protocol\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"port\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"protocol\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"port\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ]\n      }\n    },\n    {\n      \"id\": 9851,\n      \"spec\": {\n        \"options\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\"\n        },\n        \"label-configuration\": {\n          \"user\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      },\n      \"status\": {\n        \"state\": \"ready\",\n        \"external-identifiers\": {\n          \"cni-attachment-id\": \"string\",\n          \"container-id\": \"string\",\n          \"container-name\": \"string\",\n          \"docker-endpoint-id\": \"string\",\n          \"docker-network-id\": \"string\",\n          \"pod-name\": \"string\",\n          \"k8s-pod-name\": \"string\",\n          \"k8s-namespace\": \"string\"\n        },\n        \"identity\": {\n          \"id\": 7648,\n          \"labels\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"labelsSHA256\": \"string\"\n        },\n        \"labels\": {\n          \"realized\": {\n            \"user\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"security-relevant\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"derived\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"disabled\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"realized\": {\n          \"options\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"label-configuration\": {\n            \"user\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"networking\": {\n          \"addressing\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"host-addressing\": {\n            \"ipv6\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"ipv4\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"host-mac\": \"string\",\n          \"mac\": \"string\",\n          \"interface-name\": \"string\",\n          \"interface-index\": 1214,\n          \"container-interface-name\": \"string\"\n        },\n        \"policy\": {\n          \"spec\": {\n            \"policy-revision\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"policy-enabled\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"build\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"allowed-ingress-identities\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"denied-ingress-identities\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"allowed-egress-identities\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"denied-egress-identities\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"l4\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cidr-policy\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"realized\": {\n            \"policy-revision\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"policy-enabled\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"build\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"allowed-ingress-identities\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"denied-ingress-identities\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"allowed-egress-identities\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"denied-egress-identities\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"l4\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cidr-policy\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"proxy-policy-revision\": 7513,\n          \"proxy-statistics\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"log\": [\n          {\n            \"timestamp\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"code\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"message\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"state\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"timestamp\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"code\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"message\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"state\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"controllers\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"uuid\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"configuration\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"uuid\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"configuration\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"health\": {\n          \"overallHealth\": \"Failure\",\n          \"bpf\": \"Pending\",\n          \"policy\": \"Warning\",\n          \"connected\": false\n        },\n        \"namedPorts\": [\n          {\n            \"protocol\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"port\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"protocol\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"port\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ]\n      }\n    }\n  ],\n  \"service-list\": [\n    {\n      \"spec\": {\n        \"frontend-address\": {\n          \"ip\": \"string\",\n          \"protocol\": \"udp\",\n          \"scope\": \"external\",\n          \"port\": 2595\n        },\n        \"id\": 5328,\n        \"backend-addresses\": [\n          {\n            \"ip\": \"string\",\n            \"protocol\": \"string\",\n            \"port\": 1048,\n            \"nodeName\": \"string\",\n            \"state\": \"terminating-not-serving\",\n            \"preferred\": true,\n            \"weight\": 5360,\n            \"zone\": \"string\"\n          },\n          {\n            \"ip\": \"string\",\n            \"protocol\": \"string\",\n            \"port\": 5269,\n            \"nodeName\": \"string\",\n            \"state\": \"maintenance\",\n            \"preferred\": false,\n            \"weight\": 7932,\n            \"zone\": \"string\"\n          }\n        ],\n        \"flags\": {\n          \"type\": \"ExternalIPs\",\n          \"trafficPolicy\": \"Cluster\",\n          \"extTrafficPolicy\": \"Cluster\",\n          \"intTrafficPolicy\": \"Cluster\",\n          \"natPolicy\": \"Nat46\",\n          \"healthCheckNodePort\": 5169,\n          \"name\": \"string\",\n          \"namespace\": \"string\",\n          \"cluster\": \"string\"\n        },\n        \"updateServices\": true\n      },\n      \"status\": {\n        \"realized\": {\n          \"frontend-address\": {\n            \"ip\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"protocol\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"scope\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"port\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"id\": 384,\n          \"backend-addresses\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"flags\": {\n            \"type\": \"ExternalIPs\",\n            \"trafficPolicy\": \"Local\",\n            \"extTrafficPolicy\": \"Cluster\",\n            \"intTrafficPolicy\": \"Cluster\",\n            \"natPolicy\": \"Nat46\",\n            \"healthCheckNodePort\": 5844,\n            \"name\": \"string\",\n            \"namespace\": \"string\",\n            \"cluster\": \"string\"\n          },\n          \"updateServices\": true\n        }\n      }\n    },\n    {\n      \"spec\": {\n        \"frontend-address\": {\n          \"ip\": \"string\",\n          \"protocol\": \"tcp\",\n          \"scope\": \"internal\",\n          \"port\": 7633\n        },\n        \"id\": 9039,\n        \"backend-addresses\": [\n          {\n            \"ip\": \"string\",\n            \"protocol\": \"string\",\n            \"port\": 4918,\n            \"nodeName\": \"string\",\n            \"state\": \"quarantined\",\n            \"preferred\": true,\n            \"weight\": 419,\n            \"zone\": \"string\"\n          },\n          {\n            \"ip\": \"string\",\n            \"protocol\": \"string\",\n            \"port\": 1769,\n            \"nodeName\": \"string\",\n            \"state\": \"active\",\n            \"preferred\": false,\n            \"weight\": 5241,\n            \"zone\": \"string\"\n          }\n        ],\n        \"flags\": {\n          \"type\": \"LocalRedirect\",\n          \"trafficPolicy\": \"Local\",\n          \"extTrafficPolicy\": \"Local\",\n          \"intTrafficPolicy\": \"Cluster\",\n          \"natPolicy\": \"None\",\n          \"healthCheckNodePort\": 3120,\n          \"name\": \"string\",\n          \"namespace\": \"string\",\n          \"cluster\": \"string\"\n        },\n        \"updateServices\": true\n      },\n      \"status\": {\n        \"realized\": {\n          \"frontend-address\": {\n            \"ip\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"protocol\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"scope\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"port\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"id\": 4780,\n          \"backend-addresses\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"flags\": {\n            \"type\": \"ClusterIP\",\n            \"trafficPolicy\": \"Local\",\n            \"extTrafficPolicy\": \"Local\",\n            \"intTrafficPolicy\": \"Cluster\",\n            \"natPolicy\": \"Nat64\",\n            \"healthCheckNodePort\": 9775,\n            \"name\": \"string\",\n            \"namespace\": \"string\",\n            \"cluster\": \"string\"\n          },\n          \"updateServices\": true\n        }\n      }\n    }\n  ],\n  \"policy\": {\n    \"revision\": 2880,\n    \"policy\": \"string\"\n  },\n  \"cilium-memory-map\": \"string\",\n  \"cilium-nodemonitor-memory-map\": \"string\",\n  \"environment-variables\": [\n    \"string\",\n    \"string\"\n  ],\n  \"subsystem\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\"\n  },\n  \"encryption\": {\n    \"wireguard\": {\n      \"node-encryption\": \"string\",\n      \"node-encrypt-opt-out-labels\": \"string\",\n      \"interfaces\": [\n        {\n          \"name\": \"string\",\n          \"public-key\": \"string\",\n          \"listen-port\": 8673,\n          \"peer-count\": 390,\n          \"peers\": [\n            {\n              \"public-key\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"endpoint\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"last-handshake-time\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"transfer-tx\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"transfer-rx\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"allowed-ips\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"public-key\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"endpoint\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"last-handshake-time\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"transfer-tx\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"transfer-rx\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"allowed-ips\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        },\n        {\n          \"name\": \"string\",\n          \"public-key\": \"string\",\n          \"listen-port\": 9373,\n          \"peer-count\": 2702,\n          \"peers\": [\n            {\n              \"public-key\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"endpoint\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"last-handshake-time\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"transfer-tx\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"transfer-rx\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"allowed-ips\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"public-key\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"endpoint\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"last-handshake-time\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"transfer-tx\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"transfer-rx\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"allowed-ips\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        }\n      ]\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1bbe0a3d-6237-4a4c-a999-f09cea380706",
+              "name": "DebugInfo get failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "debuginfo"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6f667b6b-3ca7-44e8-af4b-e05e9cc0c7e2",
+          "name": "Retrieve cgroup metadata for all pods",
+          "request": {
+            "name": "Retrieve cgroup metadata for all pods",
+            "description": {},
+            "url": {
+              "path": [
+                "cgroup-dump-metadata"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0b76634b-05cf-4481-9590-58462f0e8254",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cgroup-dump-metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pod-metadatas\": [\n    {\n      \"name\": \"string\",\n      \"namespace\": \"string\",\n      \"containers\": [\n        {\n          \"cgroup-id\": 9837,\n          \"cgroup-path\": \"string\"\n        },\n        {\n          \"cgroup-id\": 3980,\n          \"cgroup-path\": \"string\"\n        }\n      ],\n      \"ips\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"name\": \"string\",\n      \"namespace\": \"string\",\n      \"containers\": [\n        {\n          \"cgroup-id\": 5236,\n          \"cgroup-path\": \"string\"\n        },\n        {\n          \"cgroup-id\": 2225,\n          \"cgroup-path\": \"string\"\n        }\n      ],\n      \"ips\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e800505d-2b97-4637-a149-6497f9dddf39",
+              "name": "CgroupDumpMetadata get failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cgroup-dump-metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3fa5bf15-5bc7-4a4d-a347-2663a0c5c50f",
+          "name": "List all open maps",
+          "request": {
+            "name": "List all open maps",
+            "description": {},
+            "url": {
+              "path": [
+                "map"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7591a8ae-675d-462c-a4f6-dbf3811463cb",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "map"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"maps\": [\n    {\n      \"path\": \"string\",\n      \"cache\": [\n        {\n          \"key\": \"string\",\n          \"value\": \"string\",\n          \"desired-action\": \"insert\",\n          \"last-error\": \"string\"\n        },\n        {\n          \"key\": \"string\",\n          \"value\": \"string\",\n          \"desired-action\": \"delete\",\n          \"last-error\": \"string\"\n        }\n      ]\n    },\n    {\n      \"path\": \"string\",\n      \"cache\": [\n        {\n          \"key\": \"string\",\n          \"value\": \"string\",\n          \"desired-action\": \"delete\",\n          \"last-error\": \"string\"\n        },\n        {\n          \"key\": \"string\",\n          \"value\": \"string\",\n          \"desired-action\": \"insert\",\n          \"last-error\": \"string\"\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7a200e26-15ac-4d6c-af3b-e3d1902cf915",
+          "name": "Retrieve contents of BPF map",
+          "request": {
+            "name": "Retrieve contents of BPF map",
+            "description": {},
+            "url": {
+              "path": [
+                "map",
+                ":name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "name",
+                  "description": "(Required) Name of map"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "39660278-d010-4806-8e24-ed7281f70334",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "map",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Name of map"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"path\": \"string\",\n  \"cache\": [\n    {\n      \"key\": \"string\",\n      \"value\": \"string\",\n      \"desired-action\": \"ok\",\n      \"last-error\": \"string\"\n    },\n    {\n      \"key\": \"string\",\n      \"value\": \"string\",\n      \"desired-action\": \"ok\",\n      \"last-error\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "96ab7154-01f3-4b85-b28c-c359dadca8e7",
+              "name": "Map not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "map",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Name of map"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9a487696-4bf1-4ccf-81cc-5c501ee21165",
+          "name": "Retrieves the recent event logs associated with this endpoint.",
+          "request": {
+            "name": "Retrieves the recent event logs associated with this endpoint.",
+            "description": {},
+            "url": {
+              "path": [
+                "map",
+                ":name",
+                "events"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "follow",
+                  "value": "<boolean>",
+                  "description": "Whether to follow streamed requests"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "name",
+                  "description": "(Required) Name of map"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7c81af3c-5b7c-4e54-9072-954e0a0b3088",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "map",
+                    ":name",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "follow",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Name of map"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "edcbec93-c878-4ff8-9bd5-3999225a9aa5",
+              "name": "Map not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "map",
+                    ":name",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "follow",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Name of map"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5d6b66c4-2766-424f-827c-bce072e7d368",
+          "name": "List information about known node IDs",
+          "request": {
+            "name": "List information about known node IDs",
+            "description": {
+              "content": "Retrieves a list of node IDs allocated by the agent and their\nassociated node IP addresses.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "node",
+                "ids"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "db0e2543-6ee6-4ea1-a217-2df90bab0c5e",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "node",
+                    "ids"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 4576,\n    \"ips\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  {\n    \"id\": 9957,\n    \"ips\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "54aa86f0-964d-4691-84ff-061a616a4fad",
+    "name": "Cilium bgp daemon API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Cilium",
+      "type": "text/plain"
+    }
+  }
+}

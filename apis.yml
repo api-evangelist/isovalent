@@ -1,19 +1,15 @@
 aid: isovalent
 name: Isovalent
-description: >-
-  Isovalent is the company founded in 2017 by the creators of Cilium, the eBPF-based
-  networking, security, and observability platform for Kubernetes and cloud-native
-  infrastructure. Isovalent builds and maintains the open source Cilium project (a
-  CNCF graduated project), the Hubble observability layer, and the Tetragon runtime
-  security engine, and offers commercial Isovalent Enterprise for Cilium and Isovalent
-  Enterprise for Tetragon distributions with hardened builds, support, and advanced
-  features. Cilium replaces kube-proxy and traditional CNI plugins with identity-aware,
-  eBPF-powered dataplane networking, network policy, service mesh, multi-cluster mesh,
-  and deep flow-level observability. The developer surface spans the JSON REST API
-  served by the cilium-agent, the cilium-health connectivity API, the gRPC Hubble
-  Observer/Relay flow APIs, first-party Go client packages, and the cilium and hubble
-  command-line tools. Isovalent was acquired by Cisco in 2024 and its technology now
-  underpins Cisco's cloud-native security portfolio.
+description: Isovalent is the company founded in 2017 by the creators of Cilium, the eBPF-based networking, security,
+  and observability platform for Kubernetes and cloud-native infrastructure. Isovalent builds and maintains the
+  open source Cilium project (a CNCF graduated project), the Hubble observability layer, and the Tetragon runtime
+  security engine, and offers commercial Isovalent Enterprise for Cilium and Isovalent Enterprise for Tetragon distributions
+  with hardened builds, support, and advanced features. Cilium replaces kube-proxy and traditional CNI plugins with
+  identity-aware, eBPF-powered dataplane networking, network policy, service mesh, multi-cluster mesh, and deep
+  flow-level observability. The developer surface spans the JSON REST API served by the cilium-agent, the cilium-health
+  connectivity API, the gRPC Hubble Observer/Relay flow APIs, first-party Go client packages, and the cilium and
+  hubble command-line tools. Isovalent was acquired by Cisco in 2024 and its technology now underpins Cisco's cloud-native
+  security portfolio.
 url: https://raw.githubusercontent.com/api-evangelist/isovalent/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -35,7 +31,7 @@ accessModel:
   method: derived
 specificationVersion: '0.23'
 created: '2026-07-17'
-modified: '2026-07-19'
+modified: '2026-08-19'
 image: https://isovalent.com/favicon.ico
 tags:
 - Company
@@ -50,8 +46,7 @@ tags:
 - Container Networking
 apis:
 - name: Hubble Observer API
-  description: >-
-    The gRPC Hubble Observer, Relay, and Peer APIs that stream real-time network flow, service-map, and
+  description: The gRPC Hubble Observer, Relay, and Peer APIs that stream real-time network flow, service-map, and
     connectivity observability events from Cilium's eBPF dataplane.
   humanURL: https://docs.cilium.io/en/stable/observability/hubble/
   baseURL: hubble-relay.kube-system.svc.cluster.local:80
@@ -173,6 +168,12 @@ apis:
   - type: Documentation
     url: https://docs.cilium.io/en/stable/api/
 common:
+- type: ParentCompany
+  url: https://apis.io/providers/cisco/
+  name: Cisco
+  x-relationship: acquisition
+  x-generated-by: cisco-family:2026-08-19
+  x-acquired: 2024
 - type: VulnerabilityDisclosure
   url: security/isovalent-vulnerability-disclosure.yml
 - type: DomainSecurity
@@ -255,3 +256,6 @@ x-enrichment:
   status: backfilled
   pass: local-v1
   note: backfilled from .gitignore signal + verified work evidence
+x-parent: cisco
+x-relationship: acquisition
+x-acquired: 2024

@@ -1,0 +1,166 @@
+{
+  "item": [
+    {
+      "id": "1bc061ba-3ec4-4b55-aa69-a6cc0759c806",
+      "name": "service",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5ee36349-684b-477c-ae5d-07faee146dbb",
+          "name": "Retrieve list of all local redirect policies",
+          "request": {
+            "name": "Retrieve list of all local redirect policies",
+            "description": {},
+            "url": {
+              "path": [
+                "lrp"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f246b82e-bb7b-4a72-9526-97f5f8774d3a",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "lrp"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"uid\": \"string\",\n    \"name\": \"string\",\n    \"namespace\": \"string\",\n    \"frontend-type\": \"string\",\n    \"lrp-type\": \"string\",\n    \"service-id\": \"string\",\n    \"frontend-mappings\": [\n      {\n        \"frontend-address\": {\n          \"ip\": \"string\",\n          \"protocol\": \"any\",\n          \"scope\": \"external\",\n          \"port\": 357\n        },\n        \"backends\": [\n          {\n            \"pod-id\": \"string\",\n            \"backend-address\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"pod-id\": \"string\",\n            \"backend-address\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ]\n      },\n      {\n        \"frontend-address\": {\n          \"ip\": \"string\",\n          \"protocol\": \"tcp\",\n          \"scope\": \"internal\",\n          \"port\": 3302\n        },\n        \"backends\": [\n          {\n            \"pod-id\": \"string\",\n            \"backend-address\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"pod-id\": \"string\",\n            \"backend-address\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ]\n      }\n    ]\n  },\n  {\n    \"uid\": \"string\",\n    \"name\": \"string\",\n    \"namespace\": \"string\",\n    \"frontend-type\": \"string\",\n    \"lrp-type\": \"string\",\n    \"service-id\": \"string\",\n    \"frontend-mappings\": [\n      {\n        \"frontend-address\": {\n          \"ip\": \"string\",\n          \"protocol\": \"any\",\n          \"scope\": \"internal\",\n          \"port\": 5694\n        },\n        \"backends\": [\n          {\n            \"pod-id\": \"string\",\n            \"backend-address\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"pod-id\": \"string\",\n            \"backend-address\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ]\n      },\n      {\n        \"frontend-address\": {\n          \"ip\": \"string\",\n          \"protocol\": \"any\",\n          \"scope\": \"internal\",\n          \"port\": 6651\n        },\n        \"backends\": [\n          {\n            \"pod-id\": \"string\",\n            \"backend-address\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"pod-id\": \"string\",\n            \"backend-address\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ]\n      }\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e7f2d198-be57-4567-aa1f-db2b836dac72",
+          "name": "Retrieve list of all services",
+          "request": {
+            "name": "Retrieve list of all services",
+            "description": {},
+            "url": {
+              "path": [
+                "service"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7fe288e4-2e9e-4055-acbf-3c9586930904",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "service"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"spec\": {\n      \"frontend-address\": {\n        \"ip\": \"string\",\n        \"protocol\": \"udp\",\n        \"scope\": \"external\",\n        \"port\": 9224\n      },\n      \"id\": 3935,\n      \"backend-addresses\": [\n        {\n          \"ip\": \"string\",\n          \"protocol\": \"string\",\n          \"port\": 9854,\n          \"nodeName\": \"string\",\n          \"state\": \"maintenance\",\n          \"preferred\": false,\n          \"weight\": 9895,\n          \"zone\": \"string\"\n        },\n        {\n          \"ip\": \"string\",\n          \"protocol\": \"string\",\n          \"port\": 7178,\n          \"nodeName\": \"string\",\n          \"state\": \"terminating-not-serving\",\n          \"preferred\": true,\n          \"weight\": 2219,\n          \"zone\": \"string\"\n        }\n      ],\n      \"flags\": {\n        \"type\": \"LocalRedirect\",\n        \"trafficPolicy\": \"Cluster\",\n        \"extTrafficPolicy\": \"Cluster\",\n        \"intTrafficPolicy\": \"Cluster\",\n        \"natPolicy\": \"Nat46\",\n        \"healthCheckNodePort\": 7333,\n        \"name\": \"string\",\n        \"namespace\": \"string\",\n        \"cluster\": \"string\"\n      },\n      \"updateServices\": false\n    },\n    \"status\": {\n      \"realized\": {\n        \"frontend-address\": {\n          \"ip\": \"string\",\n          \"protocol\": \"udp\",\n          \"scope\": \"internal\",\n          \"port\": 4983\n        },\n        \"id\": 6364,\n        \"backend-addresses\": [\n          {\n            \"ip\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"protocol\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"port\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"nodeName\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"state\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"preferred\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"weight\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"zone\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"ip\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"protocol\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"port\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"nodeName\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"state\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"preferred\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"weight\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"zone\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"flags\": {\n          \"type\": \"HostPort\",\n          \"trafficPolicy\": \"Cluster\",\n          \"extTrafficPolicy\": \"Cluster\",\n          \"intTrafficPolicy\": \"Cluster\",\n          \"natPolicy\": \"Nat64\",\n          \"healthCheckNodePort\": 1989,\n          \"name\": \"string\",\n          \"namespace\": \"string\",\n          \"cluster\": \"string\"\n        },\n        \"updateServices\": true\n      }\n    }\n  },\n  {\n    \"spec\": {\n      \"frontend-address\": {\n        \"ip\": \"string\",\n        \"protocol\": \"tcp\",\n        \"scope\": \"external\",\n        \"port\": 3827\n      },\n      \"id\": 4360,\n      \"backend-addresses\": [\n        {\n          \"ip\": \"string\",\n          \"protocol\": \"string\",\n          \"port\": 9503,\n          \"nodeName\": \"string\",\n          \"state\": \"quarantined\",\n          \"preferred\": true,\n          \"weight\": 6844,\n          \"zone\": \"string\"\n        },\n        {\n          \"ip\": \"string\",\n          \"protocol\": \"string\",\n          \"port\": 1606,\n          \"nodeName\": \"string\",\n          \"state\": \"terminating-not-serving\",\n          \"preferred\": true,\n          \"weight\": 3672,\n          \"zone\": \"string\"\n        }\n      ],\n      \"flags\": {\n        \"type\": \"LocalRedirect\",\n        \"trafficPolicy\": \"Local\",\n        \"extTrafficPolicy\": \"Cluster\",\n        \"intTrafficPolicy\": \"Cluster\",\n        \"natPolicy\": \"None\",\n        \"healthCheckNodePort\": 4161,\n        \"name\": \"string\",\n        \"namespace\": \"string\",\n        \"cluster\": \"string\"\n      },\n      \"updateServices\": false\n    },\n    \"status\": {\n      \"realized\": {\n        \"frontend-address\": {\n          \"ip\": \"string\",\n          \"protocol\": \"any\",\n          \"scope\": \"external\",\n          \"port\": 7781\n        },\n        \"id\": 7657,\n        \"backend-addresses\": [\n          {\n            \"ip\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"protocol\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"port\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"nodeName\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"state\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"preferred\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"weight\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"zone\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"ip\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"protocol\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"port\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"nodeName\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"state\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"preferred\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"weight\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"zone\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"flags\": {\n          \"type\": \"HostPort\",\n          \"trafficPolicy\": \"Local\",\n          \"extTrafficPolicy\": \"Local\",\n          \"intTrafficPolicy\": \"Cluster\",\n          \"natPolicy\": \"Nat46\",\n          \"healthCheckNodePort\": 8136,\n          \"name\": \"string\",\n          \"namespace\": \"string\",\n          \"cluster\": \"string\"\n        },\n        \"updateServices\": false\n      }\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "6d98d4fe-bca5-4eba-b178-58aaa0e12b4f",
+    "name": "Cilium bgp service API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Cilium",
+      "type": "text/plain"
+    }
+  }
+}

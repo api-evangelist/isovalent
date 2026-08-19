@@ -1,0 +1,105 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cilium bgp ipam API",
+    "version": "v1beta1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ipam",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Allocate an IP address",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/ipam",
+            "headers": [
+              {
+                "name": "expiration",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "family",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "owner",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pool",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Allocate an IP address"
+        },
+        {
+          "info": {
+            "name": "Allocate an IP address",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/ipam/:ip",
+            "params": [
+              {
+                "name": "ip",
+                "value": "",
+                "type": "path",
+                "description": "IP address"
+              },
+              {
+                "name": "owner",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pool",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Allocate an IP address"
+        },
+        {
+          "info": {
+            "name": "Release an allocated IP address",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/ipam/:ip",
+            "params": [
+              {
+                "name": "ip",
+                "value": "",
+                "type": "path",
+                "description": "IP address"
+              },
+              {
+                "name": "pool",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Release an allocated IP address"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
