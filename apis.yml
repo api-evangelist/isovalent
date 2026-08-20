@@ -40,6 +40,17 @@ tags:
 - eBPF
 - Security
 - Observability
+- Cloud-Native
+- Service Mesh
+- CNI
+- Container Networking
+tags_raw:
+- Company
+- Networking
+- Kubernetes
+- eBPF
+- Security
+- Observability
 - Cloud Native
 - Service Mesh
 - CNI
@@ -65,6 +76,8 @@ apis:
   humanURL: https://docs.cilium.io/en/stable/api/
   baseURL: unix:///var/run/cilium/cilium.sock
   tags:
+  - BGP
+  tags_raw:
   - bgp
   properties:
   - type: OpenAPI
@@ -77,6 +90,8 @@ apis:
   humanURL: https://docs.cilium.io/en/stable/api/
   baseURL: unix:///var/run/cilium/cilium.sock
   tags:
+  - Connectivity
+  tags_raw:
   - connectivity
   properties:
   - type: OpenAPI
@@ -89,6 +104,8 @@ apis:
   humanURL: https://docs.cilium.io/en/stable/api/
   baseURL: unix:///var/run/cilium/cilium.sock
   tags:
+  - Daemon
+  tags_raw:
   - daemon
   properties:
   - type: OpenAPI
@@ -100,7 +117,8 @@ apis:
   description: The endpoint API from Isovalent — 6 operation(s) for endpoint.
   humanURL: https://docs.cilium.io/en/stable/api/
   baseURL: unix:///var/run/cilium/cilium.sock
-  tags:
+  tags: []
+  tags_raw:
   - endpoint
   properties:
   - type: OpenAPI
@@ -125,6 +143,8 @@ apis:
   humanURL: https://docs.cilium.io/en/stable/api/
   baseURL: unix:///var/run/cilium/cilium.sock
   tags:
+  - IPAM
+  tags_raw:
   - ipam
   properties:
   - type: OpenAPI
@@ -137,6 +157,8 @@ apis:
   humanURL: https://docs.cilium.io/en/stable/api/
   baseURL: unix:///var/run/cilium/cilium.sock
   tags:
+  - Policy
+  tags_raw:
   - policy
   properties:
   - type: OpenAPI
@@ -149,6 +171,8 @@ apis:
   humanURL: https://docs.cilium.io/en/stable/api/
   baseURL: unix:///var/run/cilium/cilium.sock
   tags:
+  - Prefilter
+  tags_raw:
   - prefilter
   properties:
   - type: OpenAPI
@@ -161,6 +185,8 @@ apis:
   humanURL: https://docs.cilium.io/en/stable/api/
   baseURL: unix:///var/run/cilium/cilium.sock
   tags:
+  - Service
+  tags_raw:
   - service
   properties:
   - type: OpenAPI
