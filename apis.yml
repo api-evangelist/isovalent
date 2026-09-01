@@ -88,7 +88,7 @@ apis:
   humanURL: https://docs.cilium.io/en/stable/api/
   baseURL: unix:///var/run/cilium/cilium.sock
   tags:
-  - bgp
+  - BGP
   tags_raw:
   - bgp
   properties:
@@ -116,7 +116,7 @@ apis:
   humanURL: https://docs.cilium.io/en/stable/api/
   baseURL: unix:///var/run/cilium/cilium.sock
   tags:
-  - daemon
+  - Daemon
   tags_raw:
   - daemon
   properties:
@@ -155,7 +155,7 @@ apis:
   humanURL: https://docs.cilium.io/en/stable/api/
   baseURL: unix:///var/run/cilium/cilium.sock
   tags:
-  - ipam
+  - IPAM
   tags_raw:
   - ipam
   properties:
@@ -183,7 +183,7 @@ apis:
   humanURL: https://docs.cilium.io/en/stable/api/
   baseURL: unix:///var/run/cilium/cilium.sock
   tags:
-  - prefilter
+  - Prefilter
   tags_raw:
   - prefilter
   properties:
