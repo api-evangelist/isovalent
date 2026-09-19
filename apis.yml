@@ -197,7 +197,7 @@ apis:
   humanURL: https://docs.cilium.io/en/stable/api/
   baseURL: unix:///var/run/cilium/cilium.sock
   tags:
-  - Service
+  - Services
   tags_raw:
   - service
   properties:
