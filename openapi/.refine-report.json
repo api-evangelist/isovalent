@@ -1,30 +1,48 @@
 {
   "provider": "isovalent",
   "sources": [
-    "isovalent-bgp-api-openapi.yml",
-    "isovalent-connectivity-api-openapi.yml",
-    "isovalent-daemon-api-openapi.yml",
-    "isovalent-endpoint-api-openapi.yml",
-    "isovalent-healthz-api-openapi.yml",
-    "isovalent-ipam-api-openapi.yml",
-    "isovalent-policy-api-openapi.yml",
-    "isovalent-prefilter-api-openapi.yml",
-    "isovalent-service-api-openapi.yml"
+    "_original/isovalent-cilium-agent-openapi.yml",
+    "_original/isovalent-cilium-health-openapi.yml"
   ],
   "outputs": [
     "isovalent-bgp-api-openapi.yml",
-    "isovalent-connectivity-api-openapi.yml",
     "isovalent-daemon-api-openapi.yml",
     "isovalent-endpoint-api-openapi.yml",
-    "isovalent-healthz-api-openapi.yml",
     "isovalent-ipam-api-openapi.yml",
     "isovalent-policy-api-openapi.yml",
     "isovalent-prefilter-api-openapi.yml",
-    "isovalent-service-api-openapi.yml"
+    "isovalent-service-api-openapi.yml",
+    "isovalent-healthz-api-openapi.yml",
+    "isovalent-connectivity-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "isovalent-cilium-agent-openapi.yml: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "isovalent-cilium-agent-openapi.yml: declared missing tag: bgp",
+    "isovalent-cilium-agent-openapi.yml: declared missing tag: daemon",
+    "isovalent-cilium-agent-openapi.yml: declared missing tag: endpoint",
+    "isovalent-cilium-agent-openapi.yml: declared missing tag: ipam",
+    "isovalent-cilium-agent-openapi.yml: declared missing tag: policy",
+    "isovalent-cilium-agent-openapi.yml: declared missing tag: prefilter",
+    "isovalent-cilium-agent-openapi.yml: declared missing tag: service",
+    "isovalent-cilium-health-openapi.yml: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "isovalent-cilium-health-openapi.yml: tagged paths GET /healthz -> Healthz",
+    "isovalent-cilium-health-openapi.yml: declared missing tag: Healthz",
+    "isovalent-cilium-health-openapi.yml: declared missing tag: connectivity",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "isovalent-bgp-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "isovalent-connectivity-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "isovalent-daemon-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "isovalent-endpoint-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "isovalent-healthz-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "isovalent-ipam-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "isovalent-policy-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "isovalent-prefilter-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "isovalent-service-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

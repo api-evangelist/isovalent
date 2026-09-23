@@ -1,151 +1,155 @@
-swagger: '2.0'
+openapi: 3.2.0
 info:
-  title: Cilium bgp connectivity API
-  description: Cilium
-  version: v1beta1
-basePath: /v1
-consumes:
-- application/json
-produces:
-- application/json
+  title: Cilium-Health Connectivity API
+  description: Cilium Health Checker
+  version: v1beta
+servers:
+- url: /v1beta
 tags:
-- name: connectivity
+- name: Connectivity
 paths:
   /status/probe:
     put:
       summary: Run synchronous connectivity probe to determine status of the Cilium cluster
       description: 'Runs a synchronous probe to all other cilium-health instances and
 
-        returns the connectivity status.
-
-        '
+        returns the connectivity status.'
       tags:
-      - connectivity
+      - Connectivity
       responses:
         '200':
           description: Success
-          schema:
-            $ref: '#/definitions/HealthStatusResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStatusResponse'
         '403':
           description: Forbidden
         '500':
           description: Internal error occurred while conducting connectivity probe
           x-go-name: Failed
-          schema:
-            $ref: ../openapi.yaml#/definitions/Error
+          content:
+            application/json:
+              schema:
+                $ref: ../openapi.yaml#/definitions/Error
+      operationId: putStatusProbe
+      x-operation-id-source: derived
   /status:
     get:
       summary: Get connectivity status of the Cilium cluster
       description: 'Returns the connectivity status to all other cilium-health instances
 
-        using interval-based probing.
-
-        '
+        using interval-based probing.'
       tags:
-      - connectivity
+      - Connectivity
       responses:
         '200':
           description: Success
-          schema:
-            $ref: '#/definitions/HealthStatusResponse'
-definitions:
-  EndpointStatus:
-    description: 'Connectivity status to host cilium-health endpoints via different paths
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStatusResponse'
+      operationId: getStatus
+      x-operation-id-source: derived
+components:
+  schemas:
+    HealthStatusResponse:
+      description: Connectivity status to other daemons
+      type: object
+      properties:
+        timestamp:
+          type: string
+        probeInterval:
+          description: Interval in seconds between probes
+          type: string
+        local:
+          description: Description of the local node
+          $ref: '#/components/schemas/SelfStatus'
+        nodes:
+          description: Connectivity status to each other node
+          type: array
+          items:
+            $ref: '#/components/schemas/NodeStatus'
+    PathStatus:
+      description: 'Connectivity status via different paths, for example using different
 
-      '
-    properties:
-      primary-address:
-        $ref: '#/definitions/PathStatus'
-      secondary-addresses:
-        type: array
-        items:
-          $ref: '#/definitions/PathStatus'
-  HostStatus:
-    description: 'Connectivity status to host cilium-health instance via different paths,
+        policies or service redirection
 
-      probing via all known IP addresses
+        '
+      type: object
+      properties:
+        ip:
+          description: IP address queried for the connectivity status
+          type: string
+        icmp:
+          description: Basic ping connectivity status to node IP
+          $ref: '#/components/schemas/ConnectivityStatus'
+        http:
+          description: Connectivity status without policy applied
+          $ref: '#/components/schemas/ConnectivityStatus'
+    ConnectivityStatus:
+      description: Connectivity status of a path
+      type: object
+      properties:
+        latency:
+          description: Round trip time to node in nanoseconds
+          type: integer
+        status:
+          type: string
+          description: Human readable status/error/warning message
+        lastProbed:
+          description: Timestamp of last probe completion
+          type: string
+    SelfStatus:
+      description: Description of the cilium-health node
+      type: object
+      properties:
+        name:
+          description: Name associated with this node
+          type: string
+    HostStatus:
+      description: 'Connectivity status to host cilium-health instance via different paths,
 
-      '
-    properties:
-      primary-address:
-        $ref: '#/definitions/PathStatus'
-      secondary-addresses:
-        type: array
-        items:
-          $ref: '#/definitions/PathStatus'
-  HealthStatusResponse:
-    description: Connectivity status to other daemons
-    type: object
-    properties:
-      timestamp:
-        type: string
-      probeInterval:
-        description: Interval in seconds between probes
-        type: string
-      local:
-        description: Description of the local node
-        $ref: '#/definitions/SelfStatus'
-      nodes:
-        description: Connectivity status to each other node
-        type: array
-        items:
-          $ref: '#/definitions/NodeStatus'
-  PathStatus:
-    description: 'Connectivity status via different paths, for example using different
+        probing via all known IP addresses
 
-      policies or service redirection
+        '
+      properties:
+        primary-address:
+          $ref: '#/components/schemas/PathStatus'
+        secondary-addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/PathStatus'
+    EndpointStatus:
+      description: 'Connectivity status to host cilium-health endpoints via different paths
 
-      '
-    type: object
-    properties:
-      ip:
-        description: IP address queried for the connectivity status
-        type: string
-      icmp:
-        description: Basic ping connectivity status to node IP
-        $ref: '#/definitions/ConnectivityStatus'
-      http:
-        description: Connectivity status without policy applied
-        $ref: '#/definitions/ConnectivityStatus'
-  SelfStatus:
-    description: Description of the cilium-health node
-    type: object
-    properties:
-      name:
-        description: Name associated with this node
-        type: string
-  ConnectivityStatus:
-    description: Connectivity status of a path
-    type: object
-    properties:
-      latency:
-        description: Round trip time to node in nanoseconds
-        type: integer
-      status:
-        type: string
-        description: Human readable status/error/warning message
-      lastProbed:
-        description: Timestamp of last probe completion
-        type: string
-  NodeStatus:
-    description: Connectivity status of a remote cilium-health instance
-    type: object
-    properties:
-      name:
-        description: Identifying name for the node
-        type: string
-      host:
-        description: Connectivity status to cilium-health instance on node IP
-        $ref: '#/definitions/HostStatus'
-      health-endpoint:
-        description: Connectivity status to simulated endpoint on the node
-        $ref: '#/definitions/EndpointStatus'
-      endpoint:
-        description: 'DEPRECATED: Please use the health-endpoint field instead, which
+        '
+      properties:
+        primary-address:
+          $ref: '#/components/schemas/PathStatus'
+        secondary-addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/PathStatus'
+    NodeStatus:
+      description: Connectivity status of a remote cilium-health instance
+      type: object
+      properties:
+        name:
+          description: Identifying name for the node
+          type: string
+        host:
+          description: Connectivity status to cilium-health instance on node IP
+          $ref: '#/components/schemas/HostStatus'
+        health-endpoint:
+          description: Connectivity status to simulated endpoint on the node
+          $ref: '#/components/schemas/EndpointStatus'
+        endpoint:
+          description: 'DEPRECATED: Please use the health-endpoint field instead, which
 
-          supports reporting the status of different addresses for the endpoint
+            supports reporting the status of different addresses for the endpoint
 
-          '
-        $ref: '#/definitions/PathStatus'
+            '
+          $ref: '#/components/schemas/PathStatus'
 x-schemes:
 - unix

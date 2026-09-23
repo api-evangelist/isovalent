@@ -1,47 +1,50 @@
-swagger: '2.0'
+openapi: 3.2.0
 info:
-  title: Cilium bgp ipam API
+  title: Cilium Ipam API
   description: Cilium
   version: v1beta1
-basePath: /v1
-consumes:
-- application/json
-produces:
-- application/json
+servers:
+- url: /v1
 tags:
-- name: ipam
+- name: IPAM
 paths:
   /ipam:
     post:
       summary: Allocate an IP address
       tags:
-      - ipam
+      - IPAM
       parameters:
-      - $ref: '#/parameters/ipam-family'
-      - $ref: '#/parameters/ipam-owner'
-      - $ref: '#/parameters/ipam-pool'
-      - $ref: '#/parameters/ipam-expiration'
+      - $ref: '#/components/parameters/ipam-family'
+      - $ref: '#/components/parameters/ipam-owner'
+      - $ref: '#/components/parameters/ipam-pool'
+      - $ref: '#/components/parameters/ipam-expiration'
       responses:
         '201':
           description: Success
-          schema:
-            $ref: '#/definitions/IPAMResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IPAMResponse'
         '403':
           description: Forbidden
         '502':
           description: Allocation failure
           x-go-name: Failure
-          schema:
-            $ref: '#/definitions/Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      operationId: postIpam
+      x-operation-id-source: derived
   /ipam/{ip}:
     post:
       summary: Allocate an IP address
       tags:
-      - ipam
+      - IPAM
       parameters:
-      - $ref: '#/parameters/ipam-ip'
-      - $ref: '#/parameters/ipam-owner'
-      - $ref: '#/parameters/ipam-pool'
+      - $ref: '#/components/parameters/ipam-ip'
+      - $ref: '#/components/parameters/ipam-owner'
+      - $ref: '#/components/parameters/ipam-pool'
       responses:
         '200':
           description: Success
@@ -56,18 +59,22 @@ paths:
         '500':
           description: IP allocation failure. Details in message.
           x-go-name: Failure
-          schema:
-            $ref: '#/definitions/Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '501':
           description: Allocation for address family disabled
           x-go-name: Disabled
+      operationId: postIpamByIp
+      x-operation-id-source: derived
     delete:
       summary: Release an allocated IP address
       tags:
-      - ipam
+      - IPAM
       parameters:
-      - $ref: '#/parameters/ipam-ip'
-      - $ref: '#/parameters/ipam-pool'
+      - $ref: '#/components/parameters/ipam-ip'
+      - $ref: '#/components/parameters/ipam-pool'
       responses:
         '200':
           description: Success
@@ -81,138 +88,148 @@ paths:
         '500':
           description: Address release failure
           x-go-name: Failure
-          schema:
-            $ref: '#/definitions/Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '501':
           description: Allocation for address family disabled
           x-go-name: Disabled
-definitions:
-  IPAMAddressResponse:
-    description: IPAM configuration of an individual address family
-    type: object
-    properties:
-      ip:
-        description: Allocated IP for endpoint
-        type: string
-      gateway:
-        description: IP of gateway
-        type: string
-      cidrs:
-        description: List of CIDRs out of which IPs are allocated
-        type: array
-        items:
+      operationId: deleteIpamByIp
+      x-operation-id-source: derived
+components:
+  schemas:
+    NodeAddressing:
+      description: 'Addressing information of a node for all address families
+
+
+        +k8s:deepcopy-gen=true'
+      type: object
+      properties:
+        ipv6:
+          $ref: '#/components/schemas/NodeAddressingElement'
+        ipv4:
+          $ref: '#/components/schemas/NodeAddressingElement'
+    IPAMAddressResponse:
+      description: IPAM configuration of an individual address family
+      type: object
+      properties:
+        ip:
+          description: Allocated IP for endpoint
           type: string
-      master-mac:
-        type: string
-        description: MAC of master interface if address is a slave/secondary of a master interface
-      expiration-uuid:
-        type: string
-        description: 'The UUID for the expiration timer. Set when expiration has been
+        gateway:
+          description: IP of gateway
+          type: string
+        cidrs:
+          description: List of CIDRs out of which IPs are allocated
+          type: array
+          items:
+            type: string
+        master-mac:
+          type: string
+          description: MAC of master interface if address is a slave/secondary of a master interface
+        expiration-uuid:
+          type: string
+          description: 'The UUID for the expiration timer. Set when expiration has been
 
-          enabled while allocating.
+            enabled while allocating.
 
-          '
-      interface-number:
+            '
+        interface-number:
+          type: string
+          description: 'InterfaceNumber is a field for generically identifying an interface. This is only useful in ENI mode.
+
+            '
+        skip-masquerade:
+          type: boolean
+          description: 'SkipMasquerade indicates whether the datapath should avoid masquerading connections from this IP.
+
+            '
+    IPAMResponse:
+      description: IPAM configuration of an endpoint
+      type: object
+      required:
+      - address
+      - host-addressing
+      properties:
+        address:
+          $ref: '#/components/schemas/AddressPair'
+        ipv4:
+          $ref: '#/components/schemas/IPAMAddressResponse'
+        ipv6:
+          $ref: '#/components/schemas/IPAMAddressResponse'
+        host-addressing:
+          $ref: '#/components/schemas/NodeAddressing'
+    NodeAddressingElement:
+      description: Addressing information
+      type: object
+      properties:
+        enabled:
+          description: True if address family is enabled
+          type: boolean
+        ip:
+          description: IP address of node
+          type: string
+        alloc-range:
+          description: Address pool to be used for local endpoints
+          type: string
+        address-type:
+          description: Node address type, one of HostName, ExternalIP or InternalIP
+          type: string
+    AddressPair:
+      description: Addressing information of an endpoint
+      type: object
+      properties:
+        ipv4:
+          description: IPv4 address
+          type: string
+        ipv4-expiration-uuid:
+          description: UUID of IPv4 expiration timer
+          type: string
+        ipv4-pool-name:
+          description: IPAM pool from which this IPv4 address was allocated
+          type: string
+        ipv6:
+          description: IPv6 address
+          type: string
+        ipv6-expiration-uuid:
+          description: UUID of IPv6 expiration timer
+          type: string
+        ipv6-pool-name:
+          description: IPAM pool from which this IPv6 address was allocated
+          type: string
+    Error:
+      type: string
+  parameters:
+    ipam-ip:
+      name: ip
+      description: IP address
+      in: path
+      required: true
+      schema:
         type: string
-        description: 'InterfaceNumber is a field for generically identifying an interface. This is only useful in ENI mode.
-
-          '
-      skip-masquerade:
+    ipam-family:
+      name: family
+      in: query
+      schema:
+        type: string
+        enum:
+        - ipv4
+        - ipv6
+    ipam-expiration:
+      name: expiration
+      in: header
+      schema:
         type: boolean
-        description: 'SkipMasquerade indicates whether the datapath should avoid masquerading connections from this IP.
-
-          '
-  NodeAddressingElement:
-    description: Addressing information
-    type: object
-    properties:
-      enabled:
-        description: True if address family is enabled
-        type: boolean
-      ip:
-        description: IP address of node
+    ipam-owner:
+      name: owner
+      in: query
+      schema:
         type: string
-      alloc-range:
-        description: Address pool to be used for local endpoints
+    ipam-pool:
+      name: pool
+      in: query
+      schema:
         type: string
-      address-type:
-        description: Node address type, one of HostName, ExternalIP or InternalIP
-        type: string
-  IPAMResponse:
-    description: IPAM configuration of an endpoint
-    type: object
-    required:
-    - address
-    - host-addressing
-    properties:
-      address:
-        $ref: '#/definitions/AddressPair'
-      ipv4:
-        $ref: '#/definitions/IPAMAddressResponse'
-      ipv6:
-        $ref: '#/definitions/IPAMAddressResponse'
-      host-addressing:
-        $ref: '#/definitions/NodeAddressing'
-  Error:
-    type: string
-  AddressPair:
-    description: Addressing information of an endpoint
-    type: object
-    properties:
-      ipv4:
-        description: IPv4 address
-        type: string
-      ipv4-expiration-uuid:
-        description: UUID of IPv4 expiration timer
-        type: string
-      ipv4-pool-name:
-        description: IPAM pool from which this IPv4 address was allocated
-        type: string
-      ipv6:
-        description: IPv6 address
-        type: string
-      ipv6-expiration-uuid:
-        description: UUID of IPv6 expiration timer
-        type: string
-      ipv6-pool-name:
-        description: IPAM pool from which this IPv6 address was allocated
-        type: string
-  NodeAddressing:
-    description: 'Addressing information of a node for all address families
-
-
-      +k8s:deepcopy-gen=true'
-    type: object
-    properties:
-      ipv6:
-        $ref: '#/definitions/NodeAddressingElement'
-      ipv4:
-        $ref: '#/definitions/NodeAddressingElement'
-parameters:
-  ipam-family:
-    name: family
-    in: query
-    type: string
-    enum:
-    - ipv4
-    - ipv6
-  ipam-ip:
-    name: ip
-    description: IP address
-    in: path
-    required: true
-    type: string
-  ipam-expiration:
-    name: expiration
-    in: header
-    type: boolean
-  ipam-pool:
-    name: pool
-    in: query
-    type: string
-  ipam-owner:
-    name: owner
-    in: query
-    type: string
 x-schemes:
 - unix

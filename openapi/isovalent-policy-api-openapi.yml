@@ -1,57 +1,62 @@
-swagger: '2.0'
+openapi: 3.2.0
 info:
-  title: Cilium bgp policy API
+  title: Cilium Policy API
   description: Cilium
   version: v1beta1
-basePath: /v1
-consumes:
-- application/json
-produces:
-- application/json
+servers:
+- url: /v1
 tags:
-- name: policy
+- name: Policy
 paths:
   /identity:
     get:
-      summary: Retrieves a list of identities that have metadata matching the provided parameters.
-      description: 'Retrieves a list of identities that have metadata matching the provided parameters, or all identities if no parameters are provided.
-
-        '
+      summary: Retrieves a list of identities that have metadata matching the provided…
+      description: Retrieves a list of identities that have metadata matching the provided parameters, or all identities if no parameters are provided.
       tags:
-      - policy
+      - Policy
       parameters:
-      - $ref: '#/parameters/labels'
+      - $ref: '#/components/parameters/labels'
       responses:
         '200':
           description: Success
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Identity'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Identity'
         '404':
           description: Identities with provided parameters not found
         '520':
           description: Identity storage unreachable. Likely a network problem.
           x-go-name: Unreachable
-          schema:
-            $ref: '#/definitions/Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '521':
           description: Invalid identity format in storage
           x-go-name: InvalidStorageFormat
-          schema:
-            $ref: '#/definitions/Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      operationId: getIdentity
+      x-operation-id-source: derived
   /identity/{id}:
     get:
       summary: Retrieve identity
       tags:
-      - policy
+      - Policy
       parameters:
-      - $ref: '#/parameters/identity-id'
+      - $ref: '#/components/parameters/identity-id'
       responses:
         '200':
           description: Success
-          schema:
-            $ref: '#/definitions/Identity'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Identity'
         '400':
           description: Invalid identity provided
         '404':
@@ -59,106 +64,128 @@ paths:
         '520':
           description: Identity storage unreachable. Likely a network problem.
           x-go-name: Unreachable
-          schema:
-            $ref: '#/definitions/Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '521':
           description: Invalid identity format in storage
           x-go-name: InvalidStorageFormat
-          schema:
-            $ref: '#/definitions/Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      operationId: getIdentityById
+      x-operation-id-source: derived
   /identity/endpoints:
     get:
       summary: Retrieve identities which are being used by local endpoints
       tags:
-      - policy
+      - Policy
       responses:
         '200':
           description: Success
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/IdentityEndpoints'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IdentityEndpoints'
         '404':
           description: Set of identities which are being used by local endpoints could not be found.
+      operationId: getIdentityEndpoints
+      x-operation-id-source: derived
   /policy:
     get:
       summary: Retrieve entire policy tree
       description: 'Returns the entire policy tree with all children.
 
 
-        Deprecated: will be removed in v1.19
-
-        '
+        Deprecated: will be removed in v1.19'
       deprecated: true
       tags:
-      - policy
+      - Policy
       responses:
         '200':
           description: Success
-          schema:
-            $ref: '#/definitions/Policy'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Policy'
         '404':
           description: No policy rules found
+      operationId: getPolicy
+      x-operation-id-source: derived
   /policy/selectors:
     get:
       summary: See what selectors match which identities
       tags:
-      - policy
+      - Policy
       responses:
         '200':
           description: Success
-          schema:
-            $ref: '#/definitions/SelectorCache'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelectorCache'
+      operationId: getPolicySelectors
+      x-operation-id-source: derived
   /policy/subject-selectors:
     get:
       summary: See what subject selectors match which identities on the local node
       tags:
-      - policy
+      - Policy
       responses:
         '200':
           description: Success
-          schema:
-            $ref: '#/definitions/SelectorCache'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelectorCache'
+      operationId: getPolicySubjectSelectors
+      x-operation-id-source: derived
   /fqdn/cache:
     get:
-      summary: Retrieves the list of DNS lookups intercepted from all endpoints.
+      summary: Retrieves the list of DNS lookups intercepted from all endpoints
       description: 'Retrieves the list of DNS lookups intercepted from endpoints,
 
-        optionally filtered by DNS name, CIDR IP range or source.
-
-        '
+        optionally filtered by DNS name, CIDR IP range or source.'
       tags:
-      - policy
+      - Policy
       parameters:
-      - $ref: '#/parameters/matchpattern'
-      - $ref: '#/parameters/cidr'
-      - $ref: '#/parameters/source'
+      - $ref: '#/components/parameters/matchpattern'
+      - $ref: '#/components/parameters/cidr'
+      - $ref: '#/components/parameters/source'
       responses:
         '200':
           description: Success
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/DNSLookup'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DNSLookup'
         '400':
           description: Invalid request (error parsing parameters)
-          schema:
-            $ref: '#/definitions/Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '404':
           description: No DNS data with provided parameters found
+      operationId: getFqdnCache
+      x-operation-id-source: derived
     delete:
-      summary: Deletes matching DNS lookups from the policy-generation cache.
+      summary: Deletes matching DNS lookups from the policy-generation cache
       description: 'Deletes matching DNS lookups from the cache, optionally restricted by
 
         DNS name. The removed IP data will no longer be used in generated
 
-        policies.
-
-        '
+        policies.'
       tags:
-      - policy
+      - Policy
       parameters:
-      - $ref: '#/parameters/matchpattern'
+      - $ref: '#/components/parameters/matchpattern'
       responses:
         '200':
           description: Success
@@ -166,55 +193,67 @@ paths:
           description: Forbidden
         '400':
           description: Invalid request (error parsing parameters)
-          schema:
-            $ref: '#/definitions/Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      operationId: deleteFqdnCache
+      x-operation-id-source: derived
   /fqdn/cache/{id}:
     get:
-      summary: Retrieves the list of DNS lookups intercepted from an endpoint.
+      summary: Retrieves the list of DNS lookups intercepted from an endpoint
       description: 'Retrieves the list of DNS lookups intercepted from the specific endpoint,
 
-        optionally filtered by endpoint id, DNS name, CIDR IP range or source.
-
-        '
+        optionally filtered by endpoint id, DNS name, CIDR IP range or source.'
       tags:
-      - policy
+      - Policy
       parameters:
-      - $ref: '#/parameters/endpoint-id'
-      - $ref: '#/parameters/matchpattern'
-      - $ref: '#/parameters/cidr'
-      - $ref: '#/parameters/source'
+      - $ref: '#/components/parameters/endpoint-id'
+      - $ref: '#/components/parameters/matchpattern'
+      - $ref: '#/components/parameters/cidr'
+      - $ref: '#/components/parameters/source'
       responses:
         '200':
           description: Success
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/DNSLookup'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DNSLookup'
         '400':
           description: Invalid request (error parsing parameters)
-          schema:
-            $ref: '#/definitions/Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '404':
           description: No DNS data with provided parameters found
+      operationId: getFqdnCacheById
+      x-operation-id-source: derived
   /fqdn/names:
     get:
       summary: List internal DNS selector representations
       description: 'Retrieves the list of DNS-related fields (names to poll, selectors and
 
-        their corresponding regexes).
-
-        '
+        their corresponding regexes).'
       tags:
-      - policy
+      - Policy
       responses:
         '200':
           description: Success
-          schema:
-            $ref: '#/definitions/NameManager'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NameManager'
         '400':
           description: Invalid request (error parsing parameters)
-          schema:
-            $ref: '#/definitions/Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      operationId: getFqdnNames
+      x-operation-id-source: derived
   /ip:
     get:
       summary: Lists information about known IP addresses
@@ -222,249 +261,259 @@ paths:
 
         their identities, host addresses, Kubernetes pod names, etc.
 
-        The list can optionally filtered by a CIDR IP range.
-
-        '
+        The list can optionally filtered by a CIDR IP range.'
       tags:
-      - policy
+      - Policy
       parameters:
-      - $ref: '#/parameters/cidr'
-      - $ref: '#/parameters/labels'
+      - $ref: '#/components/parameters/cidr'
+      - $ref: '#/components/parameters/labels'
       responses:
         '200':
           description: Success
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/IPListEntry'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IPListEntry'
         '400':
           description: Invalid request (error parsing parameters)
-          schema:
-            $ref: '#/definitions/Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '404':
           description: No IP cache entries with provided parameters found
-definitions:
-  SelectorEntry:
-    description: Mapping of FQDNSelector to corresponding regular expression
-    type: object
-    properties:
-      selectorString:
-        description: FQDNSelector in string representation
-        type: string
-      regexString:
-        description: String representation of regular expression form of FQDNSelector
-        type: string
-  DNSLookup:
-    description: An IP -> DNS mapping, with metadata
-    type: object
-    properties:
-      ips:
-        description: IP addresses returned in this lookup
-        type: array
-        items:
-          type: string
-      fqdn:
-        description: DNS name
-        type: string
-      ttl:
-        description: The TTL in the DNS response
-        type: integer
-      lookup-time:
-        description: The absolute time when this data was received
-        type: string
-        format: date-time
-      expiration-time:
-        description: The absolute time when this data will expire in this cache
-        type: string
-        format: date-time
-      endpoint-id:
-        description: The endpoint that made this lookup, or 0 for the agent itself.
-        type: integer
-      source:
-        description: The reason this FQDN IP association exists. Either a DNS lookup or an ongoing connection to an IP that was created by a DNS lookup.
-        type: string
-  Policy:
-    description: 'Policy definition
+      operationId: getIp
+      x-operation-id-source: derived
+components:
+  schemas:
+    Policy:
+      description: 'Policy definition
 
-      Deprecated, will be removed in v1.19.
+        Deprecated, will be removed in v1.19.
 
-      '
-    type: object
-    properties:
-      revision:
-        description: 'Revision number of the policy. Incremented each time the policy is
+        '
+      type: object
+      properties:
+        revision:
+          description: 'Revision number of the policy. Incremented each time the policy is
 
-          changed in the agent''s repository
+            changed in the agent''s repository
 
-          '
-        type: integer
-      policy:
-        description: Policy definition as JSON.
-        type: string
-  IPListEntry:
-    description: IP entry with metadata
-    type: object
-    required:
-    - cidr
-    - identity
-    properties:
-      cidr:
-        description: Key of the entry in the form of a CIDR range
-        type: string
-      identity:
-        description: Numerical identity assigned to the IP
-        type: integer
-      hostIP:
-        description: IP address of the host
-        type: string
-      encryptKey:
-        description: The context ID for the encryption session
-        type: integer
-      metadata:
-        $ref: '#/definitions/IPListEntryMetadata'
-  Identity:
-    description: Security identity
-    type: object
-    properties:
-      id:
-        description: Unique identifier
-        type: integer
-      labels:
-        description: Labels describing the identity
-        $ref: '#/definitions/Labels'
-      labelsSHA256:
-        description: SHA256 of labels
-        type: string
-  Labels:
-    description: Set of labels
-    type: array
-    items:
-      type: string
-  SelectorCache:
-    description: cache of which identities match selectors in the policy repository
-    type: array
-    items:
-      $ref: '#/definitions/SelectorIdentityMapping'
-  LabelArrayList:
-    description: LabelArrayList is an array of LabelArrays forming a set
-    type: array
-    items:
-      $ref: '#/definitions/LabelArray'
-  SelectorIdentityMapping:
-    description: mapping of selector to identities which match it
-    type: object
-    properties:
-      selector:
-        description: string form of selector
-        type: string
-      labels:
-        description: Labels is a list of labels of the policy rules currently using this selector
-        $ref: '#/definitions/LabelArrayList'
-      identities:
-        description: identities mapping to this selector
-        type: array
-        items:
+            '
           type: integer
-      users:
-        description: number of users of this selector in the cache
-        type: integer
-  IdentityEndpoints:
-    description: Security identities owned by endpoints on the local node
-    type: object
-    properties:
-      identity:
-        description: Security identity
-        $ref: '#/definitions/Identity'
-      refCount:
-        description: number of endpoints consuming this identity locally (should always be > 0)
-        type: integer
-  Label:
-    description: Label is Cilium's representation of a label
-    type: object
-    properties:
-      key:
-        type: string
-      value:
-        type: string
-      source:
-        description: Source can be one of the above values (e.g. LabelSourceK8s)
-        type: string
-  LabelArray:
-    description: LabelArray is an array of labels forming a set
-    type: array
-    items:
-      $ref: '#/definitions/Label'
-  NameManager:
-    description: Internal state about DNS names in relation to policy subsystem
-    type: object
-    properties:
-      DNSPollNames:
-        description: Names to poll for DNS Poller
-        type: array
-        items:
+        policy:
+          description: Policy definition as JSON.
           type: string
-      FQDNPolicySelectors:
-        description: Mapping of FQDNSelectors to corresponding regular expressions
-        type: array
-        items:
-          $ref: '#/definitions/SelectorEntry'
-  Error:
-    type: string
-  IPListEntryMetadata:
-    description: Additional metadata assigned to an IP list entry
-    type: object
-    properties:
-      source:
-        description: Source of the IP entry and its metadata
+    Labels:
+      description: Set of labels
+      type: array
+      items:
         type: string
-        example: k8s
-      namespace:
-        description: Namespace of the IP (e.g. Kubernetes namespace)
+    Identity:
+      description: Security identity
+      type: object
+      properties:
+        id:
+          description: Unique identifier
+          type: integer
+        labels:
+          description: Labels describing the identity
+          $ref: '#/components/schemas/Labels'
+        labelsSHA256:
+          description: SHA256 of labels
+          type: string
+    LabelArray:
+      description: LabelArray is an array of labels forming a set
+      type: array
+      items:
+        $ref: '#/components/schemas/Label'
+    NameManager:
+      description: Internal state about DNS names in relation to policy subsystem
+      type: object
+      properties:
+        DNSPollNames:
+          description: Names to poll for DNS Poller
+          type: array
+          items:
+            type: string
+        FQDNPolicySelectors:
+          description: Mapping of FQDNSelectors to corresponding regular expressions
+          type: array
+          items:
+            $ref: '#/components/schemas/SelectorEntry'
+    IPListEntryMetadata:
+      description: Additional metadata assigned to an IP list entry
+      type: object
+      properties:
+        source:
+          description: Source of the IP entry and its metadata
+          type: string
+          example: k8s
+        namespace:
+          description: Namespace of the IP (e.g. Kubernetes namespace)
+          type: string
+        name:
+          description: Name assigned to the IP (e.g. Kubernetes pod name)
+          type: string
+    Label:
+      description: Label is Cilium's representation of a label
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+        source:
+          description: Source can be one of the above values (e.g. LabelSourceK8s)
+          type: string
+    DNSLookup:
+      description: An IP -> DNS mapping, with metadata
+      type: object
+      properties:
+        ips:
+          description: IP addresses returned in this lookup
+          type: array
+          items:
+            type: string
+        fqdn:
+          description: DNS name
+          type: string
+        ttl:
+          description: The TTL in the DNS response
+          type: integer
+        lookup-time:
+          description: The absolute time when this data was received
+          type: string
+          format: date-time
+        expiration-time:
+          description: The absolute time when this data will expire in this cache
+          type: string
+          format: date-time
+        endpoint-id:
+          description: The endpoint that made this lookup, or 0 for the agent itself.
+          type: integer
+        source:
+          description: The reason this FQDN IP association exists. Either a DNS lookup or an ongoing connection to an IP that was created by a DNS lookup.
+          type: string
+    LabelArrayList:
+      description: LabelArrayList is an array of LabelArrays forming a set
+      type: array
+      items:
+        $ref: '#/components/schemas/LabelArray'
+    IPListEntry:
+      description: IP entry with metadata
+      type: object
+      required:
+      - cidr
+      - identity
+      properties:
+        cidr:
+          description: Key of the entry in the form of a CIDR range
+          type: string
+        identity:
+          description: Numerical identity assigned to the IP
+          type: integer
+        hostIP:
+          description: IP address of the host
+          type: string
+        encryptKey:
+          description: The context ID for the encryption session
+          type: integer
+        metadata:
+          $ref: '#/components/schemas/IPListEntryMetadata'
+    Error:
+      type: string
+    SelectorEntry:
+      description: Mapping of FQDNSelector to corresponding regular expression
+      type: object
+      properties:
+        selectorString:
+          description: FQDNSelector in string representation
+          type: string
+        regexString:
+          description: String representation of regular expression form of FQDNSelector
+          type: string
+    SelectorIdentityMapping:
+      description: mapping of selector to identities which match it
+      type: object
+      properties:
+        selector:
+          description: string form of selector
+          type: string
+        labels:
+          description: Labels is a list of labels of the policy rules currently using this selector
+          $ref: '#/components/schemas/LabelArrayList'
+        identities:
+          description: identities mapping to this selector
+          type: array
+          items:
+            type: integer
+        users:
+          description: number of users of this selector in the cache
+          type: integer
+    SelectorCache:
+      description: cache of which identities match selectors in the policy repository
+      type: array
+      items:
+        $ref: '#/components/schemas/SelectorIdentityMapping'
+    IdentityEndpoints:
+      description: Security identities owned by endpoints on the local node
+      type: object
+      properties:
+        identity:
+          description: Security identity
+          $ref: '#/components/schemas/Identity'
+        refCount:
+          description: number of endpoints consuming this identity locally (should always be > 0)
+          type: integer
+  parameters:
+    matchpattern:
+      name: matchpattern
+      description: A toFQDNs compatible matchPattern expression
+      required: false
+      in: query
+      schema:
         type: string
-      name:
-        description: Name assigned to the IP (e.g. Kubernetes pod name)
+    cidr:
+      name: cidr
+      description: A CIDR range of IPs
+      required: false
+      in: query
+      schema:
         type: string
-parameters:
-  labels:
-    name: labels
-    description: 'List of labels
+    identity-id:
+      name: id
+      description: 'Cluster wide unique identifier of a security identity.
 
-      '
-    in: body
-    required: false
-    schema:
-      $ref: '#/definitions/Labels'
-  identity-id:
-    name: id
-    description: 'Cluster wide unique identifier of a security identity.
+        '
+      in: path
+      required: true
+      schema:
+        type: string
+    labels:
+      name: labels
+      description: 'List of labels
 
-      '
-    in: path
-    required: true
-    type: string
-  endpoint-id:
-    name: id
-    description: "String describing an endpoint with the format ``[prefix:]id``. If no prefix\nis specified, a prefix of ``cilium-local:`` is assumed. Not all endpoints\nwill be addressable by all endpoint ID prefixes with the exception of the\nlocal Cilium UUID which is assigned to all endpoints.\n\nSupported endpoint id prefixes:\n  - cilium-local: Local Cilium endpoint UUID, e.g. cilium-local:3389595\n  - cilium-global: Global Cilium endpoint UUID, e.g. cilium-global:cluster1:nodeX:452343\n  - cni-attachment-id: CNI attachment ID, e.g. cni-attachment-id:22222:eth0\n  - cep-name: cep name for this container if K8s is enabled, e.g. pod-name:default:foobar-net1\n"
-    in: path
-    required: true
-    type: string
-  cidr:
-    name: cidr
-    description: A CIDR range of IPs
-    required: false
-    in: query
-    type: string
-  source:
-    name: source
-    description: Source from which FQDN entries come from
-    required: false
-    in: query
-    type: string
-  matchpattern:
-    name: matchpattern
-    description: A toFQDNs compatible matchPattern expression
-    required: false
-    in: query
-    type: string
+        '
+      in: body
+      required: false
+      schema:
+        $ref: '#/components/schemas/Labels'
+    endpoint-id:
+      name: id
+      description: "String describing an endpoint with the format ``[prefix:]id``. If no prefix\nis specified, a prefix of ``cilium-local:`` is assumed. Not all endpoints\nwill be addressable by all endpoint ID prefixes with the exception of the\nlocal Cilium UUID which is assigned to all endpoints.\n\nSupported endpoint id prefixes:\n  - cilium-local: Local Cilium endpoint UUID, e.g. cilium-local:3389595\n  - cilium-global: Global Cilium endpoint UUID, e.g. cilium-global:cluster1:nodeX:452343\n  - cni-attachment-id: CNI attachment ID, e.g. cni-attachment-id:22222:eth0\n  - cep-name: cep name for this container if K8s is enabled, e.g. pod-name:default:foobar-net1\n"
+      in: path
+      required: true
+      schema:
+        type: string
+    source:
+      name: source
+      description: Source from which FQDN entries come from
+      required: false
+      in: query
+      schema:
+        type: string
 x-schemes:
 - unix
