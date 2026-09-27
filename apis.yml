@@ -83,7 +83,7 @@ apis:
   - type: Protobuf
     url: grpc/isovalent-hubble-peer.proto
 - aid: isovalent:isovalent-bgp-api
-  name: Isovalent bgp API
+  name: Isovalent Bgp API
   description: The bgp API from Isovalent — 3 operation(s) for bgp.
   humanURL: https://docs.cilium.io/en/stable/api/
   baseURL: unix:///var/run/cilium/cilium.sock
@@ -97,7 +97,7 @@ apis:
   - type: Documentation
     url: https://docs.cilium.io/en/stable/api/
 - aid: isovalent:isovalent-connectivity-api
-  name: Isovalent connectivity API
+  name: Isovalent Connectivity API
   description: The connectivity API from Isovalent — 2 operation(s) for connectivity.
   humanURL: https://docs.cilium.io/en/stable/api/
   baseURL: unix:///var/run/cilium/cilium.sock
@@ -111,7 +111,7 @@ apis:
   - type: Documentation
     url: https://docs.cilium.io/en/stable/api/
 - aid: isovalent:isovalent-daemon-api
-  name: Isovalent daemon API
+  name: Isovalent Daemon API
   description: The daemon API from Isovalent — 9 operation(s) for daemon.
   humanURL: https://docs.cilium.io/en/stable/api/
   baseURL: unix:///var/run/cilium/cilium.sock
@@ -125,7 +125,7 @@ apis:
   - type: Documentation
     url: https://docs.cilium.io/en/stable/api/
 - aid: isovalent:isovalent-endpoint-api
-  name: Isovalent endpoint API
+  name: Isovalent Endpoint API
   description: The endpoint API from Isovalent — 6 operation(s) for endpoint.
   humanURL: https://docs.cilium.io/en/stable/api/
   baseURL: unix:///var/run/cilium/cilium.sock
@@ -150,7 +150,7 @@ apis:
   - type: Documentation
     url: https://docs.cilium.io/en/stable/api/
 - aid: isovalent:isovalent-ipam-api
-  name: Isovalent ipam API
+  name: Isovalent Ipam API
   description: The ipam API from Isovalent — 2 operation(s) for ipam.
   humanURL: https://docs.cilium.io/en/stable/api/
   baseURL: unix:///var/run/cilium/cilium.sock
@@ -164,7 +164,7 @@ apis:
   - type: Documentation
     url: https://docs.cilium.io/en/stable/api/
 - aid: isovalent:isovalent-policy-api
-  name: Isovalent policy API
+  name: Isovalent Policy API
   description: The policy API from Isovalent — 10 operation(s) for policy.
   humanURL: https://docs.cilium.io/en/stable/api/
   baseURL: unix:///var/run/cilium/cilium.sock
@@ -178,7 +178,7 @@ apis:
   - type: Documentation
     url: https://docs.cilium.io/en/stable/api/
 - aid: isovalent:isovalent-prefilter-api
-  name: Isovalent prefilter API
+  name: Isovalent Prefilter API
   description: The prefilter API from Isovalent — 1 operation(s) for prefilter.
   humanURL: https://docs.cilium.io/en/stable/api/
   baseURL: unix:///var/run/cilium/cilium.sock
@@ -192,7 +192,7 @@ apis:
   - type: Documentation
     url: https://docs.cilium.io/en/stable/api/
 - aid: isovalent:isovalent-service-api
-  name: Isovalent service API
+  name: Isovalent Service API
   description: The service API from Isovalent — 2 operation(s) for service.
   humanURL: https://docs.cilium.io/en/stable/api/
   baseURL: unix:///var/run/cilium/cilium.sock

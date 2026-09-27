@@ -36,16 +36,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    StatusResponse:
-      type: object
-      description: Status of Cilium daemon
-      x-go-type:
-        type: StatusResponse
-        import:
-          package: github.com/cilium/cilium/api/v1/models
-          alias: ciliumModels
-        hint:
-          kind: object
     LoadResponse:
       description: System load on node
       type: object
@@ -59,6 +49,16 @@ components:
         last15min:
           description: Load average over the past 15 minutes
           type: string
+    StatusResponse:
+      type: object
+      description: Status of Cilium daemon
+      x-go-type:
+        type: StatusResponse
+        import:
+          package: github.com/cilium/cilium/api/v1/models
+          alias: ciliumModels
+        hint:
+          kind: object
     HealthResponse:
       description: Health and status information of local node
       type: object

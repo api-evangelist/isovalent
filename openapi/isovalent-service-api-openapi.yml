@@ -42,6 +42,67 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    ServiceStatus:
+      description: Configuration of a service
+      type: object
+      properties:
+        realized:
+          $ref: '#/components/schemas/ServiceSpec'
+    FrontendMapping:
+      description: Mapping of frontend to backend pods of an LRP
+      type: object
+      properties:
+        frontend-address:
+          $ref: '#/components/schemas/FrontendAddress'
+        backends:
+          description: Pod backends of an LRP
+          type: array
+          items:
+            $ref: '#/components/schemas/LRPBackend'
+    LRPBackend:
+      description: Pod backend of an LRP
+      type: object
+      properties:
+        pod-id:
+          description: Namespace and name of the backend pod
+          type: string
+        backend-address:
+          $ref: '#/components/schemas/BackendAddress'
+    Service:
+      description: Collection of endpoints to be served
+      type: object
+      properties:
+        spec:
+          $ref: '#/components/schemas/ServiceSpec'
+        status:
+          $ref: '#/components/schemas/ServiceStatus'
+    LRPSpec:
+      description: Configuration of an LRP
+      type: object
+      properties:
+        uid:
+          description: Unique identification
+          type: string
+        name:
+          description: LRP service name
+          type: string
+        namespace:
+          description: LRP service namespace
+          type: string
+        frontend-type:
+          description: LRP frontend type
+          type: string
+        lrp-type:
+          description: LRP config type
+          type: string
+        service-id:
+          description: matching k8s service namespace and name
+          type: string
+        frontend-mappings:
+          description: mapping of frontends to pod backends
+          type: array
+          items:
+            $ref: '#/components/schemas/FrontendMapping'
     BackendAddress:
       description: Service backend address
       type: object
@@ -84,61 +145,6 @@ components:
         zone:
           description: Optional name of the zone in which this backend runs
           type: string
-    LRPBackend:
-      description: Pod backend of an LRP
-      type: object
-      properties:
-        pod-id:
-          description: Namespace and name of the backend pod
-          type: string
-        backend-address:
-          $ref: '#/components/schemas/BackendAddress'
-    FrontendMapping:
-      description: Mapping of frontend to backend pods of an LRP
-      type: object
-      properties:
-        frontend-address:
-          $ref: '#/components/schemas/FrontendAddress'
-        backends:
-          description: Pod backends of an LRP
-          type: array
-          items:
-            $ref: '#/components/schemas/LRPBackend'
-    Service:
-      description: Collection of endpoints to be served
-      type: object
-      properties:
-        spec:
-          $ref: '#/components/schemas/ServiceSpec'
-        status:
-          $ref: '#/components/schemas/ServiceStatus'
-    LRPSpec:
-      description: Configuration of an LRP
-      type: object
-      properties:
-        uid:
-          description: Unique identification
-          type: string
-        name:
-          description: LRP service name
-          type: string
-        namespace:
-          description: LRP service namespace
-          type: string
-        frontend-type:
-          description: LRP frontend type
-          type: string
-        lrp-type:
-          description: LRP config type
-          type: string
-        service-id:
-          description: matching k8s service namespace and name
-          type: string
-        frontend-mappings:
-          description: mapping of frontends to pod backends
-          type: array
-          items:
-            $ref: '#/components/schemas/FrontendMapping'
     FrontendAddress:
       description: 'Layer 4 address. The protocol is currently ignored, all services will
 
@@ -245,11 +251,5 @@ components:
 
             '
           type: boolean
-    ServiceStatus:
-      description: Configuration of a service
-      type: object
-      properties:
-        realized:
-          $ref: '#/components/schemas/ServiceSpec'
 x-schemes:
 - unix

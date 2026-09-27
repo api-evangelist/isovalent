@@ -98,6 +98,37 @@ paths:
       operationId: deleteIpamByIp
       x-operation-id-source: derived
 components:
+  parameters:
+    ipam-pool:
+      name: pool
+      in: query
+      schema:
+        type: string
+    ipam-ip:
+      name: ip
+      description: IP address
+      in: path
+      required: true
+      schema:
+        type: string
+    ipam-owner:
+      name: owner
+      in: query
+      schema:
+        type: string
+    ipam-expiration:
+      name: expiration
+      in: header
+      schema:
+        type: boolean
+    ipam-family:
+      name: family
+      in: query
+      schema:
+        type: string
+        enum:
+        - ipv4
+        - ipv6
   schemas:
     NodeAddressing:
       description: 'Addressing information of a node for all address families
@@ -160,6 +191,8 @@ components:
           $ref: '#/components/schemas/IPAMAddressResponse'
         host-addressing:
           $ref: '#/components/schemas/NodeAddressing'
+    Error:
+      type: string
     NodeAddressingElement:
       description: Addressing information
       type: object
@@ -198,38 +231,5 @@ components:
         ipv6-pool-name:
           description: IPAM pool from which this IPv6 address was allocated
           type: string
-    Error:
-      type: string
-  parameters:
-    ipam-ip:
-      name: ip
-      description: IP address
-      in: path
-      required: true
-      schema:
-        type: string
-    ipam-family:
-      name: family
-      in: query
-      schema:
-        type: string
-        enum:
-        - ipv4
-        - ipv6
-    ipam-expiration:
-      name: expiration
-      in: header
-      schema:
-        type: boolean
-    ipam-owner:
-      name: owner
-      in: query
-      schema:
-        type: string
-    ipam-pool:
-      name: pool
-      in: query
-      schema:
-        type: string
 x-schemes:
 - unix

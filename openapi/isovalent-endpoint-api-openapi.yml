@@ -378,84 +378,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    EndpointChangeRequest:
-      description: 'Structure which contains the mutable elements of an Endpoint.
-
-        '
-      type: object
-      required:
-      - state
-      properties:
-        id:
-          description: Local endpoint ID
-          type: integer
-        container-id:
-          description: ID assigned by container runtime
-          type: string
-        container-netns-path:
-          description: Path of Container Netns
-          type: string
-        labels:
-          description: Labels describing the identity
-          $ref: '#/components/schemas/Labels'
-        interface-name:
-          description: Name of network device in host netns
-          type: string
-        interface-index:
-          description: Index of network device in host netns
-          type: integer
-        parent-interface-index:
-          description: Index of network device from which an IP was used as endpoint IP. Only relevant for ENI environments.
-          type: integer
-        container-interface-name:
-          description: Name of network device in container netns
-          type: string
-        state:
-          description: Current state of endpoint
-          $ref: '#/components/schemas/EndpointState'
-        mac:
-          description: MAC address
-          type: string
-        host-mac:
-          description: MAC address
-          type: string
-        addressing:
-          $ref: '#/components/schemas/AddressPair'
-        k8s-pod-name:
-          description: Kubernetes pod name
-          type: string
-        k8s-namespace:
-          description: Kubernetes namespace name
-          type: string
-        k8s-uid:
-          description: Kubernetes pod UID
-          type: string
-        datapath-map-id:
-          description: ID of datapath tail call map
-          type: integer
-        policy-enabled:
-          description: Whether policy enforcement is enabled or not
-          type: boolean
-        pid:
-          description: Process ID of the workload belonging to this endpoint
-          type: integer
-        sync-build-endpoint:
-          description: 'Whether to build an endpoint synchronously
-
-            '
-          type: boolean
-        is-secondary-interface:
-          description: Whether this is a secondary pod interface
-          type: boolean
-        netns-cookie:
-          description: Network namespace cookie
-          type: string
-        datapath-configuration:
-          $ref: '#/components/schemas/EndpointDatapathConfiguration'
-        properties:
-          description: Properties is used to store information about the endpoint at creation. Useful for tests.
-          additionalProperties:
-            type: object
     L4Policy:
       description: L4 endpoint policy
       type: object
@@ -470,66 +392,18 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PolicyRule'
-    EndpointStatusChange:
-      description: 'Indication of a change of status
+    NamedPorts:
+      description: 'List of named Layer 4 port and protocol pairs which will be used in Network
+
+        Policy specs.
 
 
-        +deepequal-gen=true'
-      type: object
-      properties:
-        timestamp:
-          description: Timestamp when status change occurred
-          type: string
-        code:
-          description: Code indicate type of status change
-          type: string
-          enum:
-          - ok
-          - failed
-        message:
-          description: Status message
-          type: string
-        state:
-          $ref: '#/components/schemas/EndpointState'
-    EndpointNetworking:
-      description: Unique identifiers for this endpoint from outside cilium
-      type: object
-      properties:
-        addressing:
-          description: IP4/6 addresses assigned to this Endpoint
-          type: array
-          items:
-            $ref: '#/components/schemas/AddressPair'
-        host-addressing:
-          $ref: '#/components/schemas/NodeAddressing'
-        host-mac:
-          description: MAC address
-          type: string
-        mac:
-          description: MAC address
-          type: string
-        interface-name:
-          description: Name of network device in host netns
-          type: string
-        interface-index:
-          description: Index of network device in host netns
-          type: integer
-        container-interface-name:
-          description: Name of network device in container netns
-          type: string
-    EndpointState:
-      description: State of endpoint
-      type: string
-      enum:
-      - waiting-for-identity
-      - not-ready
-      - waiting-to-regenerate
-      - regenerating
-      - restoring
-      - ready
-      - disconnecting
-      - disconnected
-      - invalid
+        +deepequal-gen=true
+
+        +k8s:deepcopy-gen=true'
+      type: array
+      items:
+        $ref: '#/components/schemas/Port'
     EndpointDatapathConfiguration:
       description: Datapath configuration to be used for the endpoint
       type: object
@@ -563,69 +437,16 @@ components:
 
             '
           type: boolean
-    EndpointHealth:
-      description: 'Health of the endpoint
-
-
-        +deepequal-gen=true'
-      type: object
-      properties:
-        overallHealth:
-          $ref: '#/components/schemas/EndpointHealthStatus'
-        bpf:
-          $ref: '#/components/schemas/EndpointHealthStatus'
-        policy:
-          $ref: '#/components/schemas/EndpointHealthStatus'
-        connected:
-          description: Is this endpoint reachable
-          type: boolean
-    EndpointConfigurationStatus:
+    EndpointConfigurationSpec:
       description: An endpoint's configuration
       type: object
       properties:
-        realized:
-          description: currently applied changeable configuration
-          $ref: '#/components/schemas/EndpointConfigurationSpec'
-        immutable:
-          description: Immutable configuration (read-only)
+        options:
+          description: Changeable configuration
           $ref: '#/components/schemas/ConfigurationMap'
-        error:
-          description: Most recent error, if applicable
-          $ref: '#/components/schemas/Error'
-    Labels:
-      description: Set of labels
-      type: array
-      items:
-        type: string
-    NodeAddressingElement:
-      description: Addressing information
-      type: object
-      properties:
-        enabled:
-          description: True if address family is enabled
-          type: boolean
-        ip:
-          description: IP address of node
-          type: string
-        alloc-range:
-          description: Address pool to be used for local endpoints
-          type: string
-        address-type:
-          description: Node address type, one of HostName, ExternalIP or InternalIP
-          type: string
-    Identity:
-      description: Security identity
-      type: object
-      properties:
-        id:
-          description: Unique identifier
-          type: integer
-        labels:
-          description: Labels describing the identity
-          $ref: '#/components/schemas/Labels'
-        labelsSHA256:
-          description: SHA256 of labels
-          type: string
+        label-configuration:
+          description: the endpoint's labels
+          $ref: '#/components/schemas/LabelConfigurationSpec'
     EndpointPolicyStatus:
       description: Policy information of an endpoint
       type: object
@@ -644,6 +465,81 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ProxyStatistics'
+    EndpointState:
+      description: State of endpoint
+      type: string
+      enum:
+      - waiting-for-identity
+      - not-ready
+      - waiting-to-regenerate
+      - regenerating
+      - restoring
+      - ready
+      - disconnecting
+      - disconnected
+      - invalid
+    EndpointPolicy:
+      description: Policy information of an endpoint
+      type: object
+      properties:
+        policy-revision:
+          description: The agent-local policy revision
+          type: integer
+        id:
+          description: Own identity of endpoint
+          type: integer
+        policy-enabled:
+          description: Whether policy enforcement is enabled (ingress, egress, both or none)
+          $ref: '#/components/schemas/EndpointPolicyEnabled'
+        build:
+          description: Build number of calculated policy in use
+          type: integer
+        allowed-ingress-identities:
+          description: 'List of identities allowed to communicate to this endpoint
+
+            '
+          type: array
+          items:
+            type: integer
+        denied-ingress-identities:
+          description: 'List of identities not allowed to communicate to this endpoint
+
+            '
+          type: array
+          items:
+            type: integer
+        allowed-egress-identities:
+          description: 'List of identities to which this endpoint is allowed to communicate
+
+            '
+          type: array
+          items:
+            type: integer
+        denied-egress-identities:
+          description: 'List of identities to which this endpoint is not allowed to communicate
+
+            '
+          type: array
+          items:
+            type: integer
+        l4:
+          $ref: '#/components/schemas/L4Policy'
+        cidr-policy:
+          $ref: '#/components/schemas/CIDRPolicy'
+    CIDRPolicy:
+      description: CIDR endpoint policy
+      type: object
+      properties:
+        ingress:
+          description: List of CIDR ingress rules
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyRule'
+        egress:
+          description: List of CIDR egress rules
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyRule'
     Endpoint:
       description: An endpoint is a namespaced network interface to which cilium applies policies
       type: object
@@ -657,108 +553,22 @@ components:
         status:
           description: The desired and realized configuration state of the endpoint
           $ref: '#/components/schemas/EndpointStatus'
-    EndpointBatchDeleteRequest:
-      description: 'Properties selecting a batch of endpoints to delete.
-
-        '
-      type: object
-      properties:
-        container-id:
-          description: ID assigned by container runtime
-          type: string
-    AddressPair:
-      description: Addressing information of an endpoint
-      type: object
-      properties:
-        ipv4:
-          description: IPv4 address
-          type: string
-        ipv4-expiration-uuid:
-          description: UUID of IPv4 expiration timer
-          type: string
-        ipv4-pool-name:
-          description: IPAM pool from which this IPv4 address was allocated
-          type: string
-        ipv6:
-          description: IPv6 address
-          type: string
-        ipv6-expiration-uuid:
-          description: UUID of IPv6 expiration timer
-          type: string
-        ipv6-pool-name:
-          description: IPAM pool from which this IPv6 address was allocated
-          type: string
-    NodeAddressing:
-      description: 'Addressing information of a node for all address families
-
-
-        +k8s:deepcopy-gen=true'
-      type: object
-      properties:
-        ipv6:
-          $ref: '#/components/schemas/NodeAddressingElement'
-        ipv4:
-          $ref: '#/components/schemas/NodeAddressingElement'
-    ConfigurationMap:
-      description: 'Map of configuration key/value pairs.
-
-        '
-      type: object
-      additionalProperties:
-        type: string
-    NamedPorts:
-      description: 'List of named Layer 4 port and protocol pairs which will be used in Network
-
-        Policy specs.
-
-
-        +deepequal-gen=true
-
-        +k8s:deepcopy-gen=true'
-      type: array
-      items:
-        $ref: '#/components/schemas/Port'
-    EndpointHealthStatus:
-      description: 'A common set of statuses for endpoint health * ``OK`` = All components operational * ``Bootstrap`` = This component is being created * ``Pending`` = A change is being processed to be applied * ``Warning`` = This component is not applying up-to-date policies (but is still applying the previous version) * ``Failure`` = An error has occurred and no policy is being applied * ``Disabled`` = This endpoint is disabled and will not handle traffic
-
-        '
-      type: string
-      enum:
-      - OK
-      - Bootstrap
-      - Pending
-      - Warning
-      - Failure
-      - Disabled
-    EndpointStatusLog:
-      description: Status log of endpoint
-      type: array
-      items:
-        $ref: '#/components/schemas/EndpointStatusChange'
-    Port:
-      description: 'Layer 4 port / protocol pair
+    EndpointHealth:
+      description: 'Health of the endpoint
 
 
         +deepequal-gen=true'
       type: object
       properties:
-        protocol:
-          description: Layer 4 protocol
-          type: string
-          enum:
-          - TCP
-          - UDP
-          - SCTP
-          - ICMP
-          - ICMPV6
-          - ANY
-        port:
-          description: Layer 4 port number
-          type: integer
-          format: uint16
-        name:
-          description: Optional layer 4 port name
-          type: string
+        overallHealth:
+          $ref: '#/components/schemas/EndpointHealthStatus'
+        bpf:
+          $ref: '#/components/schemas/EndpointHealthStatus'
+        policy:
+          $ref: '#/components/schemas/EndpointHealthStatus'
+        connected:
+          description: Is this endpoint reachable
+          type: boolean
     PolicyRule:
       description: A policy rule including the rule labels it derives from
       properties:
@@ -842,13 +652,26 @@ components:
             last-failure-msg:
               description: Error message of last failed run
               type: string
-    LabelConfigurationSpec:
-      description: User desired Label configuration of an endpoint
+    NodeAddressing:
+      description: 'Addressing information of a node for all address families
+
+
+        +k8s:deepcopy-gen=true'
       type: object
       properties:
-        user:
-          description: Custom labels in addition to orchestration system labels.
-          $ref: '#/components/schemas/Labels'
+        ipv6:
+          $ref: '#/components/schemas/NodeAddressingElement'
+        ipv4:
+          $ref: '#/components/schemas/NodeAddressingElement'
+    ConfigurationMap:
+      description: 'Map of configuration key/value pairs.
+
+        '
+      type: object
+      additionalProperties:
+        type: string
+    Error:
+      type: string
     EndpointPolicyEnabled:
       description: Whether policy enforcement is enabled (ingress, egress, both or none)
       type: string
@@ -860,6 +683,347 @@ components:
       - audit-ingress
       - audit-egress
       - audit-both
+    ControllerStatuses:
+      description: Collection of controller statuses
+      type: array
+      items:
+        $ref: '#/components/schemas/ControllerStatus'
+    AddressPair:
+      description: Addressing information of an endpoint
+      type: object
+      properties:
+        ipv4:
+          description: IPv4 address
+          type: string
+        ipv4-expiration-uuid:
+          description: UUID of IPv4 expiration timer
+          type: string
+        ipv4-pool-name:
+          description: IPAM pool from which this IPv4 address was allocated
+          type: string
+        ipv6:
+          description: IPv6 address
+          type: string
+        ipv6-expiration-uuid:
+          description: UUID of IPv6 expiration timer
+          type: string
+        ipv6-pool-name:
+          description: IPAM pool from which this IPv6 address was allocated
+          type: string
+    EndpointNetworking:
+      description: Unique identifiers for this endpoint from outside cilium
+      type: object
+      properties:
+        addressing:
+          description: IP4/6 addresses assigned to this Endpoint
+          type: array
+          items:
+            $ref: '#/components/schemas/AddressPair'
+        host-addressing:
+          $ref: '#/components/schemas/NodeAddressing'
+        host-mac:
+          description: MAC address
+          type: string
+        mac:
+          description: MAC address
+          type: string
+        interface-name:
+          description: Name of network device in host netns
+          type: string
+        interface-index:
+          description: Index of network device in host netns
+          type: integer
+        container-interface-name:
+          description: Name of network device in container netns
+          type: string
+    EndpointConfigurationStatus:
+      description: An endpoint's configuration
+      type: object
+      properties:
+        realized:
+          description: currently applied changeable configuration
+          $ref: '#/components/schemas/EndpointConfigurationSpec'
+        immutable:
+          description: Immutable configuration (read-only)
+          $ref: '#/components/schemas/ConfigurationMap'
+        error:
+          description: Most recent error, if applicable
+          $ref: '#/components/schemas/Error'
+    MessageForwardingStatistics:
+      description: Statistics of a message forwarding entity
+      type: object
+      properties:
+        received:
+          description: Number of messages received
+          type: integer
+        denied:
+          description: Number of messages denied
+          type: integer
+        error:
+          description: Number of errors while parsing messages
+          type: integer
+        forwarded:
+          description: Number of messages forwarded
+          type: integer
+    Labels:
+      description: Set of labels
+      type: array
+      items:
+        type: string
+    LabelConfiguration:
+      description: Label configuration of an endpoint
+      type: object
+      properties:
+        spec:
+          description: The user provided desired configuration
+          $ref: '#/components/schemas/LabelConfigurationSpec'
+        status:
+          description: The current configuration
+          $ref: '#/components/schemas/LabelConfigurationStatus'
+    NodeAddressingElement:
+      description: Addressing information
+      type: object
+      properties:
+        enabled:
+          description: True if address family is enabled
+          type: boolean
+        ip:
+          description: IP address of node
+          type: string
+        alloc-range:
+          description: Address pool to be used for local endpoints
+          type: string
+        address-type:
+          description: Node address type, one of HostName, ExternalIP or InternalIP
+          type: string
+    ProxyStatistics:
+      description: 'Statistics of a set of proxy redirects for an endpoint
+
+
+        +k8s:deepcopy-gen=true'
+      type: object
+      properties:
+        protocol:
+          description: Name of the L7 protocol
+          type: string
+        port:
+          description: The port subject to the redirect
+          type: integer
+        allocated-proxy-port:
+          description: The port the proxy is listening on
+          type: integer
+        location:
+          description: Location of where the redirect is installed
+          type: string
+          enum:
+          - ingress
+          - egress
+        statistics:
+          description: Statistics of this set of proxy redirect
+          $ref: '#/components/schemas/RequestResponseStatistics'
+    EndpointIdentifiers:
+      description: 'Unique identifiers for this endpoint from outside cilium
+
+
+        +deepequal-gen=true'
+      type: object
+      properties:
+        cni-attachment-id:
+          description: ID assigned to this attachment by container runtime
+          type: string
+        container-id:
+          description: ID assigned by container runtime (deprecated, may not be unique)
+          type: string
+        container-name:
+          description: Name assigned to container (deprecated, may not be unique)
+          type: string
+        docker-endpoint-id:
+          description: Docker endpoint ID
+          type: string
+        docker-network-id:
+          description: Docker network ID
+          type: string
+        pod-name:
+          description: K8s pod for this endpoint (deprecated, may not be unique)
+          type: string
+        k8s-pod-name:
+          description: K8s pod name for this endpoint (deprecated, may not be unique)
+          type: string
+        k8s-namespace:
+          description: K8s namespace for this endpoint (deprecated, may not be unique)
+          type: string
+    LabelConfigurationSpec:
+      description: User desired Label configuration of an endpoint
+      type: object
+      properties:
+        user:
+          description: Custom labels in addition to orchestration system labels.
+          $ref: '#/components/schemas/Labels'
+    EndpointChangeRequest:
+      description: 'Structure which contains the mutable elements of an Endpoint.
+
+        '
+      type: object
+      required:
+      - state
+      properties:
+        id:
+          description: Local endpoint ID
+          type: integer
+        container-id:
+          description: ID assigned by container runtime
+          type: string
+        container-netns-path:
+          description: Path of Container Netns
+          type: string
+        labels:
+          description: Labels describing the identity
+          $ref: '#/components/schemas/Labels'
+        interface-name:
+          description: Name of network device in host netns
+          type: string
+        interface-index:
+          description: Index of network device in host netns
+          type: integer
+        parent-interface-index:
+          description: Index of network device from which an IP was used as endpoint IP. Only relevant for ENI environments.
+          type: integer
+        container-interface-name:
+          description: Name of network device in container netns
+          type: string
+        state:
+          description: Current state of endpoint
+          $ref: '#/components/schemas/EndpointState'
+        mac:
+          description: MAC address
+          type: string
+        host-mac:
+          description: MAC address
+          type: string
+        addressing:
+          $ref: '#/components/schemas/AddressPair'
+        k8s-pod-name:
+          description: Kubernetes pod name
+          type: string
+        k8s-namespace:
+          description: Kubernetes namespace name
+          type: string
+        k8s-uid:
+          description: Kubernetes pod UID
+          type: string
+        datapath-map-id:
+          description: ID of datapath tail call map
+          type: integer
+        policy-enabled:
+          description: Whether policy enforcement is enabled or not
+          type: boolean
+        pid:
+          description: Process ID of the workload belonging to this endpoint
+          type: integer
+        sync-build-endpoint:
+          description: 'Whether to build an endpoint synchronously
+
+            '
+          type: boolean
+        is-secondary-interface:
+          description: Whether this is a secondary pod interface
+          type: boolean
+        netns-cookie:
+          description: Network namespace cookie
+          type: string
+        datapath-configuration:
+          $ref: '#/components/schemas/EndpointDatapathConfiguration'
+        properties:
+          description: Properties is used to store information about the endpoint at creation. Useful for tests.
+          additionalProperties:
+            type: object
+    EndpointHealthStatus:
+      description: 'A common set of statuses for endpoint health * ``OK`` = All components operational * ``Bootstrap`` = This component is being created * ``Pending`` = A change is being processed to be applied * ``Warning`` = This component is not applying up-to-date policies (but is still applying the previous version) * ``Failure`` = An error has occurred and no policy is being applied * ``Disabled`` = This endpoint is disabled and will not handle traffic
+
+        '
+      type: string
+      enum:
+      - OK
+      - Bootstrap
+      - Pending
+      - Warning
+      - Failure
+      - Disabled
+    EndpointStatusChange:
+      description: 'Indication of a change of status
+
+
+        +deepequal-gen=true'
+      type: object
+      properties:
+        timestamp:
+          description: Timestamp when status change occurred
+          type: string
+        code:
+          description: Code indicate type of status change
+          type: string
+          enum:
+          - ok
+          - failed
+        message:
+          description: Status message
+          type: string
+        state:
+          $ref: '#/components/schemas/EndpointState'
+    RequestResponseStatistics:
+      description: 'Statistics of a proxy redirect
+
+
+        +k8s:deepcopy-gen=true'
+      type: object
+      properties:
+        requests:
+          $ref: '#/components/schemas/MessageForwardingStatistics'
+        responses:
+          $ref: '#/components/schemas/MessageForwardingStatistics'
+    Identity:
+      description: Security identity
+      type: object
+      properties:
+        id:
+          description: Unique identifier
+          type: integer
+        labels:
+          description: Labels describing the identity
+          $ref: '#/components/schemas/Labels'
+        labelsSHA256:
+          description: SHA256 of labels
+          type: string
+    EndpointBatchDeleteRequest:
+      description: 'Properties selecting a batch of endpoints to delete.
+
+        '
+      type: object
+      properties:
+        container-id:
+          description: ID assigned by container runtime
+          type: string
+    EndpointStatusLog:
+      description: Status log of endpoint
+      type: array
+      items:
+        $ref: '#/components/schemas/EndpointStatusChange'
+    LabelConfigurationStatus:
+      description: Labels and label configuration of an endpoint
+      type: object
+      properties:
+        realized:
+          description: The current configuration
+          $ref: '#/components/schemas/LabelConfigurationSpec'
+        security-relevant:
+          description: Labels derived from orchestration system that are used in computing a security identity
+          $ref: '#/components/schemas/Labels'
+        derived:
+          description: All labels derived from the orchestration system
+          $ref: '#/components/schemas/Labels'
+        disabled:
+          description: Labels derived from orchestration system which have been disabled.
+          $ref: '#/components/schemas/Labels'
     EndpointStatus:
       description: The current state and configuration of the endpoint, its policy & datapath, and subcomponents
       type: object
@@ -899,201 +1063,31 @@ components:
         namedPorts:
           description: List of named ports that can be used in Network Policy
           $ref: '#/components/schemas/NamedPorts'
-    Error:
-      type: string
-    ProxyStatistics:
-      description: 'Statistics of a set of proxy redirects for an endpoint
-
-
-        +k8s:deepcopy-gen=true'
-      type: object
-      properties:
-        protocol:
-          description: Name of the L7 protocol
-          type: string
-        port:
-          description: The port subject to the redirect
-          type: integer
-        allocated-proxy-port:
-          description: The port the proxy is listening on
-          type: integer
-        location:
-          description: Location of where the redirect is installed
-          type: string
-          enum:
-          - ingress
-          - egress
-        statistics:
-          description: Statistics of this set of proxy redirect
-          $ref: '#/components/schemas/RequestResponseStatistics'
-    MessageForwardingStatistics:
-      description: Statistics of a message forwarding entity
-      type: object
-      properties:
-        received:
-          description: Number of messages received
-          type: integer
-        denied:
-          description: Number of messages denied
-          type: integer
-        error:
-          description: Number of errors while parsing messages
-          type: integer
-        forwarded:
-          description: Number of messages forwarded
-          type: integer
-    LabelConfigurationStatus:
-      description: Labels and label configuration of an endpoint
-      type: object
-      properties:
-        realized:
-          description: The current configuration
-          $ref: '#/components/schemas/LabelConfigurationSpec'
-        security-relevant:
-          description: Labels derived from orchestration system that are used in computing a security identity
-          $ref: '#/components/schemas/Labels'
-        derived:
-          description: All labels derived from the orchestration system
-          $ref: '#/components/schemas/Labels'
-        disabled:
-          description: Labels derived from orchestration system which have been disabled.
-          $ref: '#/components/schemas/Labels'
-    EndpointIdentifiers:
-      description: 'Unique identifiers for this endpoint from outside cilium
+    Port:
+      description: 'Layer 4 port / protocol pair
 
 
         +deepequal-gen=true'
       type: object
       properties:
-        cni-attachment-id:
-          description: ID assigned to this attachment by container runtime
+        protocol:
+          description: Layer 4 protocol
           type: string
-        container-id:
-          description: ID assigned by container runtime (deprecated, may not be unique)
-          type: string
-        container-name:
-          description: Name assigned to container (deprecated, may not be unique)
-          type: string
-        docker-endpoint-id:
-          description: Docker endpoint ID
-          type: string
-        docker-network-id:
-          description: Docker network ID
-          type: string
-        pod-name:
-          description: K8s pod for this endpoint (deprecated, may not be unique)
-          type: string
-        k8s-pod-name:
-          description: K8s pod name for this endpoint (deprecated, may not be unique)
-          type: string
-        k8s-namespace:
-          description: K8s namespace for this endpoint (deprecated, may not be unique)
-          type: string
-    EndpointConfigurationSpec:
-      description: An endpoint's configuration
-      type: object
-      properties:
-        options:
-          description: Changeable configuration
-          $ref: '#/components/schemas/ConfigurationMap'
-        label-configuration:
-          description: the endpoint's labels
-          $ref: '#/components/schemas/LabelConfigurationSpec'
-    ControllerStatuses:
-      description: Collection of controller statuses
-      type: array
-      items:
-        $ref: '#/components/schemas/ControllerStatus'
-    CIDRPolicy:
-      description: CIDR endpoint policy
-      type: object
-      properties:
-        ingress:
-          description: List of CIDR ingress rules
-          type: array
-          items:
-            $ref: '#/components/schemas/PolicyRule'
-        egress:
-          description: List of CIDR egress rules
-          type: array
-          items:
-            $ref: '#/components/schemas/PolicyRule'
-    LabelConfiguration:
-      description: Label configuration of an endpoint
-      type: object
-      properties:
-        spec:
-          description: The user provided desired configuration
-          $ref: '#/components/schemas/LabelConfigurationSpec'
-        status:
-          description: The current configuration
-          $ref: '#/components/schemas/LabelConfigurationStatus'
-    EndpointPolicy:
-      description: Policy information of an endpoint
-      type: object
-      properties:
-        policy-revision:
-          description: The agent-local policy revision
+          enum:
+          - TCP
+          - UDP
+          - SCTP
+          - ICMP
+          - ICMPV6
+          - ANY
+        port:
+          description: Layer 4 port number
           type: integer
-        id:
-          description: Own identity of endpoint
-          type: integer
-        policy-enabled:
-          description: Whether policy enforcement is enabled (ingress, egress, both or none)
-          $ref: '#/components/schemas/EndpointPolicyEnabled'
-        build:
-          description: Build number of calculated policy in use
-          type: integer
-        allowed-ingress-identities:
-          description: 'List of identities allowed to communicate to this endpoint
-
-            '
-          type: array
-          items:
-            type: integer
-        denied-ingress-identities:
-          description: 'List of identities not allowed to communicate to this endpoint
-
-            '
-          type: array
-          items:
-            type: integer
-        allowed-egress-identities:
-          description: 'List of identities to which this endpoint is allowed to communicate
-
-            '
-          type: array
-          items:
-            type: integer
-        denied-egress-identities:
-          description: 'List of identities to which this endpoint is not allowed to communicate
-
-            '
-          type: array
-          items:
-            type: integer
-        l4:
-          $ref: '#/components/schemas/L4Policy'
-        cidr-policy:
-          $ref: '#/components/schemas/CIDRPolicy'
-    RequestResponseStatistics:
-      description: 'Statistics of a proxy redirect
-
-
-        +k8s:deepcopy-gen=true'
-      type: object
-      properties:
-        requests:
-          $ref: '#/components/schemas/MessageForwardingStatistics'
-        responses:
-          $ref: '#/components/schemas/MessageForwardingStatistics'
+          format: uint16
+        name:
+          description: Optional layer 4 port name
+          type: string
   parameters:
-    endpoint-change-request:
-      name: endpoint
-      in: body
-      required: true
-      schema:
-        $ref: '#/components/schemas/EndpointChangeRequest'
     labels:
       name: labels
       description: 'List of labels
@@ -1103,6 +1097,12 @@ components:
       required: false
       schema:
         $ref: '#/components/schemas/Labels'
+    endpoint-change-request:
+      name: endpoint
+      in: body
+      required: true
+      schema:
+        $ref: '#/components/schemas/EndpointChangeRequest'
     endpoint-id:
       name: id
       description: "String describing an endpoint with the format ``[prefix:]id``. If no prefix\nis specified, a prefix of ``cilium-local:`` is assumed. Not all endpoints\nwill be addressable by all endpoint ID prefixes with the exception of the\nlocal Cilium UUID which is assigned to all endpoints.\n\nSupported endpoint id prefixes:\n  - cilium-local: Local Cilium endpoint UUID, e.g. cilium-local:3389595\n  - cilium-global: Global Cilium endpoint UUID, e.g. cilium-global:cluster1:nodeX:452343\n  - cni-attachment-id: CNI attachment ID, e.g. cni-attachment-id:22222:eth0\n  - cep-name: cep name for this container if K8s is enabled, e.g. pod-name:default:foobar-net1\n"
