@@ -42,40 +42,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ServiceStatus:
-      description: Configuration of a service
-      type: object
-      properties:
-        realized:
-          $ref: '#/components/schemas/ServiceSpec'
-    FrontendMapping:
-      description: Mapping of frontend to backend pods of an LRP
-      type: object
-      properties:
-        frontend-address:
-          $ref: '#/components/schemas/FrontendAddress'
-        backends:
-          description: Pod backends of an LRP
-          type: array
-          items:
-            $ref: '#/components/schemas/LRPBackend'
-    LRPBackend:
-      description: Pod backend of an LRP
-      type: object
-      properties:
-        pod-id:
-          description: Namespace and name of the backend pod
-          type: string
-        backend-address:
-          $ref: '#/components/schemas/BackendAddress'
-    Service:
-      description: Collection of endpoints to be served
-      type: object
-      properties:
-        spec:
-          $ref: '#/components/schemas/ServiceSpec'
-        status:
-          $ref: '#/components/schemas/ServiceStatus'
     LRPSpec:
       description: Configuration of an LRP
       type: object
@@ -103,48 +69,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/FrontendMapping'
-    BackendAddress:
-      description: Service backend address
-      type: object
-      required:
-      - ip
-      properties:
-        ip:
-          description: Layer 3 address
-          type: string
-        protocol:
-          description: Layer 4 protocol (TCP, UDP, etc)
-          type: string
-        port:
-          description: Layer 4 port number
-          type: integer
-          format: uint16
-        nodeName:
-          description: Optional name of the node on which this backend runs
-          type: string
-        state:
-          description: State of the backend for load-balancing service traffic
-          type: string
-          enum:
-          - active
-          - terminating
-          - terminating-not-serving
-          - quarantined
-          - maintenance
-        preferred:
-          description: 'Indicator if this backend is preferred in the context of clustermesh service affinity. The value is set based
-
-            on related annotation of global service. Applicable for active state only.'
-          type: boolean
-        weight:
-          description: Backend weight
-          type:
-          - integer
-          - 'null'
-          format: uint16
-        zone:
-          description: Optional name of the zone in which this backend runs
-          type: string
     FrontendAddress:
       description: 'Layer 4 address. The protocol is currently ignored, all services will
 
@@ -175,6 +99,32 @@ components:
           description: Layer 4 port number
           type: integer
           format: uint16
+    LRPBackend:
+      description: Pod backend of an LRP
+      type: object
+      properties:
+        pod-id:
+          description: Namespace and name of the backend pod
+          type: string
+        backend-address:
+          $ref: '#/components/schemas/BackendAddress'
+    FrontendMapping:
+      description: Mapping of frontend to backend pods of an LRP
+      type: object
+      properties:
+        frontend-address:
+          $ref: '#/components/schemas/FrontendAddress'
+        backends:
+          description: Pod backends of an LRP
+          type: array
+          items:
+            $ref: '#/components/schemas/LRPBackend'
+    ServiceStatus:
+      description: Configuration of a service
+      type: object
+      properties:
+        realized:
+          $ref: '#/components/schemas/ServiceSpec'
     ServiceSpec:
       description: Configuration of a service
       type: object
@@ -251,5 +201,55 @@ components:
 
             '
           type: boolean
+    BackendAddress:
+      description: Service backend address
+      type: object
+      required:
+      - ip
+      properties:
+        ip:
+          description: Layer 3 address
+          type: string
+        protocol:
+          description: Layer 4 protocol (TCP, UDP, etc)
+          type: string
+        port:
+          description: Layer 4 port number
+          type: integer
+          format: uint16
+        nodeName:
+          description: Optional name of the node on which this backend runs
+          type: string
+        state:
+          description: State of the backend for load-balancing service traffic
+          type: string
+          enum:
+          - active
+          - terminating
+          - terminating-not-serving
+          - quarantined
+          - maintenance
+        preferred:
+          description: 'Indicator if this backend is preferred in the context of clustermesh service affinity. The value is set based
+
+            on related annotation of global service. Applicable for active state only.'
+          type: boolean
+        weight:
+          description: Backend weight
+          type:
+          - integer
+          - 'null'
+          format: uint16
+        zone:
+          description: Optional name of the zone in which this backend runs
+          type: string
+    Service:
+      description: Collection of endpoints to be served
+      type: object
+      properties:
+        spec:
+          $ref: '#/components/schemas/ServiceSpec'
+        status:
+          $ref: '#/components/schemas/ServiceStatus'
 x-schemes:
 - unix

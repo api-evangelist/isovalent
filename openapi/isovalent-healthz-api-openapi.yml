@@ -36,6 +36,19 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    HealthResponse:
+      description: Health and status information of local node
+      type: object
+      properties:
+        cilium:
+          description: Status of Cilium daemon
+          $ref: '#/components/schemas/StatusResponse'
+        uptime:
+          description: Uptime of cilium-health instance
+          type: string
+        system-load:
+          description: System load on node
+          $ref: '#/components/schemas/LoadResponse'
     LoadResponse:
       description: System load on node
       type: object
@@ -59,18 +72,5 @@ components:
           alias: ciliumModels
         hint:
           kind: object
-    HealthResponse:
-      description: Health and status information of local node
-      type: object
-      properties:
-        cilium:
-          description: Status of Cilium daemon
-          $ref: '#/components/schemas/StatusResponse'
-        uptime:
-          description: Uptime of cilium-health instance
-          type: string
-        system-load:
-          description: System load on node
-          $ref: '#/components/schemas/LoadResponse'
 x-schemes:
 - unix

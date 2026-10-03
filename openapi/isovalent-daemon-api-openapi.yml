@@ -237,57 +237,357 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    L4Policy:
-      description: L4 endpoint policy
+    IPV6BigTCP:
+      description: Status of IPv6 BIG TCP
       type: object
       properties:
-        ingress:
-          description: List of L4 ingress rules
-          type: array
-          items:
-            $ref: '#/components/schemas/PolicyRule'
-        egress:
-          description: List of L4 egress rules
-          type: array
-          items:
-            $ref: '#/components/schemas/PolicyRule'
-    DatapathMode:
-      description: Operational datapath mode
-      type: string
-      enum:
-      - veth
-      - netkit
-      - netkit-l2
-    BPFMap:
-      description: BPF map definition and content
+        enabled:
+          description: Is IPv6 BIG TCP enabled
+          type: boolean
+        maxGRO:
+          description: Maximum IPv6 GRO size
+          type: integer
+        maxGSO:
+          description: Maximum IPv6 GSO size
+          type: integer
+    ServiceSpec:
+      description: Configuration of a service
       type: object
+      required:
+      - frontend-address
       properties:
-        path:
-          description: Path to BPF map
-          type: string
-        cache:
-          description: Contents of cache
+        id:
+          description: Unique identification
+          type: integer
+        frontend-address:
+          description: Frontend address
+          $ref: '#/components/schemas/FrontendAddress'
+        backend-addresses:
+          description: List of backend addresses
           type: array
           items:
-            $ref: '#/components/schemas/BPFMapEntry'
-    NodeAddressing:
-      description: 'Addressing information of a node for all address families
+            $ref: '#/components/schemas/BackendAddress'
+        flags:
+          description: Optional service configuration flags
+          type: object
+          properties:
+            type:
+              description: Service type
+              type: string
+              enum:
+              - ClusterIP
+              - NodePort
+              - ExternalIPs
+              - HostPort
+              - LoadBalancer
+              - LocalRedirect
+            trafficPolicy:
+              description: Service external traffic policy (deprecated in favor of extTrafficPolicy)
+              type: string
+              enum:
+              - Cluster
+              - Local
+            extTrafficPolicy:
+              description: Service external traffic policy
+              type: string
+              enum:
+              - Cluster
+              - Local
+            intTrafficPolicy:
+              description: Service internal traffic policy
+              type: string
+              enum:
+              - Cluster
+              - Local
+            natPolicy:
+              description: Service protocol NAT policy
+              type: string
+              enum:
+              - None
+              - Nat46
+              - Nat64
+            healthCheckNodePort:
+              description: Service health check node port
+              type: integer
+              format: uint16
+            name:
+              description: Service name  (e.g. Kubernetes service name)
+              type: string
+            namespace:
+              description: Service namespace  (e.g. Kubernetes namespace)
+              type: string
+            cluster:
+              description: Service cluster
+              type: string
+        updateServices:
+          description: 'Update all services selecting the backends with their given states
+
+            (id and frontend are ignored)
+
+            '
+          type: boolean
+    NodeElement:
+      description: 'Known node in the cluster
 
 
         +k8s:deepcopy-gen=true'
+      properties:
+        name:
+          type: string
+          description: 'Name of the node including the cluster association. This is typically
+
+            <clustername>/<hostname>.
+
+            '
+        primary-address:
+          description: Primary address used for intra-cluster communication
+          $ref: '#/components/schemas/NodeAddressing'
+        secondary-addresses:
+          description: Alternative addresses assigned to the node
+          type: array
+          items:
+            $ref: '#/components/schemas/NodeAddressingElement'
+        health-endpoint-address:
+          description: Address used for probing cluster connectivity
+          $ref: '#/components/schemas/NodeAddressing'
+        ingress-address:
+          description: Source address for Ingress listener
+          $ref: '#/components/schemas/NodeAddressing'
+        source:
+          description: Source of the node configuration
+          type: string
+    BPFMapProperties:
+      description: BPF map properties
       type: object
       properties:
-        ipv6:
-          $ref: '#/components/schemas/NodeAddressingElement'
-        ipv4:
-          $ref: '#/components/schemas/NodeAddressingElement'
-    ConfigurationMap:
-      description: 'Map of configuration key/value pairs.
+        name:
+          description: Name of the BPF map
+          type: string
+        size:
+          description: Size of the BPF map
+          type: integer
+    Endpoint:
+      description: An endpoint is a namespaced network interface to which cilium applies policies
+      type: object
+      properties:
+        id:
+          description: The cilium-agent-local ID of the endpoint
+          type: integer
+        spec:
+          description: The desired configuration state of the endpoint
+          $ref: '#/components/schemas/EndpointConfigurationSpec'
+        status:
+          description: The desired and realized configuration state of the endpoint
+          $ref: '#/components/schemas/EndpointStatus'
+    CgroupContainerMetadata:
+      description: cgroup container metadata
+      type: object
+      properties:
+        cgroup-id:
+          type: integer
+          format: uint64
+        cgroup-path:
+          type: string
+    LabelConfigurationSpec:
+      description: User desired Label configuration of an endpoint
+      type: object
+      properties:
+        user:
+          description: Custom labels in addition to orchestration system labels.
+          $ref: '#/components/schemas/Labels'
+    ControllerStatuses:
+      description: Collection of controller statuses
+      type: array
+      items:
+        $ref: '#/components/schemas/ControllerStatus'
+    NodeAddressingElement:
+      description: Addressing information
+      type: object
+      properties:
+        enabled:
+          description: True if address family is enabled
+          type: boolean
+        ip:
+          description: IP address of node
+          type: string
+        alloc-range:
+          description: Address pool to be used for local endpoints
+          type: string
+        address-type:
+          description: Node address type, one of HostName, ExternalIP or InternalIP
+          type: string
+    PolicyRule:
+      description: A policy rule including the rule labels it derives from
+      properties:
+        rule:
+          description: The policy rule as json
+          type: string
+        derived-from-rules:
+          description: The policy rule labels identifying the policy rules this rule derives from
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+        rules-by-selector:
+          description: The policy rule labels identifying the policy rules this rule derives from, mapped by selector
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: array
+              items:
+                type: string
+    EndpointHealth:
+      description: 'Health of the endpoint
+
+
+        +deepequal-gen=true'
+      type: object
+      properties:
+        overallHealth:
+          $ref: '#/components/schemas/EndpointHealthStatus'
+        bpf:
+          $ref: '#/components/schemas/EndpointHealthStatus'
+        policy:
+          $ref: '#/components/schemas/EndpointHealthStatus'
+        connected:
+          description: Is this endpoint reachable
+          type: boolean
+    NamedPorts:
+      description: 'List of named Layer 4 port and protocol pairs which will be used in Network
+
+        Policy specs.
+
+
+        +deepequal-gen=true
+
+        +k8s:deepcopy-gen=true'
+      type: array
+      items:
+        $ref: '#/components/schemas/Port'
+    ConfiguredDatapathMode:
+      description: Configured datapath mode
+      type: string
+      enum:
+      - auto
+      - veth
+      - netkit
+      - netkit-l2
+    DaemonConfigurationStatus:
+      description: 'Response to a daemon configuration request. Contains the addressing
+
+        information, k8s, node monitor and immutable and mutable configuration
+
+        settings.
 
         '
       type: object
-      additionalProperties:
-        type: string
+      properties:
+        realized:
+          description: Currently applied configuration
+          $ref: '#/components/schemas/DaemonConfigurationSpec'
+        immutable:
+          description: Immutable configuration (read-only)
+          $ref: '#/components/schemas/ConfigurationMap'
+        addressing:
+          $ref: '#/components/schemas/NodeAddressing'
+        k8s-endpoint:
+          type: string
+        k8s-configuration:
+          type: string
+        nodeMonitor:
+          description: Status of the node monitor
+          $ref: '#/components/schemas/MonitorStatus'
+        kvstoreConfiguration:
+          $ref: '#/components/schemas/KVstoreConfiguration'
+        deviceMTU:
+          description: MTU on workload facing devices
+          type: integer
+        routeMTU:
+          description: MTU for network facing routes
+          type: integer
+        enableRouteMTUForCNIChaining:
+          description: Enable route MTU for pod netns when CNI chaining is used
+          type: boolean
+        packetizationLayerPMTUDMode:
+          description: Specifies what mode PLPMTUD probing on the pod netns should be set to (if empty will do nothing).
+          type: string
+        datapathMode:
+          $ref: '#/components/schemas/DatapathMode'
+        configuredDatapathMode:
+          $ref: '#/components/schemas/ConfiguredDatapathMode'
+        ipam-mode:
+          description: Configured IPAM mode
+          type: string
+        masquerade:
+          type: boolean
+        masqueradeProtocols:
+          description: Status of masquerading feature
+          type: object
+          properties:
+            ipv4:
+              description: Status of masquerading for IPv4 traffic
+              type: boolean
+            ipv6:
+              description: Status of masquerading for IPv6 traffic
+              type: boolean
+        installUplinkRoutesForDelegatedIPAM:
+          description: 'Install ingress/egress routes through uplink on host for Pods when working with
+
+            delegated IPAM plugin.
+
+            '
+          type: boolean
+        daemonConfigurationMap:
+          description: Config map which contains all the active daemon configurations
+          additionalProperties:
+            type: object
+        GSOMaxSize:
+          description: Maximum IPv6 GSO size on workload facing devices
+          type: integer
+        GROMaxSize:
+          description: Maximum IPv6 GRO size on workload facing devices
+          type: integer
+        GSOIPv4MaxSize:
+          description: Maximum IPv4 GSO size on workload facing devices
+          type: integer
+        GROIPv4MaxSize:
+          description: Maximum IPv4 GRO size on workload facing devices
+          type: integer
+        deviceHeadroom:
+          description: Headroom buffer margin on workload facing devices
+          type: integer
+        deviceTailroom:
+          description: Tailroom buffer margin on workload facing devices
+          type: integer
+        ipLocalReservedPorts:
+          description: Comma-separated list of IP ports should be reserved in the workload network namespace
+          type: string
+        enableBBRHostNamespaceOnly:
+          description: True if BBR is enabled only in the host network namespace
+          type: boolean
+    EndpointStatusChange:
+      description: 'Indication of a change of status
+
+
+        +deepequal-gen=true'
+      type: object
+      properties:
+        timestamp:
+          description: Timestamp when status change occurred
+          type: string
+        code:
+          description: Code indicate type of status change
+          type: string
+          enum:
+          - ok
+          - failed
+        message:
+          description: Status message
+          type: string
+        state:
+          $ref: '#/components/schemas/EndpointState'
     KubeProxyReplacement:
       description: 'Status of kube-proxy replacement
 
@@ -449,15 +749,434 @@ components:
               type: array
               items:
                 type: string
-    BPFMapList:
-      description: List of BPF Maps
+    Routing:
+      description: Status of routing
       type: object
       properties:
-        maps:
-          description: Array of open BPF map lists
+        inter-host-routing-mode:
+          description: Datapath routing mode for cross-cluster connectivity
+          type: string
+          enum:
+          - Native
+          - Tunnel
+        intra-host-routing-mode:
+          description: Datapath routing mode for connectivity within the host
+          type: string
+          enum:
+          - BPF
+          - Legacy
+        tunnel-protocol:
+          description: Tunnel protocol in use for cross-cluster connectivity
+          type: string
+    ProxyStatistics:
+      description: 'Statistics of a set of proxy redirects for an endpoint
+
+
+        +k8s:deepcopy-gen=true'
+      type: object
+      properties:
+        protocol:
+          description: Name of the L7 protocol
+          type: string
+        port:
+          description: The port subject to the redirect
+          type: integer
+        allocated-proxy-port:
+          description: The port the proxy is listening on
+          type: integer
+        location:
+          description: Location of where the redirect is installed
+          type: string
+          enum:
+          - ingress
+          - egress
+        statistics:
+          description: Statistics of this set of proxy redirect
+          $ref: '#/components/schemas/RequestResponseStatistics'
+    CNIChainingStatus:
+      description: Status of CNI chaining
+      properties:
+        mode:
+          type: string
+          enum:
+          - none
+          - aws-cni
+          - flannel
+          - generic-veth
+          - portmap
+    RequestResponseStatistics:
+      description: 'Statistics of a proxy redirect
+
+
+        +k8s:deepcopy-gen=true'
+      type: object
+      properties:
+        requests:
+          $ref: '#/components/schemas/MessageForwardingStatistics'
+        responses:
+          $ref: '#/components/schemas/MessageForwardingStatistics'
+    HostFirewall:
+      description: 'Status of the host firewall
+
+
+        +k8s:deepcopy-gen=true'
+      type: object
+      properties:
+        mode:
+          type: string
+          enum:
+          - Disabled
+          - Enabled
+        devices:
           type: array
           items:
-            $ref: '#/components/schemas/BPFMap'
+            type: string
+    EndpointHealthStatus:
+      description: 'A common set of statuses for endpoint health * ``OK`` = All components operational * ``Bootstrap`` = This component is being created * ``Pending`` = A change is being processed to be applied * ``Warning`` = This component is not applying up-to-date policies (but is still applying the previous version) * ``Failure`` = An error has occurred and no policy is being applied * ``Disabled`` = This endpoint is disabled and will not handle traffic
+
+        '
+      type: string
+      enum:
+      - OK
+      - Bootstrap
+      - Pending
+      - Warning
+      - Failure
+      - Disabled
+    CgroupDumpMetadata:
+      description: cgroup full metadata
+      type: object
+      properties:
+        pod-metadatas:
+          type: array
+          items:
+            $ref: '#/components/schemas/CgroupPodMetadata'
+    WireguardInterface:
+      description: 'Status of a WireGuard interface
+
+
+        +k8s:deepcopy-gen=true'
+      properties:
+        name:
+          description: Name of the interface
+          type: string
+        public-key:
+          description: Public key of this interface
+          type: string
+        listen-port:
+          description: Port on which the WireGuard endpoint is exposed
+          type: integer
+        peer-count:
+          description: Number of peers configured on this interface
+          type: integer
+        peers:
+          description: Optional list of WireGuard peers
+          type: array
+          items:
+            $ref: '#/components/schemas/WireguardPeer'
+    BackendAddress:
+      description: Service backend address
+      type: object
+      required:
+      - ip
+      properties:
+        ip:
+          description: Layer 3 address
+          type: string
+        protocol:
+          description: Layer 4 protocol (TCP, UDP, etc)
+          type: string
+        port:
+          description: Layer 4 port number
+          type: integer
+          format: uint16
+        nodeName:
+          description: Optional name of the node on which this backend runs
+          type: string
+        state:
+          description: State of the backend for load-balancing service traffic
+          type: string
+          enum:
+          - active
+          - terminating
+          - terminating-not-serving
+          - quarantined
+          - maintenance
+        preferred:
+          description: 'Indicator if this backend is preferred in the context of clustermesh service affinity. The value is set based
+
+            on related annotation of global service. Applicable for active state only.'
+          type: boolean
+        weight:
+          description: Backend weight
+          type:
+          - integer
+          - 'null'
+          format: uint16
+        zone:
+          description: Optional name of the zone in which this backend runs
+          type: string
+    Service:
+      description: Collection of endpoints to be served
+      type: object
+      properties:
+        spec:
+          $ref: '#/components/schemas/ServiceSpec'
+        status:
+          $ref: '#/components/schemas/ServiceStatus'
+    EncryptionStatus:
+      description: 'Status of transparent encryption
+
+
+        +k8s:deepcopy-gen=true'
+      properties:
+        mode:
+          type: string
+          enum:
+          - Disabled
+          - IPsec
+          - Wireguard
+          - Ztunnel
+        msg:
+          type: string
+          description: Human readable error/warning message
+        ipsec:
+          description: Status of the IPsec agent
+          $ref: '#/components/schemas/IPsecStatus'
+        wireguard:
+          description: Status of the WireGuard agent
+          $ref: '#/components/schemas/WireguardStatus'
+    BPFMap:
+      description: BPF map definition and content
+      type: object
+      properties:
+        path:
+          description: Path to BPF map
+          type: string
+        cache:
+          description: Contents of cache
+          type: array
+          items:
+            $ref: '#/components/schemas/BPFMapEntry'
+    DaemonConfigurationSpec:
+      description: The controllable configuration of the daemon.
+      type: object
+      properties:
+        options:
+          description: Changeable configuration
+          $ref: '#/components/schemas/ConfigurationMap'
+        policy-enforcement:
+          description: The policy-enforcement mode
+          type: string
+          enum:
+          - default
+          - always
+          - never
+    MonitorStatus:
+      description: Status of the node monitor
+      properties:
+        cpus:
+          description: Number of CPUs to listen on for events.
+          type: integer
+        npages:
+          description: Number of pages used for the perf ring buffer.
+          type: integer
+        pagesize:
+          description: Pages size used for the perf ring buffer.
+          type: integer
+        lost:
+          description: Number of samples lost by perf.
+          type: integer
+        unknown:
+          description: Number of unknown samples.
+          type: integer
+    RemoteCluster:
+      description: 'Status of remote cluster
+
+
+        +k8s:deepcopy-gen=true'
+      properties:
+        name:
+          description: Name of the cluster
+          type: string
+        ready:
+          description: Indicates readiness of the remote cluster
+          type: boolean
+        connected:
+          description: Indicates whether the connection to the remote kvstore is established
+          type: boolean
+        synced:
+          description: Synchronization status about each resource type
+          $ref: '#/components/schemas/RemoteClusterSynced'
+        config:
+          description: Cluster configuration exposed by the remote cluster
+          $ref: '#/components/schemas/RemoteClusterConfig'
+        num-nodes:
+          description: Number of nodes in the cluster
+          type: integer
+        num-shared-services:
+          description: Number of services in the cluster
+          type: integer
+        num-endpoint-slices:
+          description: Number of endpoint slices in the cluster
+          type: integer
+        num-service-exports:
+          description: Number of MCS-API service exports in the cluster
+          type: integer
+        num-identities:
+          description: Number of identities in the cluster
+          type: integer
+        num-endpoints:
+          description: Number of endpoints in the cluster
+          type: integer
+        status:
+          description: Status of the control plane
+          type: string
+        num-failures:
+          description: Number of failures reaching the cluster
+          type: integer
+        last-failure:
+          description: Time of last failure that occurred while attempting to reach the cluster
+          type: string
+          format: date-time
+    IPV4BigTCP:
+      description: Status of IPv4 BIG TCP
+      type: object
+      properties:
+        enabled:
+          description: Is IPv4 BIG TCP enabled
+          type: boolean
+        maxGRO:
+          description: Maximum IPv4 GRO size
+          type: integer
+        maxGSO:
+          description: Maximum IPv4 GSO size
+          type: integer
+    NodeID:
+      description: Node ID with associated node IP addresses
+      type: object
+      required:
+      - id
+      - ips
+      properties:
+        id:
+          description: ID allocated by the agent for the node
+          type: integer
+        ips:
+          description: IP addresses of the node associated with the ID in the agent
+          type: array
+          items:
+            type: string
+    FrontendAddress:
+      description: 'Layer 4 address. The protocol is currently ignored, all services will
+
+        behave as if protocol any is specified. To restrict to a particular
+
+        protocol, use policy.
+
+        '
+      type: object
+      properties:
+        ip:
+          description: Layer 3 address
+          type: string
+        protocol:
+          description: Layer 4 protocol
+          type: string
+          enum:
+          - tcp
+          - udp
+          - any
+        scope:
+          description: Load balancing scope for frontend address
+          type: string
+          enum:
+          - external
+          - internal
+        port:
+          description: Layer 4 port number
+          type: integer
+          format: uint16
+    K8sStatus:
+      description: 'Status of Kubernetes integration
+
+
+        +k8s:deepcopy-gen=true'
+      type: object
+      properties:
+        state:
+          type: string
+          description: State the component is in
+          enum:
+          - Ok
+          - Warning
+          - Failure
+          - Disabled
+        k8s-api-versions:
+          type: array
+          items:
+            type: string
+        msg:
+          type: string
+          description: Human readable status/error/warning message
+    EndpointStatusLog:
+      description: Status log of endpoint
+      type: array
+      items:
+        $ref: '#/components/schemas/EndpointStatusChange'
+    CIDRPolicy:
+      description: CIDR endpoint policy
+      type: object
+      properties:
+        ingress:
+          description: List of CIDR ingress rules
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyRule'
+        egress:
+          description: List of CIDR egress rules
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyRule'
+    Port:
+      description: 'Layer 4 port / protocol pair
+
+
+        +deepequal-gen=true'
+      type: object
+      properties:
+        protocol:
+          description: Layer 4 protocol
+          type: string
+          enum:
+          - TCP
+          - UDP
+          - SCTP
+          - ICMP
+          - ICMPV6
+          - ANY
+        port:
+          description: Layer 4 port number
+          type: integer
+          format: uint16
+        name:
+          description: Optional layer 4 port name
+          type: string
+    Status:
+      description: Status of an individual component
+      type: object
+      properties:
+        state:
+          type: string
+          description: State the component is in
+          enum:
+          - Ok
+          - Warning
+          - Failure
+          - Disabled
+        msg:
+          type: string
+          description: Human readable status/error/warning message
     BPFMapEntry:
       description: BPF map cache entry
       type: object
@@ -478,57 +1197,454 @@ components:
         last-error:
           description: Last error seen while performing desired action
           type: string
-    MonitorStatus:
-      description: Status of the node monitor
-      properties:
-        cpus:
-          description: Number of CPUs to listen on for events.
-          type: integer
-        npages:
-          description: Number of pages used for the perf ring buffer.
-          type: integer
-        pagesize:
-          description: Pages size used for the perf ring buffer.
-          type: integer
-        lost:
-          description: Number of samples lost by perf.
-          type: integer
-        unknown:
-          description: Number of unknown samples.
-          type: integer
-    MessageForwardingStatistics:
-      description: Statistics of a message forwarding entity
+    ProxyStatus:
+      description: 'Status of proxy
+
+
+        +k8s:deepcopy-gen=true'
       type: object
       properties:
-        received:
-          description: Number of messages received
+        port-range:
+          description: Port range used for proxying
+          type: string
+        ip:
+          description: IP address that the proxy listens on
+          type: string
+        total-redirects:
+          description: Total number of ports configured to redirect to proxies
           type: integer
-        denied:
-          description: Number of messages denied
+        total-ports:
+          description: Total number of listening proxy ports
           type: integer
-        error:
-          description: Number of errors while parsing messages
+        redirects:
+          description: Detailed description of configured redirects
+          type: array
+          items:
+            $ref: '#/components/schemas/ProxyRedirect'
+        envoy-deployment-mode:
+          description: Deployment mode of Envoy L7 proxy
+          type: string
+          enum:
+          - embedded
+          - external
+    Srv6:
+      description: Status of the SRv6
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        srv6EncapMode:
+          type: string
+          enum:
+          - SRH
+          - Reduced
+    DaemonConfiguration:
+      description: 'Response to a daemon configuration request.
+
+        '
+      type: object
+      properties:
+        spec:
+          description: Changeable configuration
+          $ref: '#/components/schemas/DaemonConfigurationSpec'
+        status:
+          description: 'Current daemon configuration related status.Contains the addressing
+
+            information, k8s, node monitor and immutable and mutable
+
+            configuration settings.
+
+            '
+          $ref: '#/components/schemas/DaemonConfigurationStatus'
+    RemoteClusterSynced:
+      description: 'Status of the synchronization with the remote cluster, about each resource
+
+        type. A given resource is considered to be synchronized if the initial
+
+        list of entries has been completely received from the remote cluster, and
+
+        new events are currently being watched.
+
+
+        +k8s:deepcopy-gen=true'
+      properties:
+        nodes:
+          description: Nodes synchronization status
+          type: boolean
+        services:
+          description: Services synchronization status
+          type: boolean
+        endpoint-slices:
+          description: Endpoint slices synchronization status (null means that the component is not watching endpoint slices)
+          type:
+          - boolean
+          - 'null'
+        service-exports:
+          description: MCS-API service exports synchronization status (null means that the component is not watching service exports)
+          type:
+          - boolean
+          - 'null'
+        endpoints:
+          description: Endpoints synchronization status
+          type: boolean
+        identities:
+          description: Identities synchronization status
+          type: boolean
+    ClusterNodeStatus:
+      description: Status of cluster
+      properties:
+        self:
+          description: Name of local node (if available)
+          type: string
+        nodes-added:
+          description: List of known nodes
+          type: array
+          items:
+            $ref: '#/components/schemas/NodeElement'
+        nodes-removed:
+          description: List of known nodes
+          type: array
+          items:
+            $ref: '#/components/schemas/NodeElement'
+        client-id:
+          description: ID that should be used by the client to receive a diff from the previous request
           type: integer
-        forwarded:
-          description: Number of messages forwarded
+    HubbleStatus:
+      description: 'Status of the Hubble server
+
+
+        +k8s:deepcopy-gen=true'
+      type: object
+      properties:
+        state:
+          type: string
+          description: State the component is in
+          enum:
+          - Ok
+          - Warning
+          - Failure
+          - Disabled
+        msg:
+          type: string
+          description: Human readable status/error/warning message
+        observer:
+          type: object
+          description: 'Status of the Hubble observer
+
+
+            +k8s:deepcopy-gen=true'
+          properties:
+            max-flows:
+              type: integer
+              description: Maximum number of flows this Hubble observer is able to store
+            current-flows:
+              type: integer
+              description: Current number of flows this Hubble observer stores
+            seen-flows:
+              type: integer
+              description: Total number of flows this Hubble observer has seen
+            uptime:
+              type: string
+              format: duration
+              description: Uptime of this Hubble observer instance
+    ServiceStatus:
+      description: Configuration of a service
+      type: object
+      properties:
+        realized:
+          $ref: '#/components/schemas/ServiceSpec'
+    EndpointPolicyEnabled:
+      description: Whether policy enforcement is enabled (ingress, egress, both or none)
+      type: string
+      enum:
+      - none
+      - ingress
+      - egress
+      - both
+      - audit-ingress
+      - audit-egress
+      - audit-both
+    Masquerading:
+      description: 'Status of masquerading
+
+
+        +k8s:deepcopy-gen=true'
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        enabledProtocols:
+          description: Is masquerading enabled
+          type: object
+          properties:
+            ipv4:
+              description: Is masquerading enabled for IPv4 traffic
+              type: boolean
+            ipv6:
+              description: Is masquerading enabled for IPv6 traffic
+              type: boolean
+        mode:
+          type: string
+          enum:
+          - BPF
+          - iptables
+        ip-masq-agent:
+          description: Is BPF ip-masq-agent enabled
+          type: boolean
+        snat-exclusion-cidr:
+          description: This field is obsolete, please use snat-exclusion-cidr-v4 or snat-exclusion-cidr-v6.
+          type: string
+        snat-exclusion-cidr-v4:
+          description: 'SnatExclusionCIDRv4 exempts SNAT from being performed on any packet sent to
+
+            an IPv4 address that belongs to this CIDR.'
+          type: string
+        snat-exclusion-cidr-v6:
+          description: 'SnatExclusionCIDRv6 exempts SNAT from being performed on any packet sent to
+
+            an IPv6 address that belongs to this CIDR.
+
+            For IPv6 we only do masquerading in iptables mode.'
+          type: string
+    ClusterStatus:
+      description: 'Status of cluster
+
+
+        +k8s:deepcopy-gen=true'
+      properties:
+        ciliumHealth:
+          description: Status of local cilium-health daemon
+          $ref: '#/components/schemas/Status'
+        self:
+          description: Name of local node (if available)
+          type: string
+        nodes:
+          description: List of known nodes
+          type: array
+          items:
+            $ref: '#/components/schemas/NodeElement'
+    WireguardStatus:
+      description: 'Status of the WireGuard agent
+
+
+        +k8s:deepcopy-gen=true'
+      properties:
+        node-encryption:
+          description: Node Encryption status
+          type: string
+        node-encrypt-opt-out-labels:
+          description: Label selector for nodes which will opt-out of node-to-node encryption
+          type: string
+        interfaces:
+          description: WireGuard interfaces managed by this Cilium instance
+          type: array
+          items:
+            $ref: '#/components/schemas/WireguardInterface'
+    DatapathMode:
+      description: Operational datapath mode
+      type: string
+      enum:
+      - veth
+      - netkit
+      - netkit-l2
+    L4Policy:
+      description: L4 endpoint policy
+      type: object
+      properties:
+        ingress:
+          description: List of L4 ingress rules
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyRule'
+        egress:
+          description: List of L4 egress rules
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyRule'
+    ControllerStatus:
+      description: 'Status of a controller
+
+
+        +k8s:deepcopy-gen=true'
+      type: object
+      properties:
+        name:
+          description: Name of controller
+          type: string
+        uuid:
+          description: UUID of controller
+          type: string
+          format: uuid
+        configuration:
+          description: 'Configuration of controller
+
+
+            +deepequal-gen=true
+
+            +k8s:deepcopy-gen=true'
+          type: object
+          properties:
+            interval:
+              description: Regular synchronization interval
+              type: string
+              format: duration
+            error-retry-base:
+              description: Base error retry back-off time
+              type: string
+              format: duration
+            error-retry:
+              description: Retry on error
+              type: boolean
+        status:
+          description: 'Current status of controller
+
+
+            +k8s:deepcopy-gen=true'
+          type: object
+          properties:
+            success-count:
+              description: Total number of successful runs
+              type: integer
+            last-success-timestamp:
+              description: Timestamp of last success
+              type: string
+              format: date-time
+            failure-count:
+              description: Total number of failed runs
+              type: integer
+            last-failure-timestamp:
+              description: Timestamp of last error
+              type: string
+              format: date-time
+            consecutive-failure-count:
+              description: Number of consecutive errors since last success
+              type: integer
+            last-failure-msg:
+              description: Error message of last failed run
+              type: string
+    BandwidthManager:
+      description: 'Status of bandwidth manager
+
+
+        +k8s:deepcopy-gen=true'
+      type: object
+      properties:
+        enabled:
+          description: Is bandwidth manager enabled
+          type: boolean
+        devices:
+          type: array
+          items:
+            type: string
+        congestionControl:
+          type: string
+          enum:
+          - cubic
+          - bbr
+    EndpointStatus:
+      description: The current state and configuration of the endpoint, its policy & datapath, and subcomponents
+      type: object
+      required:
+      - state
+      properties:
+        external-identifiers:
+          description: Unique identifiers for this endpoint from outside cilium
+          $ref: '#/components/schemas/EndpointIdentifiers'
+        identity:
+          description: The security identity for this endpoint
+          $ref: '#/components/schemas/Identity'
+        labels:
+          description: Labels applied to this endpoint
+          $ref: '#/components/schemas/LabelConfigurationStatus'
+        realized:
+          description: The configuration in effect on this endpoint
+          $ref: '#/components/schemas/EndpointConfigurationSpec'
+        networking:
+          description: Networking properties of the endpoint
+          $ref: '#/components/schemas/EndpointNetworking'
+        policy:
+          description: The policy applied to this endpoint from the policy repository
+          $ref: '#/components/schemas/EndpointPolicyStatus'
+        log:
+          description: Most recent status log. See endpoint/{id}/log for the complete log.
+          $ref: '#/components/schemas/EndpointStatusLog'
+        controllers:
+          description: Status of internal controllers attached to this endpoint
+          $ref: '#/components/schemas/ControllerStatuses'
+        state:
+          description: Current state of endpoint
+          $ref: '#/components/schemas/EndpointState'
+        health:
+          description: Summary overall endpoint & subcomponent health
+          $ref: '#/components/schemas/EndpointHealth'
+        namedPorts:
+          description: List of named ports that can be used in Network Policy
+          $ref: '#/components/schemas/NamedPorts'
+    ProxyRedirect:
+      description: Configured proxy redirection state
+      type: object
+      properties:
+        name:
+          description: Name of the proxy redirect
+          type: string
+        proxy:
+          description: Name of the proxy this redirect points to
+          type: string
+        proxy-port:
+          description: Host port that this redirect points to
           type: integer
+    LabelConfigurationStatus:
+      description: Labels and label configuration of an endpoint
+      type: object
+      properties:
+        realized:
+          description: The current configuration
+          $ref: '#/components/schemas/LabelConfigurationSpec'
+        security-relevant:
+          description: Labels derived from orchestration system that are used in computing a security identity
+          $ref: '#/components/schemas/Labels'
+        derived:
+          description: All labels derived from the orchestration system
+          $ref: '#/components/schemas/Labels'
+        disabled:
+          description: Labels derived from orchestration system which have been disabled.
+          $ref: '#/components/schemas/Labels'
     Labels:
       description: Set of labels
       type: array
       items:
         type: string
-    EndpointHealthStatus:
-      description: 'A common set of statuses for endpoint health * ``OK`` = All components operational * ``Bootstrap`` = This component is being created * ``Pending`` = A change is being processed to be applied * ``Warning`` = This component is not applying up-to-date policies (but is still applying the previous version) * ``Failure`` = An error has occurred and no policy is being applied * ``Disabled`` = This endpoint is disabled and will not handle traffic
+    EndpointIdentifiers:
+      description: 'Unique identifiers for this endpoint from outside cilium
 
-        '
-      type: string
-      enum:
-      - OK
-      - Bootstrap
-      - Pending
-      - Warning
-      - Failure
-      - Disabled
+
+        +deepequal-gen=true'
+      type: object
+      properties:
+        cni-attachment-id:
+          description: ID assigned to this attachment by container runtime
+          type: string
+        container-id:
+          description: ID assigned by container runtime (deprecated, may not be unique)
+          type: string
+        container-name:
+          description: Name assigned to container (deprecated, may not be unique)
+          type: string
+        docker-endpoint-id:
+          description: Docker endpoint ID
+          type: string
+        docker-network-id:
+          description: Docker network ID
+          type: string
+        pod-name:
+          description: K8s pod for this endpoint (deprecated, may not be unique)
+          type: string
+        k8s-pod-name:
+          description: K8s pod name for this endpoint (deprecated, may not be unique)
+          type: string
+        k8s-namespace:
+          description: K8s namespace for this endpoint (deprecated, may not be unique)
+          type: string
     DebugInfo:
       description: groups some debugging related information on the agent
       type: object
@@ -567,22 +1683,107 @@ components:
             wireguard:
               description: Status of the WireGuard agent
               $ref: '#/components/schemas/WireguardStatus'
-    RequestResponseStatistics:
-      description: 'Statistics of a proxy redirect
+    ConfigurationMap:
+      description: 'Map of configuration key/value pairs.
+
+        '
+      type: object
+      additionalProperties:
+        type: string
+    EndpointPolicy:
+      description: Policy information of an endpoint
+      type: object
+      properties:
+        policy-revision:
+          description: The agent-local policy revision
+          type: integer
+        id:
+          description: Own identity of endpoint
+          type: integer
+        policy-enabled:
+          description: Whether policy enforcement is enabled (ingress, egress, both or none)
+          $ref: '#/components/schemas/EndpointPolicyEnabled'
+        build:
+          description: Build number of calculated policy in use
+          type: integer
+        allowed-ingress-identities:
+          description: 'List of identities allowed to communicate to this endpoint
+
+            '
+          type: array
+          items:
+            type: integer
+        denied-ingress-identities:
+          description: 'List of identities not allowed to communicate to this endpoint
+
+            '
+          type: array
+          items:
+            type: integer
+        allowed-egress-identities:
+          description: 'List of identities to which this endpoint is allowed to communicate
+
+            '
+          type: array
+          items:
+            type: integer
+        denied-egress-identities:
+          description: 'List of identities to which this endpoint is not allowed to communicate
+
+            '
+          type: array
+          items:
+            type: integer
+        l4:
+          $ref: '#/components/schemas/L4Policy'
+        cidr-policy:
+          $ref: '#/components/schemas/CIDRPolicy'
+    HubbleMetricsStatus:
+      description: 'Status of the Hubble metrics server
 
 
         +k8s:deepcopy-gen=true'
       type: object
       properties:
-        requests:
-          $ref: '#/components/schemas/MessageForwardingStatistics'
-        responses:
-          $ref: '#/components/schemas/MessageForwardingStatistics'
-    EndpointStatusLog:
-      description: Status log of endpoint
-      type: array
-      items:
-        $ref: '#/components/schemas/EndpointStatusChange'
+        state:
+          type: string
+          description: State the component is in
+          enum:
+          - Ok
+          - Warning
+          - Failure
+          - Disabled
+        msg:
+          type: string
+          description: Human readable status/error/warning message
+    Error:
+      type: string
+    EndpointNetworking:
+      description: Unique identifiers for this endpoint from outside cilium
+      type: object
+      properties:
+        addressing:
+          description: IP4/6 addresses assigned to this Endpoint
+          type: array
+          items:
+            $ref: '#/components/schemas/AddressPair'
+        host-addressing:
+          $ref: '#/components/schemas/NodeAddressing'
+        host-mac:
+          description: MAC address
+          type: string
+        mac:
+          description: MAC address
+          type: string
+        interface-name:
+          description: Name of network device in host netns
+          type: string
+        interface-index:
+          description: Index of network device in host netns
+          type: integer
+        container-interface-name:
+          description: Name of network device in container netns
+          type: string
     ClusterMeshStatus:
       description: 'Status of ClusterMesh
 
@@ -594,6 +1795,46 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RemoteCluster'
+    IdentityRange:
+      description: Status of identity range of the cluster
+      properties:
+        min-identity:
+          description: Minimum identity of the cluster
+          type: integer
+        max-identity:
+          description: Maximum identity of the cluster
+          type: integer
+    IPAMStatus:
+      description: 'Status of IP address management
+
+
+        +k8s:deepcopy-gen=true'
+      properties:
+        allocations:
+          $ref: '#/components/schemas/AllocationMap'
+        ipv4:
+          type: array
+          items:
+            type: string
+        ipv6:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+    ClockSource:
+      description: Status of BPF clock source
+      type: object
+      properties:
+        mode:
+          description: Datapath clock source
+          type: string
+          enum:
+          - ktime
+          - jiffies
+        hertz:
+          description: Kernel Hz
+          type: integer
     StatusResponse:
       description: 'Health and status information of daemon
 
@@ -704,135 +1945,65 @@ components:
         auth-certificate-provider:
           description: Status of Mutual Authentication certificate provider
           $ref: '#/components/schemas/Status'
-    DaemonConfiguration:
-      description: 'Response to a daemon configuration request.
-
-        '
+    AddressPair:
+      description: Addressing information of an endpoint
       type: object
       properties:
-        spec:
-          description: Changeable configuration
-          $ref: '#/components/schemas/DaemonConfigurationSpec'
-        status:
-          description: 'Current daemon configuration related status.Contains the addressing
-
-            information, k8s, node monitor and immutable and mutable
-
-            configuration settings.
-
-            '
-          $ref: '#/components/schemas/DaemonConfigurationStatus'
-    Endpoint:
-      description: An endpoint is a namespaced network interface to which cilium applies policies
-      type: object
-      properties:
-        id:
-          description: The cilium-agent-local ID of the endpoint
-          type: integer
-        spec:
-          description: The desired configuration state of the endpoint
-          $ref: '#/components/schemas/EndpointConfigurationSpec'
-        status:
-          description: The desired and realized configuration state of the endpoint
-          $ref: '#/components/schemas/EndpointStatus'
-    NodeElement:
-      description: 'Known node in the cluster
-
-
-        +k8s:deepcopy-gen=true'
-      properties:
-        name:
+        ipv4:
+          description: IPv4 address
           type: string
-          description: 'Name of the node including the cluster association. This is typically
-
-            <clustername>/<hostname>.
-
-            '
-        primary-address:
-          description: Primary address used for intra-cluster communication
-          $ref: '#/components/schemas/NodeAddressing'
-        secondary-addresses:
-          description: Alternative addresses assigned to the node
+        ipv4-expiration-uuid:
+          description: UUID of IPv4 expiration timer
+          type: string
+        ipv4-pool-name:
+          description: IPAM pool from which this IPv4 address was allocated
+          type: string
+        ipv6:
+          description: IPv6 address
+          type: string
+        ipv6-expiration-uuid:
+          description: UUID of IPv6 expiration timer
+          type: string
+        ipv6-pool-name:
+          description: IPAM pool from which this IPv6 address was allocated
+          type: string
+    BPFMapList:
+      description: List of BPF Maps
+      type: object
+      properties:
+        maps:
+          description: Array of open BPF map lists
           type: array
           items:
-            $ref: '#/components/schemas/NodeAddressingElement'
-        health-endpoint-address:
-          description: Address used for probing cluster connectivity
-          $ref: '#/components/schemas/NodeAddressing'
-        ingress-address:
-          description: Source address for Ingress listener
-          $ref: '#/components/schemas/NodeAddressing'
-        source:
-          description: Source of the node configuration
-          type: string
-    ControllerStatus:
-      description: 'Status of a controller
-
-
-        +k8s:deepcopy-gen=true'
+            $ref: '#/components/schemas/BPFMap'
+    EndpointConfigurationSpec:
+      description: An endpoint's configuration
       type: object
       properties:
-        name:
-          description: Name of controller
-          type: string
-        uuid:
-          description: UUID of controller
-          type: string
-          format: uuid
-        configuration:
-          description: 'Configuration of controller
-
-
-            +deepequal-gen=true
-
-            +k8s:deepcopy-gen=true'
-          type: object
-          properties:
-            interval:
-              description: Regular synchronization interval
-              type: string
-              format: duration
-            error-retry-base:
-              description: Base error retry back-off time
-              type: string
-              format: duration
-            error-retry:
-              description: Retry on error
-              type: boolean
-        status:
-          description: 'Current status of controller
-
-
-            +k8s:deepcopy-gen=true'
-          type: object
-          properties:
-            success-count:
-              description: Total number of successful runs
-              type: integer
-            last-success-timestamp:
-              description: Timestamp of last success
-              type: string
-              format: date-time
-            failure-count:
-              description: Total number of failed runs
-              type: integer
-            last-failure-timestamp:
-              description: Timestamp of last error
-              type: string
-              format: date-time
-            consecutive-failure-count:
-              description: Number of consecutive errors since last success
-              type: integer
-            last-failure-msg:
-              description: Error message of last failed run
-              type: string
-    LabelConfigurationSpec:
-      description: User desired Label configuration of an endpoint
+        options:
+          description: Changeable configuration
+          $ref: '#/components/schemas/ConfigurationMap'
+        label-configuration:
+          description: the endpoint's labels
+          $ref: '#/components/schemas/LabelConfigurationSpec'
+    EndpointPolicyStatus:
+      description: Policy information of an endpoint
       type: object
       properties:
-        user:
-          description: Custom labels in addition to orchestration system labels.
-          $ref: '#/components/schemas/Labels'
+        spec:
+          description: The policy that should apply to this endpoint
+          $ref: '#/components/schemas/EndpointPolicy'
+        realized:
+          description: The policy in the datapath for this endpoint
+          $ref: '#/components/schemas/EndpointPolicy'
+        proxy-policy-revision:
+          description: The policy revision currently enforced in the proxy for this endpoint
+          type: integer
+        proxy-statistics:
+          description: Statistics of the proxy redirects configured for this endpoint
+          type: array
+          items:
+            $ref: '#/components/schemas/ProxyStatistics'
     Policy:
       description: 'Policy definition
 
@@ -851,48 +2022,62 @@ components:
         policy:
           description: Policy definition as JSON.
           type: string
-    Port:
-      description: 'Layer 4 port / protocol pair
-
-
-        +deepequal-gen=true'
+    EndpointState:
+      description: State of endpoint
+      type: string
+      enum:
+      - waiting-for-identity
+      - not-ready
+      - waiting-to-regenerate
+      - regenerating
+      - restoring
+      - ready
+      - disconnecting
+      - disconnected
+      - invalid
+    AttachMode:
+      description: Core datapath attachment mode
+      type: string
+      enum:
+      - tc
+      - tcx
+    Identity:
+      description: Security identity
       type: object
       properties:
-        protocol:
-          description: Layer 4 protocol
-          type: string
-          enum:
-          - TCP
-          - UDP
-          - SCTP
-          - ICMP
-          - ICMPV6
-          - ANY
-        port:
-          description: Layer 4 port number
+        id:
+          description: Unique identifier
           type: integer
-          format: uint16
-        name:
-          description: Optional layer 4 port name
+        labels:
+          description: Labels describing the identity
+          $ref: '#/components/schemas/Labels'
+        labelsSHA256:
+          description: SHA256 of labels
           type: string
-    IPAMStatus:
-      description: 'Status of IP address management
+    AllocationMap:
+      description: 'Map of allocated IPs
+
+        '
+      type: object
+      additionalProperties:
+        type: string
+    BPFMapStatus:
+      description: 'BPF map status
 
 
-        +k8s:deepcopy-gen=true'
+        +k8s:deepcopy-gen=true
+
+        '
+      type: object
       properties:
-        allocations:
-          $ref: '#/components/schemas/AllocationMap'
-        ipv4:
+        dynamic-size-ratio:
+          description: Ratio of total system memory to use for dynamic sizing of BPF maps
+          type: number
+        maps:
+          description: BPF maps
           type: array
           items:
-            type: string
-        ipv6:
-          type: array
-          items:
-            type: string
-        status:
-          type: string
+            $ref: '#/components/schemas/BPFMapProperties'
     CgroupPodMetadata:
       description: cgroup pod metadata
       type: object
@@ -909,6 +2094,17 @@ components:
           type: array
           items:
             type: string
+    NodeAddressing:
+      description: 'Addressing information of a node for all address families
+
+
+        +k8s:deepcopy-gen=true'
+      type: object
+      properties:
+        ipv6:
+          $ref: '#/components/schemas/NodeAddressingElement'
+        ipv4:
+          $ref: '#/components/schemas/NodeAddressingElement'
     KVstoreConfiguration:
       description: Configuration used for the kvstore
       properties:
@@ -920,127 +2116,31 @@ components:
           type: object
           additionalProperties:
             type: string
-    Masquerading:
-      description: 'Status of masquerading
+    IPsecStatus:
+      description: 'Status of the IPsec agent
 
 
         +k8s:deepcopy-gen=true'
-      type: object
       properties:
-        enabled:
-          type: boolean
-        enabledProtocols:
-          description: Is masquerading enabled
+        decrypt-interfaces:
+          description: IPsec decryption interfaces
+          type: array
+          items:
+            type: string
+        max-seq-number:
+          description: IPsec max sequence number
+          type: string
+        keys-in-use:
+          description: IPsec keys in use
+          type: integer
+        error-count:
+          description: IPsec error count
+          type: integer
+        xfrm-errors:
+          description: IPsec XFRM errors
           type: object
-          properties:
-            ipv4:
-              description: Is masquerading enabled for IPv4 traffic
-              type: boolean
-            ipv6:
-              description: Is masquerading enabled for IPv6 traffic
-              type: boolean
-        mode:
-          type: string
-          enum:
-          - BPF
-          - iptables
-        ip-masq-agent:
-          description: Is BPF ip-masq-agent enabled
-          type: boolean
-        snat-exclusion-cidr:
-          description: This field is obsolete, please use snat-exclusion-cidr-v4 or snat-exclusion-cidr-v6.
-          type: string
-        snat-exclusion-cidr-v4:
-          description: 'SnatExclusionCIDRv4 exempts SNAT from being performed on any packet sent to
-
-            an IPv4 address that belongs to this CIDR.'
-          type: string
-        snat-exclusion-cidr-v6:
-          description: 'SnatExclusionCIDRv6 exempts SNAT from being performed on any packet sent to
-
-            an IPv6 address that belongs to this CIDR.
-
-            For IPv6 we only do masquerading in iptables mode.'
-          type: string
-    DaemonConfigurationSpec:
-      description: The controllable configuration of the daemon.
-      type: object
-      properties:
-        options:
-          description: Changeable configuration
-          $ref: '#/components/schemas/ConfigurationMap'
-        policy-enforcement:
-          description: The policy-enforcement mode
-          type: string
-          enum:
-          - default
-          - always
-          - never
-    WireguardPeer:
-      description: 'Status of a WireGuard peer
-
-
-        +k8s:deepcopy-gen=true'
-      properties:
-        public-key:
-          description: Public key of this peer
-          type: string
-        endpoint:
-          description: Endpoint on which we are connected to this peer
-          type: string
-        last-handshake-time:
-          description: Timestamp of the last handshake with this peer
-          type: string
-          format: date-time
-        transfer-tx:
-          description: Number of sent bytes
-          type: integer
-        transfer-rx:
-          description: Number of received bytes
-          type: integer
-        allowed-ips:
-          description: List of IPs which may be routed through this peer
-          type: array
-          items:
-            type: string
-    IdentityRange:
-      description: Status of identity range of the cluster
-      properties:
-        min-identity:
-          description: Minimum identity of the cluster
-          type: integer
-        max-identity:
-          description: Maximum identity of the cluster
-          type: integer
-    BandwidthManager:
-      description: 'Status of bandwidth manager
-
-
-        +k8s:deepcopy-gen=true'
-      type: object
-      properties:
-        enabled:
-          description: Is bandwidth manager enabled
-          type: boolean
-        devices:
-          type: array
-          items:
-            type: string
-        congestionControl:
-          type: string
-          enum:
-          - cubic
-          - bbr
-    EndpointConfigurationSpec:
-      description: An endpoint's configuration
-      type: object
-      properties:
-        options:
-          description: Changeable configuration
-          $ref: '#/components/schemas/ConfigurationMap'
-        label-configuration:
-          description: the endpoint's labels
-          $ref: '#/components/schemas/LabelConfigurationSpec'
+          additionalProperties:
+            type: integer
     RemoteClusterConfig:
       description: 'Cluster configuration exposed by the remote cluster
 
@@ -1073,1157 +2173,50 @@ components:
           enum:
           - services-and-endpointslices
           - endpointslices-only
-    HubbleMetricsStatus:
-      description: 'Status of the Hubble metrics server
-
-
-        +k8s:deepcopy-gen=true'
+    MessageForwardingStatistics:
+      description: Statistics of a message forwarding entity
       type: object
       properties:
-        state:
-          type: string
-          description: State the component is in
-          enum:
-          - Ok
-          - Warning
-          - Failure
-          - Disabled
-        msg:
-          type: string
-          description: Human readable status/error/warning message
-    EndpointState:
-      description: State of endpoint
-      type: string
-      enum:
-      - waiting-for-identity
-      - not-ready
-      - waiting-to-regenerate
-      - regenerating
-      - restoring
-      - ready
-      - disconnecting
-      - disconnected
-      - invalid
-    K8sStatus:
-      description: 'Status of Kubernetes integration
-
-
-        +k8s:deepcopy-gen=true'
-      type: object
-      properties:
-        state:
-          type: string
-          description: State the component is in
-          enum:
-          - Ok
-          - Warning
-          - Failure
-          - Disabled
-        k8s-api-versions:
-          type: array
-          items:
-            type: string
-        msg:
-          type: string
-          description: Human readable status/error/warning message
-    CIDRPolicy:
-      description: CIDR endpoint policy
-      type: object
-      properties:
-        ingress:
-          description: List of CIDR ingress rules
-          type: array
-          items:
-            $ref: '#/components/schemas/PolicyRule'
-        egress:
-          description: List of CIDR egress rules
-          type: array
-          items:
-            $ref: '#/components/schemas/PolicyRule'
-    ConfiguredDatapathMode:
-      description: Configured datapath mode
-      type: string
-      enum:
-      - auto
-      - veth
-      - netkit
-      - netkit-l2
-    PolicyRule:
-      description: A policy rule including the rule labels it derives from
-      properties:
-        rule:
-          description: The policy rule as json
-          type: string
-        derived-from-rules:
-          description: The policy rule labels identifying the policy rules this rule derives from
-          type: array
-          items:
-            type: array
-            items:
-              type: string
-        rules-by-selector:
-          description: The policy rule labels identifying the policy rules this rule derives from, mapped by selector
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              type: array
-              items:
-                type: string
-    Error:
-      type: string
-    EndpointPolicyEnabled:
-      description: Whether policy enforcement is enabled (ingress, egress, both or none)
-      type: string
-      enum:
-      - none
-      - ingress
-      - egress
-      - both
-      - audit-ingress
-      - audit-egress
-      - audit-both
-    ControllerStatuses:
-      description: Collection of controller statuses
-      type: array
-      items:
-        $ref: '#/components/schemas/ControllerStatus'
-    AddressPair:
-      description: Addressing information of an endpoint
-      type: object
-      properties:
-        ipv4:
-          description: IPv4 address
-          type: string
-        ipv4-expiration-uuid:
-          description: UUID of IPv4 expiration timer
-          type: string
-        ipv4-pool-name:
-          description: IPAM pool from which this IPv4 address was allocated
-          type: string
-        ipv6:
-          description: IPv6 address
-          type: string
-        ipv6-expiration-uuid:
-          description: UUID of IPv6 expiration timer
-          type: string
-        ipv6-pool-name:
-          description: IPAM pool from which this IPv6 address was allocated
-          type: string
-    EndpointNetworking:
-      description: Unique identifiers for this endpoint from outside cilium
-      type: object
-      properties:
-        addressing:
-          description: IP4/6 addresses assigned to this Endpoint
-          type: array
-          items:
-            $ref: '#/components/schemas/AddressPair'
-        host-addressing:
-          $ref: '#/components/schemas/NodeAddressing'
-        host-mac:
-          description: MAC address
-          type: string
-        mac:
-          description: MAC address
-          type: string
-        interface-name:
-          description: Name of network device in host netns
-          type: string
-        interface-index:
-          description: Index of network device in host netns
+        received:
+          description: Number of messages received
           type: integer
-        container-interface-name:
-          description: Name of network device in container netns
-          type: string
-    HostFirewall:
-      description: 'Status of the host firewall
-
-
-        +k8s:deepcopy-gen=true'
-      type: object
-      properties:
-        mode:
-          type: string
-          enum:
-          - Disabled
-          - Enabled
-        devices:
-          type: array
-          items:
-            type: string
-    WireguardStatus:
-      description: 'Status of the WireGuard agent
+        denied:
+          description: Number of messages denied
+          type: integer
+        error:
+          description: Number of errors while parsing messages
+          type: integer
+        forwarded:
+          description: Number of messages forwarded
+          type: integer
+    WireguardPeer:
+      description: 'Status of a WireGuard peer
 
 
         +k8s:deepcopy-gen=true'
       properties:
-        node-encryption:
-          description: Node Encryption status
+        public-key:
+          description: Public key of this peer
           type: string
-        node-encrypt-opt-out-labels:
-          description: Label selector for nodes which will opt-out of node-to-node encryption
+        endpoint:
+          description: Endpoint on which we are connected to this peer
           type: string
-        interfaces:
-          description: WireGuard interfaces managed by this Cilium instance
-          type: array
-          items:
-            $ref: '#/components/schemas/WireguardInterface'
-    NodeID:
-      description: Node ID with associated node IP addresses
-      type: object
-      required:
-      - id
-      - ips
-      properties:
-        id:
-          description: ID allocated by the agent for the node
-          type: integer
-        ips:
-          description: IP addresses of the node associated with the ID in the agent
-          type: array
-          items:
-            type: string
-    NodeAddressingElement:
-      description: Addressing information
-      type: object
-      properties:
-        enabled:
-          description: True if address family is enabled
-          type: boolean
-        ip:
-          description: IP address of node
-          type: string
-        alloc-range:
-          description: Address pool to be used for local endpoints
-          type: string
-        address-type:
-          description: Node address type, one of HostName, ExternalIP or InternalIP
-          type: string
-    ProxyStatistics:
-      description: 'Statistics of a set of proxy redirects for an endpoint
-
-
-        +k8s:deepcopy-gen=true'
-      type: object
-      properties:
-        protocol:
-          description: Name of the L7 protocol
-          type: string
-        port:
-          description: The port subject to the redirect
-          type: integer
-        allocated-proxy-port:
-          description: The port the proxy is listening on
-          type: integer
-        location:
-          description: Location of where the redirect is installed
-          type: string
-          enum:
-          - ingress
-          - egress
-        statistics:
-          description: Statistics of this set of proxy redirect
-          $ref: '#/components/schemas/RequestResponseStatistics'
-    DaemonConfigurationStatus:
-      description: 'Response to a daemon configuration request. Contains the addressing
-
-        information, k8s, node monitor and immutable and mutable configuration
-
-        settings.
-
-        '
-      type: object
-      properties:
-        realized:
-          description: Currently applied configuration
-          $ref: '#/components/schemas/DaemonConfigurationSpec'
-        immutable:
-          description: Immutable configuration (read-only)
-          $ref: '#/components/schemas/ConfigurationMap'
-        addressing:
-          $ref: '#/components/schemas/NodeAddressing'
-        k8s-endpoint:
-          type: string
-        k8s-configuration:
-          type: string
-        nodeMonitor:
-          description: Status of the node monitor
-          $ref: '#/components/schemas/MonitorStatus'
-        kvstoreConfiguration:
-          $ref: '#/components/schemas/KVstoreConfiguration'
-        deviceMTU:
-          description: MTU on workload facing devices
-          type: integer
-        routeMTU:
-          description: MTU for network facing routes
-          type: integer
-        enableRouteMTUForCNIChaining:
-          description: Enable route MTU for pod netns when CNI chaining is used
-          type: boolean
-        packetizationLayerPMTUDMode:
-          description: Specifies what mode PLPMTUD probing on the pod netns should be set to (if empty will do nothing).
-          type: string
-        datapathMode:
-          $ref: '#/components/schemas/DatapathMode'
-        configuredDatapathMode:
-          $ref: '#/components/schemas/ConfiguredDatapathMode'
-        ipam-mode:
-          description: Configured IPAM mode
-          type: string
-        masquerade:
-          type: boolean
-        masqueradeProtocols:
-          description: Status of masquerading feature
-          type: object
-          properties:
-            ipv4:
-              description: Status of masquerading for IPv4 traffic
-              type: boolean
-            ipv6:
-              description: Status of masquerading for IPv6 traffic
-              type: boolean
-        installUplinkRoutesForDelegatedIPAM:
-          description: 'Install ingress/egress routes through uplink on host for Pods when working with
-
-            delegated IPAM plugin.
-
-            '
-          type: boolean
-        daemonConfigurationMap:
-          description: Config map which contains all the active daemon configurations
-          additionalProperties:
-            type: object
-        GSOMaxSize:
-          description: Maximum IPv6 GSO size on workload facing devices
-          type: integer
-        GROMaxSize:
-          description: Maximum IPv6 GRO size on workload facing devices
-          type: integer
-        GSOIPv4MaxSize:
-          description: Maximum IPv4 GSO size on workload facing devices
-          type: integer
-        GROIPv4MaxSize:
-          description: Maximum IPv4 GRO size on workload facing devices
-          type: integer
-        deviceHeadroom:
-          description: Headroom buffer margin on workload facing devices
-          type: integer
-        deviceTailroom:
-          description: Tailroom buffer margin on workload facing devices
-          type: integer
-        ipLocalReservedPorts:
-          description: Comma-separated list of IP ports should be reserved in the workload network namespace
-          type: string
-        enableBBRHostNamespaceOnly:
-          description: True if BBR is enabled only in the host network namespace
-          type: boolean
-    FrontendAddress:
-      description: 'Layer 4 address. The protocol is currently ignored, all services will
-
-        behave as if protocol any is specified. To restrict to a particular
-
-        protocol, use policy.
-
-        '
-      type: object
-      properties:
-        ip:
-          description: Layer 3 address
-          type: string
-        protocol:
-          description: Layer 4 protocol
-          type: string
-          enum:
-          - tcp
-          - udp
-          - any
-        scope:
-          description: Load balancing scope for frontend address
-          type: string
-          enum:
-          - external
-          - internal
-        port:
-          description: Layer 4 port number
-          type: integer
-          format: uint16
-    Identity:
-      description: Security identity
-      type: object
-      properties:
-        id:
-          description: Unique identifier
-          type: integer
-        labels:
-          description: Labels describing the identity
-          $ref: '#/components/schemas/Labels'
-        labelsSHA256:
-          description: SHA256 of labels
-          type: string
-    EncryptionStatus:
-      description: 'Status of transparent encryption
-
-
-        +k8s:deepcopy-gen=true'
-      properties:
-        mode:
-          type: string
-          enum:
-          - Disabled
-          - IPsec
-          - Wireguard
-          - Ztunnel
-        msg:
-          type: string
-          description: Human readable error/warning message
-        ipsec:
-          description: Status of the IPsec agent
-          $ref: '#/components/schemas/IPsecStatus'
-        wireguard:
-          description: Status of the WireGuard agent
-          $ref: '#/components/schemas/WireguardStatus'
-    Srv6:
-      description: Status of the SRv6
-      type: object
-      properties:
-        enabled:
-          type: boolean
-        srv6EncapMode:
-          type: string
-          enum:
-          - SRH
-          - Reduced
-    CgroupDumpMetadata:
-      description: cgroup full metadata
-      type: object
-      properties:
-        pod-metadatas:
-          type: array
-          items:
-            $ref: '#/components/schemas/CgroupPodMetadata'
-    EndpointStatus:
-      description: The current state and configuration of the endpoint, its policy & datapath, and subcomponents
-      type: object
-      required:
-      - state
-      properties:
-        external-identifiers:
-          description: Unique identifiers for this endpoint from outside cilium
-          $ref: '#/components/schemas/EndpointIdentifiers'
-        identity:
-          description: The security identity for this endpoint
-          $ref: '#/components/schemas/Identity'
-        labels:
-          description: Labels applied to this endpoint
-          $ref: '#/components/schemas/LabelConfigurationStatus'
-        realized:
-          description: The configuration in effect on this endpoint
-          $ref: '#/components/schemas/EndpointConfigurationSpec'
-        networking:
-          description: Networking properties of the endpoint
-          $ref: '#/components/schemas/EndpointNetworking'
-        policy:
-          description: The policy applied to this endpoint from the policy repository
-          $ref: '#/components/schemas/EndpointPolicyStatus'
-        log:
-          description: Most recent status log. See endpoint/{id}/log for the complete log.
-          $ref: '#/components/schemas/EndpointStatusLog'
-        controllers:
-          description: Status of internal controllers attached to this endpoint
-          $ref: '#/components/schemas/ControllerStatuses'
-        state:
-          description: Current state of endpoint
-          $ref: '#/components/schemas/EndpointState'
-        health:
-          description: Summary overall endpoint & subcomponent health
-          $ref: '#/components/schemas/EndpointHealth'
-        namedPorts:
-          description: List of named ports that can be used in Network Policy
-          $ref: '#/components/schemas/NamedPorts'
-    RemoteCluster:
-      description: 'Status of remote cluster
-
-
-        +k8s:deepcopy-gen=true'
-      properties:
-        name:
-          description: Name of the cluster
-          type: string
-        ready:
-          description: Indicates readiness of the remote cluster
-          type: boolean
-        connected:
-          description: Indicates whether the connection to the remote kvstore is established
-          type: boolean
-        synced:
-          description: Synchronization status about each resource type
-          $ref: '#/components/schemas/RemoteClusterSynced'
-        config:
-          description: Cluster configuration exposed by the remote cluster
-          $ref: '#/components/schemas/RemoteClusterConfig'
-        num-nodes:
-          description: Number of nodes in the cluster
-          type: integer
-        num-shared-services:
-          description: Number of services in the cluster
-          type: integer
-        num-endpoint-slices:
-          description: Number of endpoint slices in the cluster
-          type: integer
-        num-service-exports:
-          description: Number of MCS-API service exports in the cluster
-          type: integer
-        num-identities:
-          description: Number of identities in the cluster
-          type: integer
-        num-endpoints:
-          description: Number of endpoints in the cluster
-          type: integer
-        status:
-          description: Status of the control plane
-          type: string
-        num-failures:
-          description: Number of failures reaching the cluster
-          type: integer
-        last-failure:
-          description: Time of last failure that occurred while attempting to reach the cluster
+        last-handshake-time:
+          description: Timestamp of the last handshake with this peer
           type: string
           format: date-time
-    AllocationMap:
-      description: 'Map of allocated IPs
-
-        '
-      type: object
-      additionalProperties:
-        type: string
-    BPFMapProperties:
-      description: BPF map properties
-      type: object
-      properties:
-        name:
-          description: Name of the BPF map
-          type: string
-        size:
-          description: Size of the BPF map
+        transfer-tx:
+          description: Number of sent bytes
           type: integer
-    ProxyRedirect:
-      description: Configured proxy redirection state
-      type: object
-      properties:
-        name:
-          description: Name of the proxy redirect
-          type: string
-        proxy:
-          description: Name of the proxy this redirect points to
-          type: string
-        proxy-port:
-          description: Host port that this redirect points to
+        transfer-rx:
+          description: Number of received bytes
           type: integer
-    HubbleStatus:
-      description: 'Status of the Hubble server
-
-
-        +k8s:deepcopy-gen=true'
-      type: object
-      properties:
-        state:
-          type: string
-          description: State the component is in
-          enum:
-          - Ok
-          - Warning
-          - Failure
-          - Disabled
-        msg:
-          type: string
-          description: Human readable status/error/warning message
-        observer:
-          type: object
-          description: 'Status of the Hubble observer
-
-
-            +k8s:deepcopy-gen=true'
-          properties:
-            max-flows:
-              type: integer
-              description: Maximum number of flows this Hubble observer is able to store
-            current-flows:
-              type: integer
-              description: Current number of flows this Hubble observer stores
-            seen-flows:
-              type: integer
-              description: Total number of flows this Hubble observer has seen
-            uptime:
-              type: string
-              format: duration
-              description: Uptime of this Hubble observer instance
-    NamedPorts:
-      description: 'List of named Layer 4 port and protocol pairs which will be used in Network
-
-        Policy specs.
-
-
-        +deepequal-gen=true
-
-        +k8s:deepcopy-gen=true'
-      type: array
-      items:
-        $ref: '#/components/schemas/Port'
-    ClusterNodeStatus:
-      description: Status of cluster
-      properties:
-        self:
-          description: Name of local node (if available)
-          type: string
-        nodes-added:
-          description: List of known nodes
-          type: array
-          items:
-            $ref: '#/components/schemas/NodeElement'
-        nodes-removed:
-          description: List of known nodes
-          type: array
-          items:
-            $ref: '#/components/schemas/NodeElement'
-        client-id:
-          description: ID that should be used by the client to receive a diff from the previous request
-          type: integer
-    EndpointPolicyStatus:
-      description: Policy information of an endpoint
-      type: object
-      properties:
-        spec:
-          description: The policy that should apply to this endpoint
-          $ref: '#/components/schemas/EndpointPolicy'
-        realized:
-          description: The policy in the datapath for this endpoint
-          $ref: '#/components/schemas/EndpointPolicy'
-        proxy-policy-revision:
-          description: The policy revision currently enforced in the proxy for this endpoint
-          type: integer
-        proxy-statistics:
-          description: Statistics of the proxy redirects configured for this endpoint
-          type: array
-          items:
-            $ref: '#/components/schemas/ProxyStatistics'
-    AttachMode:
-      description: Core datapath attachment mode
-      type: string
-      enum:
-      - tc
-      - tcx
-    EndpointPolicy:
-      description: Policy information of an endpoint
-      type: object
-      properties:
-        policy-revision:
-          description: The agent-local policy revision
-          type: integer
-        id:
-          description: Own identity of endpoint
-          type: integer
-        policy-enabled:
-          description: Whether policy enforcement is enabled (ingress, egress, both or none)
-          $ref: '#/components/schemas/EndpointPolicyEnabled'
-        build:
-          description: Build number of calculated policy in use
-          type: integer
-        allowed-ingress-identities:
-          description: 'List of identities allowed to communicate to this endpoint
-
-            '
-          type: array
-          items:
-            type: integer
-        denied-ingress-identities:
-          description: 'List of identities not allowed to communicate to this endpoint
-
-            '
-          type: array
-          items:
-            type: integer
-        allowed-egress-identities:
-          description: 'List of identities to which this endpoint is allowed to communicate
-
-            '
-          type: array
-          items:
-            type: integer
-        denied-egress-identities:
-          description: 'List of identities to which this endpoint is not allowed to communicate
-
-            '
-          type: array
-          items:
-            type: integer
-        l4:
-          $ref: '#/components/schemas/L4Policy'
-        cidr-policy:
-          $ref: '#/components/schemas/CIDRPolicy'
-    BPFMapStatus:
-      description: 'BPF map status
-
-
-        +k8s:deepcopy-gen=true
-
-        '
-      type: object
-      properties:
-        dynamic-size-ratio:
-          description: Ratio of total system memory to use for dynamic sizing of BPF maps
-          type: number
-        maps:
-          description: BPF maps
-          type: array
-          items:
-            $ref: '#/components/schemas/BPFMapProperties'
-    EndpointHealth:
-      description: 'Health of the endpoint
-
-
-        +deepequal-gen=true'
-      type: object
-      properties:
-        overallHealth:
-          $ref: '#/components/schemas/EndpointHealthStatus'
-        bpf:
-          $ref: '#/components/schemas/EndpointHealthStatus'
-        policy:
-          $ref: '#/components/schemas/EndpointHealthStatus'
-        connected:
-          description: Is this endpoint reachable
-          type: boolean
-    Service:
-      description: Collection of endpoints to be served
-      type: object
-      properties:
-        spec:
-          $ref: '#/components/schemas/ServiceSpec'
-        status:
-          $ref: '#/components/schemas/ServiceStatus'
-    ClusterStatus:
-      description: 'Status of cluster
-
-
-        +k8s:deepcopy-gen=true'
-      properties:
-        ciliumHealth:
-          description: Status of local cilium-health daemon
-          $ref: '#/components/schemas/Status'
-        self:
-          description: Name of local node (if available)
-          type: string
-        nodes:
-          description: List of known nodes
-          type: array
-          items:
-            $ref: '#/components/schemas/NodeElement'
-    ProxyStatus:
-      description: 'Status of proxy
-
-
-        +k8s:deepcopy-gen=true'
-      type: object
-      properties:
-        port-range:
-          description: Port range used for proxying
-          type: string
-        ip:
-          description: IP address that the proxy listens on
-          type: string
-        total-redirects:
-          description: Total number of ports configured to redirect to proxies
-          type: integer
-        total-ports:
-          description: Total number of listening proxy ports
-          type: integer
-        redirects:
-          description: Detailed description of configured redirects
-          type: array
-          items:
-            $ref: '#/components/schemas/ProxyRedirect'
-        envoy-deployment-mode:
-          description: Deployment mode of Envoy L7 proxy
-          type: string
-          enum:
-          - embedded
-          - external
-    IPV4BigTCP:
-      description: Status of IPv4 BIG TCP
-      type: object
-      properties:
-        enabled:
-          description: Is IPv4 BIG TCP enabled
-          type: boolean
-        maxGRO:
-          description: Maximum IPv4 GRO size
-          type: integer
-        maxGSO:
-          description: Maximum IPv4 GSO size
-          type: integer
-    WireguardInterface:
-      description: 'Status of a WireGuard interface
-
-
-        +k8s:deepcopy-gen=true'
-      properties:
-        name:
-          description: Name of the interface
-          type: string
-        public-key:
-          description: Public key of this interface
-          type: string
-        listen-port:
-          description: Port on which the WireGuard endpoint is exposed
-          type: integer
-        peer-count:
-          description: Number of peers configured on this interface
-          type: integer
-        peers:
-          description: Optional list of WireGuard peers
-          type: array
-          items:
-            $ref: '#/components/schemas/WireguardPeer'
-    ServiceStatus:
-      description: Configuration of a service
-      type: object
-      properties:
-        realized:
-          $ref: '#/components/schemas/ServiceSpec'
-    RemoteClusterSynced:
-      description: 'Status of the synchronization with the remote cluster, about each resource
-
-        type. A given resource is considered to be synchronized if the initial
-
-        list of entries has been completely received from the remote cluster, and
-
-        new events are currently being watched.
-
-
-        +k8s:deepcopy-gen=true'
-      properties:
-        nodes:
-          description: Nodes synchronization status
-          type: boolean
-        services:
-          description: Services synchronization status
-          type: boolean
-        endpoint-slices:
-          description: Endpoint slices synchronization status (null means that the component is not watching endpoint slices)
-          type:
-          - boolean
-          - 'null'
-        service-exports:
-          description: MCS-API service exports synchronization status (null means that the component is not watching service exports)
-          type:
-          - boolean
-          - 'null'
-        endpoints:
-          description: Endpoints synchronization status
-          type: boolean
-        identities:
-          description: Identities synchronization status
-          type: boolean
-    IPsecStatus:
-      description: 'Status of the IPsec agent
-
-
-        +k8s:deepcopy-gen=true'
-      properties:
-        decrypt-interfaces:
-          description: IPsec decryption interfaces
+        allowed-ips:
+          description: List of IPs which may be routed through this peer
           type: array
           items:
             type: string
-        max-seq-number:
-          description: IPsec max sequence number
-          type: string
-        keys-in-use:
-          description: IPsec keys in use
-          type: integer
-        error-count:
-          description: IPsec error count
-          type: integer
-        xfrm-errors:
-          description: IPsec XFRM errors
-          type: object
-          additionalProperties:
-            type: integer
-    ClockSource:
-      description: Status of BPF clock source
-      type: object
-      properties:
-        mode:
-          description: Datapath clock source
-          type: string
-          enum:
-          - ktime
-          - jiffies
-        hertz:
-          description: Kernel Hz
-          type: integer
-    CNIChainingStatus:
-      description: Status of CNI chaining
-      properties:
-        mode:
-          type: string
-          enum:
-          - none
-          - aws-cni
-          - flannel
-          - generic-veth
-          - portmap
-    Routing:
-      description: Status of routing
-      type: object
-      properties:
-        inter-host-routing-mode:
-          description: Datapath routing mode for cross-cluster connectivity
-          type: string
-          enum:
-          - Native
-          - Tunnel
-        intra-host-routing-mode:
-          description: Datapath routing mode for connectivity within the host
-          type: string
-          enum:
-          - BPF
-          - Legacy
-        tunnel-protocol:
-          description: Tunnel protocol in use for cross-cluster connectivity
-          type: string
-    EndpointIdentifiers:
-      description: 'Unique identifiers for this endpoint from outside cilium
-
-
-        +deepequal-gen=true'
-      type: object
-      properties:
-        cni-attachment-id:
-          description: ID assigned to this attachment by container runtime
-          type: string
-        container-id:
-          description: ID assigned by container runtime (deprecated, may not be unique)
-          type: string
-        container-name:
-          description: Name assigned to container (deprecated, may not be unique)
-          type: string
-        docker-endpoint-id:
-          description: Docker endpoint ID
-          type: string
-        docker-network-id:
-          description: Docker network ID
-          type: string
-        pod-name:
-          description: K8s pod for this endpoint (deprecated, may not be unique)
-          type: string
-        k8s-pod-name:
-          description: K8s pod name for this endpoint (deprecated, may not be unique)
-          type: string
-        k8s-namespace:
-          description: K8s namespace for this endpoint (deprecated, may not be unique)
-          type: string
-    BackendAddress:
-      description: Service backend address
-      type: object
-      required:
-      - ip
-      properties:
-        ip:
-          description: Layer 3 address
-          type: string
-        protocol:
-          description: Layer 4 protocol (TCP, UDP, etc)
-          type: string
-        port:
-          description: Layer 4 port number
-          type: integer
-          format: uint16
-        nodeName:
-          description: Optional name of the node on which this backend runs
-          type: string
-        state:
-          description: State of the backend for load-balancing service traffic
-          type: string
-          enum:
-          - active
-          - terminating
-          - terminating-not-serving
-          - quarantined
-          - maintenance
-        preferred:
-          description: 'Indicator if this backend is preferred in the context of clustermesh service affinity. The value is set based
-
-            on related annotation of global service. Applicable for active state only.'
-          type: boolean
-        weight:
-          description: Backend weight
-          type:
-          - integer
-          - 'null'
-          format: uint16
-        zone:
-          description: Optional name of the zone in which this backend runs
-          type: string
-    IPV6BigTCP:
-      description: Status of IPv6 BIG TCP
-      type: object
-      properties:
-        enabled:
-          description: Is IPv6 BIG TCP enabled
-          type: boolean
-        maxGRO:
-          description: Maximum IPv6 GRO size
-          type: integer
-        maxGSO:
-          description: Maximum IPv6 GSO size
-          type: integer
-    EndpointStatusChange:
-      description: 'Indication of a change of status
-
-
-        +deepequal-gen=true'
-      type: object
-      properties:
-        timestamp:
-          description: Timestamp when status change occurred
-          type: string
-        code:
-          description: Code indicate type of status change
-          type: string
-          enum:
-          - ok
-          - failed
-        message:
-          description: Status message
-          type: string
-        state:
-          $ref: '#/components/schemas/EndpointState'
-    CgroupContainerMetadata:
-      description: cgroup container metadata
-      type: object
-      properties:
-        cgroup-id:
-          type: integer
-          format: uint64
-        cgroup-path:
-          type: string
-    LabelConfigurationStatus:
-      description: Labels and label configuration of an endpoint
-      type: object
-      properties:
-        realized:
-          description: The current configuration
-          $ref: '#/components/schemas/LabelConfigurationSpec'
-        security-relevant:
-          description: Labels derived from orchestration system that are used in computing a security identity
-          $ref: '#/components/schemas/Labels'
-        derived:
-          description: All labels derived from the orchestration system
-          $ref: '#/components/schemas/Labels'
-        disabled:
-          description: Labels derived from orchestration system which have been disabled.
-          $ref: '#/components/schemas/Labels'
-    Status:
-      description: Status of an individual component
-      type: object
-      properties:
-        state:
-          type: string
-          description: State the component is in
-          enum:
-          - Ok
-          - Warning
-          - Failure
-          - Disabled
-        msg:
-          type: string
-          description: Human readable status/error/warning message
-    ServiceSpec:
-      description: Configuration of a service
-      type: object
-      required:
-      - frontend-address
-      properties:
-        id:
-          description: Unique identification
-          type: integer
-        frontend-address:
-          description: Frontend address
-          $ref: '#/components/schemas/FrontendAddress'
-        backend-addresses:
-          description: List of backend addresses
-          type: array
-          items:
-            $ref: '#/components/schemas/BackendAddress'
-        flags:
-          description: Optional service configuration flags
-          type: object
-          properties:
-            type:
-              description: Service type
-              type: string
-              enum:
-              - ClusterIP
-              - NodePort
-              - ExternalIPs
-              - HostPort
-              - LoadBalancer
-              - LocalRedirect
-            trafficPolicy:
-              description: Service external traffic policy (deprecated in favor of extTrafficPolicy)
-              type: string
-              enum:
-              - Cluster
-              - Local
-            extTrafficPolicy:
-              description: Service external traffic policy
-              type: string
-              enum:
-              - Cluster
-              - Local
-            intTrafficPolicy:
-              description: Service internal traffic policy
-              type: string
-              enum:
-              - Cluster
-              - Local
-            natPolicy:
-              description: Service protocol NAT policy
-              type: string
-              enum:
-              - None
-              - Nat46
-              - Nat64
-            healthCheckNodePort:
-              description: Service health check node port
-              type: integer
-              format: uint16
-            name:
-              description: Service name  (e.g. Kubernetes service name)
-              type: string
-            namespace:
-              description: Service namespace  (e.g. Kubernetes namespace)
-              type: string
-            cluster:
-              description: Service cluster
-              type: string
-        updateServices:
-          description: 'Update all services selecting the backends with their given states
-
-            (id and frontend are ignored)
-
-            '
-          type: boolean
   parameters:
-    map-name:
-      name: name
-      description: Name of map
-      required: true
-      in: path
-      schema:
-        type: string
     follow:
       name: follow
       description: Whether to follow streamed requests
@@ -2231,5 +2224,12 @@ components:
       in: query
       schema:
         type: boolean
+    map-name:
+      name: name
+      description: Name of map
+      required: true
+      in: path
+      schema:
+        type: string
 x-schemes:
 - unix

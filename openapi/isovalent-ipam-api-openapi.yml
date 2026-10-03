@@ -99,18 +99,14 @@ paths:
       x-operation-id-source: derived
 components:
   parameters:
-    ipam-pool:
-      name: pool
+    ipam-family:
+      name: family
       in: query
       schema:
         type: string
-    ipam-ip:
-      name: ip
-      description: IP address
-      in: path
-      required: true
-      schema:
-        type: string
+        enum:
+        - ipv4
+        - ipv6
     ipam-owner:
       name: owner
       in: query
@@ -121,26 +117,21 @@ components:
       in: header
       schema:
         type: boolean
-    ipam-family:
-      name: family
+    ipam-ip:
+      name: ip
+      description: IP address
+      in: path
+      required: true
+      schema:
+        type: string
+    ipam-pool:
+      name: pool
       in: query
       schema:
         type: string
-        enum:
-        - ipv4
-        - ipv6
   schemas:
-    NodeAddressing:
-      description: 'Addressing information of a node for all address families
-
-
-        +k8s:deepcopy-gen=true'
-      type: object
-      properties:
-        ipv6:
-          $ref: '#/components/schemas/NodeAddressingElement'
-        ipv4:
-          $ref: '#/components/schemas/NodeAddressingElement'
+    Error:
+      type: string
     IPAMAddressResponse:
       description: IPAM configuration of an individual address family
       type: object
@@ -176,23 +167,6 @@ components:
           description: 'SkipMasquerade indicates whether the datapath should avoid masquerading connections from this IP.
 
             '
-    IPAMResponse:
-      description: IPAM configuration of an endpoint
-      type: object
-      required:
-      - address
-      - host-addressing
-      properties:
-        address:
-          $ref: '#/components/schemas/AddressPair'
-        ipv4:
-          $ref: '#/components/schemas/IPAMAddressResponse'
-        ipv6:
-          $ref: '#/components/schemas/IPAMAddressResponse'
-        host-addressing:
-          $ref: '#/components/schemas/NodeAddressing'
-    Error:
-      type: string
     NodeAddressingElement:
       description: Addressing information
       type: object
@@ -231,5 +205,31 @@ components:
         ipv6-pool-name:
           description: IPAM pool from which this IPv6 address was allocated
           type: string
+    NodeAddressing:
+      description: 'Addressing information of a node for all address families
+
+
+        +k8s:deepcopy-gen=true'
+      type: object
+      properties:
+        ipv6:
+          $ref: '#/components/schemas/NodeAddressingElement'
+        ipv4:
+          $ref: '#/components/schemas/NodeAddressingElement'
+    IPAMResponse:
+      description: IPAM configuration of an endpoint
+      type: object
+      required:
+      - address
+      - host-addressing
+      properties:
+        address:
+          $ref: '#/components/schemas/AddressPair'
+        ipv4:
+          $ref: '#/components/schemas/IPAMAddressResponse'
+        ipv6:
+          $ref: '#/components/schemas/IPAMAddressResponse'
+        host-addressing:
+          $ref: '#/components/schemas/NodeAddressing'
 x-schemes:
 - unix
