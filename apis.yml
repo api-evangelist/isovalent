@@ -45,6 +45,9 @@ specificationVersion: '0.23'
 created: '2026-07-17'
 modified: '2026-08-19'
 image: https://isovalent.com/favicon.ico
+x-docs-platform: readthedocs
+x-docs-platform-confidence: high
+x-docs-platform-checked: 2026-10-03
 tags:
 - Company
 - Networking
@@ -206,6 +209,9 @@ apis:
   - type: Documentation
     url: https://docs.cilium.io/en/stable/api/
 common:
+- type: CapabilityMap
+  url: capabilities/isovalent-capability-edges.yml
+  name: Isovalent Business Capability Map
 - type: ParentCompany
   url: https://apis.io/providers/cisco/
   name: Cisco
