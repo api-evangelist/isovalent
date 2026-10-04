@@ -287,12 +287,54 @@ paths:
       operationId: getIp
       x-operation-id-source: derived
 components:
-  schemas:
-    Labels:
-      description: Set of labels
-      type: array
-      items:
+  parameters:
+    source:
+      name: source
+      description: Source from which FQDN entries come from
+      required: false
+      in: query
+      schema:
         type: string
+    identity-id:
+      name: id
+      description: 'Cluster wide unique identifier of a security identity.
+
+        '
+      in: path
+      required: true
+      schema:
+        type: string
+    labels:
+      name: labels
+      description: 'List of labels
+
+        '
+      in: body
+      required: false
+      schema:
+        $ref: '#/components/schemas/Labels'
+    matchpattern:
+      name: matchpattern
+      description: A toFQDNs compatible matchPattern expression
+      required: false
+      in: query
+      schema:
+        type: string
+    endpoint-id:
+      name: id
+      description: "String describing an endpoint with the format ``[prefix:]id``. If no prefix\nis specified, a prefix of ``cilium-local:`` is assumed. Not all endpoints\nwill be addressable by all endpoint ID prefixes with the exception of the\nlocal Cilium UUID which is assigned to all endpoints.\n\nSupported endpoint id prefixes:\n  - cilium-local: Local Cilium endpoint UUID, e.g. cilium-local:3389595\n  - cilium-global: Global Cilium endpoint UUID, e.g. cilium-global:cluster1:nodeX:452343\n  - cni-attachment-id: CNI attachment ID, e.g. cni-attachment-id:22222:eth0\n  - cep-name: cep name for this container if K8s is enabled, e.g. pod-name:default:foobar-net1\n"
+      in: path
+      required: true
+      schema:
+        type: string
+    cidr:
+      name: cidr
+      description: A CIDR range of IPs
+      required: false
+      in: query
+      schema:
+        type: string
+  schemas:
     NameManager:
       description: Internal state about DNS names in relation to policy subsystem
       type: object
@@ -307,34 +349,19 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SelectorEntry'
-    Label:
-      description: Label is Cilium's representation of a label
+    Identity:
+      description: Security identity
       type: object
       properties:
-        key:
+        id:
+          description: Unique identifier
+          type: integer
+        labels:
+          description: Labels describing the identity
+          $ref: '#/components/schemas/Labels'
+        labelsSHA256:
+          description: SHA256 of labels
           type: string
-        value:
-          type: string
-        source:
-          description: Source can be one of the above values (e.g. LabelSourceK8s)
-          type: string
-    LabelArray:
-      description: LabelArray is an array of labels forming a set
-      type: array
-      items:
-        $ref: '#/components/schemas/Label'
-    SelectorEntry:
-      description: Mapping of FQDNSelector to corresponding regular expression
-      type: object
-      properties:
-        selectorString:
-          description: FQDNSelector in string representation
-          type: string
-        regexString:
-          description: String representation of regular expression form of FQDNSelector
-          type: string
-    Error:
-      type: string
     IPListEntry:
       description: IP entry with metadata
       type: object
@@ -356,6 +383,66 @@ components:
           type: integer
         metadata:
           $ref: '#/components/schemas/IPListEntryMetadata'
+    Label:
+      description: Label is Cilium's representation of a label
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+        source:
+          description: Source can be one of the above values (e.g. LabelSourceK8s)
+          type: string
+    LabelArrayList:
+      description: LabelArrayList is an array of LabelArrays forming a set
+      type: array
+      items:
+        $ref: '#/components/schemas/LabelArray'
+    Labels:
+      description: Set of labels
+      type: array
+      items:
+        type: string
+    DNSLookup:
+      description: An IP -> DNS mapping, with metadata
+      type: object
+      properties:
+        ips:
+          description: IP addresses returned in this lookup
+          type: array
+          items:
+            type: string
+        fqdn:
+          description: DNS name
+          type: string
+        ttl:
+          description: The TTL in the DNS response
+          type: integer
+        lookup-time:
+          description: The absolute time when this data was received
+          type: string
+          format: date-time
+        expiration-time:
+          description: The absolute time when this data will expire in this cache
+          type: string
+          format: date-time
+        endpoint-id:
+          description: The endpoint that made this lookup, or 0 for the agent itself.
+          type: integer
+        source:
+          description: The reason this FQDN IP association exists. Either a DNS lookup or an ongoing connection to an IP that was created by a DNS lookup.
+          type: string
+    SelectorEntry:
+      description: Mapping of FQDNSelector to corresponding regular expression
+      type: object
+      properties:
+        selectorString:
+          description: FQDNSelector in string representation
+          type: string
+        regexString:
+          description: String representation of regular expression form of FQDNSelector
+          type: string
     IPListEntryMetadata:
       description: Additional metadata assigned to an IP list entry
       type: object
@@ -380,11 +467,11 @@ components:
         refCount:
           description: number of endpoints consuming this identity locally (should always be > 0)
           type: integer
-    LabelArrayList:
-      description: LabelArrayList is an array of LabelArrays forming a set
+    LabelArray:
+      description: LabelArray is an array of labels forming a set
       type: array
       items:
-        $ref: '#/components/schemas/LabelArray'
+        $ref: '#/components/schemas/Label'
     Policy:
       description: 'Policy definition
 
@@ -421,99 +508,12 @@ components:
         users:
           description: number of users of this selector in the cache
           type: integer
-    Identity:
-      description: Security identity
-      type: object
-      properties:
-        id:
-          description: Unique identifier
-          type: integer
-        labels:
-          description: Labels describing the identity
-          $ref: '#/components/schemas/Labels'
-        labelsSHA256:
-          description: SHA256 of labels
-          type: string
+    Error:
+      type: string
     SelectorCache:
       description: cache of which identities match selectors in the policy repository
       type: array
       items:
         $ref: '#/components/schemas/SelectorIdentityMapping'
-    DNSLookup:
-      description: An IP -> DNS mapping, with metadata
-      type: object
-      properties:
-        ips:
-          description: IP addresses returned in this lookup
-          type: array
-          items:
-            type: string
-        fqdn:
-          description: DNS name
-          type: string
-        ttl:
-          description: The TTL in the DNS response
-          type: integer
-        lookup-time:
-          description: The absolute time when this data was received
-          type: string
-          format: date-time
-        expiration-time:
-          description: The absolute time when this data will expire in this cache
-          type: string
-          format: date-time
-        endpoint-id:
-          description: The endpoint that made this lookup, or 0 for the agent itself.
-          type: integer
-        source:
-          description: The reason this FQDN IP association exists. Either a DNS lookup or an ongoing connection to an IP that was created by a DNS lookup.
-          type: string
-  parameters:
-    matchpattern:
-      name: matchpattern
-      description: A toFQDNs compatible matchPattern expression
-      required: false
-      in: query
-      schema:
-        type: string
-    source:
-      name: source
-      description: Source from which FQDN entries come from
-      required: false
-      in: query
-      schema:
-        type: string
-    endpoint-id:
-      name: id
-      description: "String describing an endpoint with the format ``[prefix:]id``. If no prefix\nis specified, a prefix of ``cilium-local:`` is assumed. Not all endpoints\nwill be addressable by all endpoint ID prefixes with the exception of the\nlocal Cilium UUID which is assigned to all endpoints.\n\nSupported endpoint id prefixes:\n  - cilium-local: Local Cilium endpoint UUID, e.g. cilium-local:3389595\n  - cilium-global: Global Cilium endpoint UUID, e.g. cilium-global:cluster1:nodeX:452343\n  - cni-attachment-id: CNI attachment ID, e.g. cni-attachment-id:22222:eth0\n  - cep-name: cep name for this container if K8s is enabled, e.g. pod-name:default:foobar-net1\n"
-      in: path
-      required: true
-      schema:
-        type: string
-    identity-id:
-      name: id
-      description: 'Cluster wide unique identifier of a security identity.
-
-        '
-      in: path
-      required: true
-      schema:
-        type: string
-    cidr:
-      name: cidr
-      description: A CIDR range of IPs
-      required: false
-      in: query
-      schema:
-        type: string
-    labels:
-      name: labels
-      description: 'List of labels
-
-        '
-      in: body
-      required: false
-      schema:
-        $ref: '#/components/schemas/Labels'
 x-schemes:
 - unix

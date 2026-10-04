@@ -99,6 +99,28 @@ paths:
       x-operation-id-source: derived
 components:
   parameters:
+    ipam-expiration:
+      name: expiration
+      in: header
+      schema:
+        type: boolean
+    ipam-owner:
+      name: owner
+      in: query
+      schema:
+        type: string
+    ipam-pool:
+      name: pool
+      in: query
+      schema:
+        type: string
+    ipam-ip:
+      name: ip
+      description: IP address
+      in: path
+      required: true
+      schema:
+        type: string
     ipam-family:
       name: family
       in: query
@@ -107,66 +129,7 @@ components:
         enum:
         - ipv4
         - ipv6
-    ipam-owner:
-      name: owner
-      in: query
-      schema:
-        type: string
-    ipam-expiration:
-      name: expiration
-      in: header
-      schema:
-        type: boolean
-    ipam-ip:
-      name: ip
-      description: IP address
-      in: path
-      required: true
-      schema:
-        type: string
-    ipam-pool:
-      name: pool
-      in: query
-      schema:
-        type: string
   schemas:
-    Error:
-      type: string
-    IPAMAddressResponse:
-      description: IPAM configuration of an individual address family
-      type: object
-      properties:
-        ip:
-          description: Allocated IP for endpoint
-          type: string
-        gateway:
-          description: IP of gateway
-          type: string
-        cidrs:
-          description: List of CIDRs out of which IPs are allocated
-          type: array
-          items:
-            type: string
-        master-mac:
-          type: string
-          description: MAC of master interface if address is a slave/secondary of a master interface
-        expiration-uuid:
-          type: string
-          description: 'The UUID for the expiration timer. Set when expiration has been
-
-            enabled while allocating.
-
-            '
-        interface-number:
-          type: string
-          description: 'InterfaceNumber is a field for generically identifying an interface. This is only useful in ENI mode.
-
-            '
-        skip-masquerade:
-          type: boolean
-          description: 'SkipMasquerade indicates whether the datapath should avoid masquerading connections from this IP.
-
-            '
     NodeAddressingElement:
       description: Addressing information
       type: object
@@ -205,6 +168,43 @@ components:
         ipv6-pool-name:
           description: IPAM pool from which this IPv6 address was allocated
           type: string
+    IPAMAddressResponse:
+      description: IPAM configuration of an individual address family
+      type: object
+      properties:
+        ip:
+          description: Allocated IP for endpoint
+          type: string
+        gateway:
+          description: IP of gateway
+          type: string
+        cidrs:
+          description: List of CIDRs out of which IPs are allocated
+          type: array
+          items:
+            type: string
+        master-mac:
+          type: string
+          description: MAC of master interface if address is a slave/secondary of a master interface
+        expiration-uuid:
+          type: string
+          description: 'The UUID for the expiration timer. Set when expiration has been
+
+            enabled while allocating.
+
+            '
+        interface-number:
+          type: string
+          description: 'InterfaceNumber is a field for generically identifying an interface. This is only useful in ENI mode.
+
+            '
+        skip-masquerade:
+          type: boolean
+          description: 'SkipMasquerade indicates whether the datapath should avoid masquerading connections from this IP.
+
+            '
+    Error:
+      type: string
     NodeAddressing:
       description: 'Addressing information of a node for all address families
 

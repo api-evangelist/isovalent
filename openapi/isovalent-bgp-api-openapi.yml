@@ -121,193 +121,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    BgpRoutePolicyNeighborMatch:
-      description: Matches a neighbor in a BGP route policy
-      properties:
-        type:
-          description: Defines matching logic in case of multiple neighbors
-          $ref: '#/components/schemas/BgpRoutePolicyMatchType'
-        neighbors:
-          description: Neighbor IP addresses to match with
-          type: array
-          items:
-            type: string
-    BgpRoutePolicy:
-      description: 'Single BGP route policy retrieved from the underlying router
-
-        Deprecated: This will be removed in the future.
-
-        '
-      properties:
-        router-asn:
-          description: Autonomous System Number (ASN) identifying a BGP virtual router instance
-          type: integer
-        name:
-          description: Name of the route policy
-          type: string
-        type:
-          description: Type of the route policy
-          type: string
-          enum:
-          - export
-          - import
-        statements:
-          description: List of the route policy statements
-          type: array
-          items:
-            $ref: '#/components/schemas/BgpRoutePolicyStatement'
-    BgpPath:
-      description: Single BGP routing Path containing BGP Network Layer Reachability Information (NLRI) and path attributes
-      properties:
-        family:
-          description: Address Family Indicator (AFI) and Subsequent Address Family Indicator (SAFI) of the path
-          $ref: '#/components/schemas/BgpFamily'
-        nlri:
-          description: Network Layer Reachability Information of the path
-          $ref: '#/components/schemas/BgpNlri'
-        path-attributes:
-          description: List of BGP path attributes specific for the path
-          type: array
-          items:
-            $ref: '#/components/schemas/BgpPathAttribute'
-        age-nanoseconds:
-          description: Age of the path (time since its creation) in nanoseconds
-          type: integer
-        best:
-          description: True value flags the best path towards the destination prefix
-          type: boolean
-        stale:
-          description: True value marks the path as stale
-          type: boolean
-    BgpPathAttribute:
-      description: Single BGP path attribute specific for the path
-      properties:
-        base64:
-          description: Base64-encoded BGP path attribute in the BGP UPDATE message format
-          type: string
-    BgpRoutePolicyStatement:
-      description: Single BGP route policy statement
-      properties:
-        match-neighbors:
-          description: Matches BGP neighbor IP address with the provided match rules
-          $ref: '#/components/schemas/BgpRoutePolicyNeighborMatch'
-        match-families:
-          description: Matches any of the provided address families. If empty matches all address families.
-          type: array
-          items:
-            $ref: '#/components/schemas/BgpFamily'
-        match-prefixes:
-          description: Matches CIDR prefix with the provided match rules
-          $ref: '#/components/schemas/BgpRoutePolicyPrefixMatch'
-        route-action:
-          description: RIB processing action taken on the matched route
-          type: string
-          enum:
-          - none
-          - accept
-          - reject
-        add-communities:
-          description: List of BGP standard community values to be added to the matched route
-          type: array
-          items:
-            type: string
-        add-large-communities:
-          description: List of BGP large community values to be added to the matched route
-          type: array
-          items:
-            type: string
-        set-local-preference:
-          description: BGP local preference value to be set on the matched route
-          type: integer
-        nexthop:
-          description: BGP nexthop action
-          $ref: '#/components/schemas/BgpRoutePolicyNexthopAction'
-    BgpRoutePolicyPrefixMatch:
-      description: Matches a CIDR prefix in a BGP route policy
-      properties:
-        type:
-          description: Defines matching logic in case of multiple prefixes
-          $ref: '#/components/schemas/BgpRoutePolicyMatchType'
-        prefixes:
-          description: Prefixes to match with
-          type: array
-          items:
-            $ref: '#/components/schemas/BgpRoutePolicyPrefix'
-    BgpCapabilities:
-      description: Represents the BGP capabilities.
-      properties:
-        capabilities:
-          description: Base64-encoded BGP capabilities details
-          type: string
-    Error:
-      type: string
-    BgpPeerFamilies:
-      description: BGP AFI SAFI state of the peer
-      properties:
-        afi:
-          description: BGP address family indicator
-          type: string
-        safi:
-          description: BGP subsequent address family indicator
-          type: string
-        received:
-          description: Number of routes received from the peer of this address family
-          type: integer
-        accepted:
-          description: Number of routes accepted from the peer of this address family
-          type: integer
-        advertised:
-          description: Number of routes advertised of this address family to the peer
-          type: integer
-    BgpGracefulRestart:
-      description: BGP graceful restart parameters negotiated with the peer.
-      properties:
-        enabled:
-          description: 'When set, graceful restart capability is negotiated for all AFI/SAFIs of
-
-            this peer.'
-          type: boolean
-        restart-time-seconds:
-          description: 'This is the time advertised to peer for the BGP session to be re-established
-
-            after a restart. After this period, peer will remove stale routes.
-
-            (RFC 4724 section 4.2)'
-          type: integer
-    BgpRoutePolicyMatchType:
-      description: Defines BGP route policy matching logic in case of multiple match elements.
-      type: string
-      enum:
-      - any
-      - all
-      - invert
-    BgpRoute:
-      description: 'Single BGP route retrieved from the RIB of underlying router
-
-        Deprecated: This will be removed in the future.
-
-        '
-      properties:
-        router-asn:
-          description: Autonomous System Number (ASN) identifying a BGP virtual router instance
-          type: integer
-        neighbor:
-          description: IP address specifying a BGP neighbor if the source table type is adj-rib-in or adj-rib-out
-          type: string
-        prefix:
-          description: IP prefix of the route
-          type: string
-        paths:
-          description: List of routing paths leading towards the prefix
-          type: array
-          items:
-            $ref: '#/components/schemas/BgpPath'
-    BgpNlri:
-      description: Network Layer Reachability Information (NLRI) of the path
-      properties:
-        base64:
-          description: Base64-encoded NLRI in the BGP UPDATE message format
-          type: string
     BgpPeer:
       description: 'State of a BGP Peer
 
@@ -402,6 +215,65 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/BgpCapabilities'
+    BgpRoutePolicyPrefixMatch:
+      description: Matches a CIDR prefix in a BGP route policy
+      properties:
+        type:
+          description: Defines matching logic in case of multiple prefixes
+          $ref: '#/components/schemas/BgpRoutePolicyMatchType'
+        prefixes:
+          description: Prefixes to match with
+          type: array
+          items:
+            $ref: '#/components/schemas/BgpRoutePolicyPrefix'
+    BgpRoutePolicyNexthopAction:
+      description: BGP nexthop action
+      properties:
+        self:
+          description: Set nexthop to the IP address of itself
+          type: boolean
+        unchanged:
+          description: Don't change nexthop
+          type: boolean
+    BgpPeerFamilies:
+      description: BGP AFI SAFI state of the peer
+      properties:
+        afi:
+          description: BGP address family indicator
+          type: string
+        safi:
+          description: BGP subsequent address family indicator
+          type: string
+        received:
+          description: Number of routes received from the peer of this address family
+          type: integer
+        accepted:
+          description: Number of routes accepted from the peer of this address family
+          type: integer
+        advertised:
+          description: Number of routes advertised of this address family to the peer
+          type: integer
+    BgpRoute:
+      description: 'Single BGP route retrieved from the RIB of underlying router
+
+        Deprecated: This will be removed in the future.
+
+        '
+      properties:
+        router-asn:
+          description: Autonomous System Number (ASN) identifying a BGP virtual router instance
+          type: integer
+        neighbor:
+          description: IP address specifying a BGP neighbor if the source table type is adj-rib-in or adj-rib-out
+          type: string
+        prefix:
+          description: IP prefix of the route
+          type: string
+        paths:
+          description: List of routing paths leading towards the prefix
+          type: array
+          items:
+            $ref: '#/components/schemas/BgpPath'
     BgpFamily:
       description: Address Family Indicator (AFI) and Subsequent Address Family Indicator (SAFI) of the path
       properties:
@@ -411,14 +283,69 @@ components:
         safi:
           description: Subsequent Address Family Indicator (SAFI) of the path
           type: string
-    BgpRoutePolicyNexthopAction:
-      description: BGP nexthop action
+    BgpRoutePolicy:
+      description: 'Single BGP route policy retrieved from the underlying router
+
+        Deprecated: This will be removed in the future.
+
+        '
       properties:
-        self:
-          description: Set nexthop to the IP address of itself
+        router-asn:
+          description: Autonomous System Number (ASN) identifying a BGP virtual router instance
+          type: integer
+        name:
+          description: Name of the route policy
+          type: string
+        type:
+          description: Type of the route policy
+          type: string
+          enum:
+          - export
+          - import
+        statements:
+          description: List of the route policy statements
+          type: array
+          items:
+            $ref: '#/components/schemas/BgpRoutePolicyStatement'
+    BgpPathAttribute:
+      description: Single BGP path attribute specific for the path
+      properties:
+        base64:
+          description: Base64-encoded BGP path attribute in the BGP UPDATE message format
+          type: string
+    BgpRoutePolicyNeighborMatch:
+      description: Matches a neighbor in a BGP route policy
+      properties:
+        type:
+          description: Defines matching logic in case of multiple neighbors
+          $ref: '#/components/schemas/BgpRoutePolicyMatchType'
+        neighbors:
+          description: Neighbor IP addresses to match with
+          type: array
+          items:
+            type: string
+    BgpPath:
+      description: Single BGP routing Path containing BGP Network Layer Reachability Information (NLRI) and path attributes
+      properties:
+        family:
+          description: Address Family Indicator (AFI) and Subsequent Address Family Indicator (SAFI) of the path
+          $ref: '#/components/schemas/BgpFamily'
+        nlri:
+          description: Network Layer Reachability Information of the path
+          $ref: '#/components/schemas/BgpNlri'
+        path-attributes:
+          description: List of BGP path attributes specific for the path
+          type: array
+          items:
+            $ref: '#/components/schemas/BgpPathAttribute'
+        age-nanoseconds:
+          description: Age of the path (time since its creation) in nanoseconds
+          type: integer
+        best:
+          description: True value flags the best path towards the destination prefix
           type: boolean
-        unchanged:
-          description: Don't change nexthop
+        stale:
+          description: True value marks the path as stale
           type: boolean
     BgpRoutePolicyPrefix:
       description: Matches a CIDR prefix in a BGP route policy
@@ -432,7 +359,109 @@ components:
         prefix-len-max:
           description: Maximal prefix length that will match if it falls under CIDR
           type: integer
+    BgpNlri:
+      description: Network Layer Reachability Information (NLRI) of the path
+      properties:
+        base64:
+          description: Base64-encoded NLRI in the BGP UPDATE message format
+          type: string
+    BgpRoutePolicyStatement:
+      description: Single BGP route policy statement
+      properties:
+        match-neighbors:
+          description: Matches BGP neighbor IP address with the provided match rules
+          $ref: '#/components/schemas/BgpRoutePolicyNeighborMatch'
+        match-families:
+          description: Matches any of the provided address families. If empty matches all address families.
+          type: array
+          items:
+            $ref: '#/components/schemas/BgpFamily'
+        match-prefixes:
+          description: Matches CIDR prefix with the provided match rules
+          $ref: '#/components/schemas/BgpRoutePolicyPrefixMatch'
+        route-action:
+          description: RIB processing action taken on the matched route
+          type: string
+          enum:
+          - none
+          - accept
+          - reject
+        add-communities:
+          description: List of BGP standard community values to be added to the matched route
+          type: array
+          items:
+            type: string
+        add-large-communities:
+          description: List of BGP large community values to be added to the matched route
+          type: array
+          items:
+            type: string
+        set-local-preference:
+          description: BGP local preference value to be set on the matched route
+          type: integer
+        nexthop:
+          description: BGP nexthop action
+          $ref: '#/components/schemas/BgpRoutePolicyNexthopAction'
+    BgpRoutePolicyMatchType:
+      description: Defines BGP route policy matching logic in case of multiple match elements.
+      type: string
+      enum:
+      - any
+      - all
+      - invert
+    Error:
+      type: string
+    BgpCapabilities:
+      description: Represents the BGP capabilities.
+      properties:
+        capabilities:
+          description: Base64-encoded BGP capabilities details
+          type: string
+    BgpGracefulRestart:
+      description: BGP graceful restart parameters negotiated with the peer.
+      properties:
+        enabled:
+          description: 'When set, graceful restart capability is negotiated for all AFI/SAFIs of
+
+            this peer.'
+          type: boolean
+        restart-time-seconds:
+          description: 'This is the time advertised to peer for the BGP session to be re-established
+
+            after a restart. After this period, peer will remove stale routes.
+
+            (RFC 4724 section 4.2)'
+          type: integer
   parameters:
+    bgp-table-type:
+      name: table_type
+      description: BGP Routing Information Base (RIB) table type
+      required: true
+      in: query
+      schema:
+        type: string
+        enum:
+        - loc-rib
+        - adj-rib-in
+        - adj-rib-out
+    bgp-afi:
+      name: afi
+      description: Address Family Indicator (AFI) of a BGP route
+      required: true
+      in: query
+      schema:
+        type: string
+    bgp-neighbor-address:
+      name: neighbor
+      description: 'IP address specifying a BGP neighbor.
+
+        Has to be specified only when table type is adj-rib-in or adj-rib-out.
+
+        '
+      required: false
+      in: query
+      schema:
+        type: string
     bgp-safi:
       name: safi
       description: Subsequent Address Family Indicator (SAFI) of a BGP route
@@ -451,34 +480,5 @@ components:
       in: query
       schema:
         type: integer
-    bgp-neighbor-address:
-      name: neighbor
-      description: 'IP address specifying a BGP neighbor.
-
-        Has to be specified only when table type is adj-rib-in or adj-rib-out.
-
-        '
-      required: false
-      in: query
-      schema:
-        type: string
-    bgp-afi:
-      name: afi
-      description: Address Family Indicator (AFI) of a BGP route
-      required: true
-      in: query
-      schema:
-        type: string
-    bgp-table-type:
-      name: table_type
-      description: BGP Routing Information Base (RIB) table type
-      required: true
-      in: query
-      schema:
-        type: string
-        enum:
-        - loc-rib
-        - adj-rib-in
-        - adj-rib-out
 x-schemes:
 - unix

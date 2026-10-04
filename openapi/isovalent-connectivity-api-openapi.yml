@@ -53,23 +53,24 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    HealthStatusResponse:
-      description: Connectivity status to other daemons
-      type: object
+    EndpointStatus:
+      description: 'Connectivity status to host cilium-health endpoints via different paths
+
+        '
       properties:
-        timestamp:
-          type: string
-        probeInterval:
-          description: Interval in seconds between probes
-          type: string
-        local:
-          description: Description of the local node
-          $ref: '#/components/schemas/SelfStatus'
-        nodes:
-          description: Connectivity status to each other node
+        primary-address:
+          $ref: '#/components/schemas/PathStatus'
+        secondary-addresses:
           type: array
           items:
-            $ref: '#/components/schemas/NodeStatus'
+            $ref: '#/components/schemas/PathStatus'
+    SelfStatus:
+      description: Description of the cilium-health node
+      type: object
+      properties:
+        name:
+          description: Name associated with this node
+          type: string
     NodeStatus:
       description: Connectivity status of a remote cilium-health instance
       type: object
@@ -90,17 +91,23 @@ components:
 
             '
           $ref: '#/components/schemas/PathStatus'
-    EndpointStatus:
-      description: 'Connectivity status to host cilium-health endpoints via different paths
-
-        '
+    HealthStatusResponse:
+      description: Connectivity status to other daemons
+      type: object
       properties:
-        primary-address:
-          $ref: '#/components/schemas/PathStatus'
-        secondary-addresses:
+        timestamp:
+          type: string
+        probeInterval:
+          description: Interval in seconds between probes
+          type: string
+        local:
+          description: Description of the local node
+          $ref: '#/components/schemas/SelfStatus'
+        nodes:
+          description: Connectivity status to each other node
           type: array
           items:
-            $ref: '#/components/schemas/PathStatus'
+            $ref: '#/components/schemas/NodeStatus'
     ConnectivityStatus:
       description: Connectivity status of a path
       type: object
@@ -127,13 +134,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PathStatus'
-    SelfStatus:
-      description: Description of the cilium-health node
-      type: object
-      properties:
-        name:
-          description: Name associated with this node
-          type: string
     PathStatus:
       description: 'Connectivity status via different paths, for example using different
 
