@@ -1,0 +1,44 @@
+slug: isovalent
+provider: Isovalent
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 3
+edges:
+- tag: BGP
+  spec_file: isovalent-bgp-api-openapi.yml
+  capability_id: BC-600.50
+  capability_id_l1: BC-600
+  capability_name: IT Infrastructure Management
+  confidence: 0.8
+  evidence: GET /bgp/peers  Lists operational state of BGP peers; GET /bgp/routes  Lists BGP routes from
+    BGP Control Plane RIB
+  reason: Network routing control-plane state for the Cilium CNI — compute/storage/network/cloud infrastructure
+    management. No business-domain capability is realised.
+- tag: Daemon
+  spec_file: isovalent-daemon-api-openapi.yml
+  capability_id: BC-600.50
+  capability_id_l1: BC-600
+  capability_name: IT Infrastructure Management
+  confidence: 0.7
+  evidence: GET /config  Get configuration of Cilium daemon; PATCH /config  Modify daemon configuration;
+    GET /map/{name}  Retrieve contents of BPF map
+  reason: Agent-level configuration, node inventory and BPF datapath introspection for cloud-native networking
+    infrastructure — IT infrastructure management, not a business capability.
+- tag: IPAM
+  spec_file: isovalent-ipam-api-openapi.yml
+  capability_id: BC-600.50
+  capability_id_l1: BC-600
+  capability_name: IT Infrastructure Management
+  confidence: 0.7
+  evidence: POST /ipam 'Allocate an IP address'; DELETE /ipam/{ip} 'Release an allocated IP address'
+  reason: IP address management for cluster networking is network/cloud infrastructure management; maps
+    to IT Infrastructure Management, though it is low-level plumbing.
