@@ -104,21 +104,16 @@ components:
       in: header
       schema:
         type: boolean
-    ipam-owner:
-      name: owner
-      in: query
-      schema:
-        type: string
-    ipam-pool:
-      name: pool
-      in: query
-      schema:
-        type: string
     ipam-ip:
       name: ip
       description: IP address
       in: path
       required: true
+      schema:
+        type: string
+    ipam-owner:
+      name: owner
+      in: query
       schema:
         type: string
     ipam-family:
@@ -129,6 +124,11 @@ components:
         enum:
         - ipv4
         - ipv6
+    ipam-pool:
+      name: pool
+      in: query
+      schema:
+        type: string
   schemas:
     NodeAddressingElement:
       description: Addressing information
@@ -168,6 +168,32 @@ components:
         ipv6-pool-name:
           description: IPAM pool from which this IPv6 address was allocated
           type: string
+    NodeAddressing:
+      description: 'Addressing information of a node for all address families
+
+
+        +k8s:deepcopy-gen=true'
+      type: object
+      properties:
+        ipv6:
+          $ref: '#/components/schemas/NodeAddressingElement'
+        ipv4:
+          $ref: '#/components/schemas/NodeAddressingElement'
+    IPAMResponse:
+      description: IPAM configuration of an endpoint
+      type: object
+      required:
+      - address
+      - host-addressing
+      properties:
+        address:
+          $ref: '#/components/schemas/AddressPair'
+        ipv4:
+          $ref: '#/components/schemas/IPAMAddressResponse'
+        ipv6:
+          $ref: '#/components/schemas/IPAMAddressResponse'
+        host-addressing:
+          $ref: '#/components/schemas/NodeAddressing'
     IPAMAddressResponse:
       description: IPAM configuration of an individual address family
       type: object
@@ -205,31 +231,5 @@ components:
             '
     Error:
       type: string
-    NodeAddressing:
-      description: 'Addressing information of a node for all address families
-
-
-        +k8s:deepcopy-gen=true'
-      type: object
-      properties:
-        ipv6:
-          $ref: '#/components/schemas/NodeAddressingElement'
-        ipv4:
-          $ref: '#/components/schemas/NodeAddressingElement'
-    IPAMResponse:
-      description: IPAM configuration of an endpoint
-      type: object
-      required:
-      - address
-      - host-addressing
-      properties:
-        address:
-          $ref: '#/components/schemas/AddressPair'
-        ipv4:
-          $ref: '#/components/schemas/IPAMAddressResponse'
-        ipv6:
-          $ref: '#/components/schemas/IPAMAddressResponse'
-        host-addressing:
-          $ref: '#/components/schemas/NodeAddressing'
 x-schemes:
 - unix

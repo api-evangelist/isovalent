@@ -288,6 +288,15 @@ paths:
       x-operation-id-source: derived
 components:
   parameters:
+    identity-id:
+      name: id
+      description: 'Cluster wide unique identifier of a security identity.
+
+        '
+      in: path
+      required: true
+      schema:
+        type: string
     source:
       name: source
       description: Source from which FQDN entries come from
@@ -295,11 +304,23 @@ components:
       in: query
       schema:
         type: string
-    identity-id:
+    matchpattern:
+      name: matchpattern
+      description: A toFQDNs compatible matchPattern expression
+      required: false
+      in: query
+      schema:
+        type: string
+    cidr:
+      name: cidr
+      description: A CIDR range of IPs
+      required: false
+      in: query
+      schema:
+        type: string
+    endpoint-id:
       name: id
-      description: 'Cluster wide unique identifier of a security identity.
-
-        '
+      description: "String describing an endpoint with the format ``[prefix:]id``. If no prefix\nis specified, a prefix of ``cilium-local:`` is assumed. Not all endpoints\nwill be addressable by all endpoint ID prefixes with the exception of the\nlocal Cilium UUID which is assigned to all endpoints.\n\nSupported endpoint id prefixes:\n  - cilium-local: Local Cilium endpoint UUID, e.g. cilium-local:3389595\n  - cilium-global: Global Cilium endpoint UUID, e.g. cilium-global:cluster1:nodeX:452343\n  - cni-attachment-id: CNI attachment ID, e.g. cni-attachment-id:22222:eth0\n  - cep-name: cep name for this container if K8s is enabled, e.g. pod-name:default:foobar-net1\n"
       in: path
       required: true
       schema:
@@ -313,55 +334,33 @@ components:
       required: false
       schema:
         $ref: '#/components/schemas/Labels'
-    matchpattern:
-      name: matchpattern
-      description: A toFQDNs compatible matchPattern expression
-      required: false
-      in: query
-      schema:
-        type: string
-    endpoint-id:
-      name: id
-      description: "String describing an endpoint with the format ``[prefix:]id``. If no prefix\nis specified, a prefix of ``cilium-local:`` is assumed. Not all endpoints\nwill be addressable by all endpoint ID prefixes with the exception of the\nlocal Cilium UUID which is assigned to all endpoints.\n\nSupported endpoint id prefixes:\n  - cilium-local: Local Cilium endpoint UUID, e.g. cilium-local:3389595\n  - cilium-global: Global Cilium endpoint UUID, e.g. cilium-global:cluster1:nodeX:452343\n  - cni-attachment-id: CNI attachment ID, e.g. cni-attachment-id:22222:eth0\n  - cep-name: cep name for this container if K8s is enabled, e.g. pod-name:default:foobar-net1\n"
-      in: path
-      required: true
-      schema:
-        type: string
-    cidr:
-      name: cidr
-      description: A CIDR range of IPs
-      required: false
-      in: query
-      schema:
-        type: string
   schemas:
-    NameManager:
-      description: Internal state about DNS names in relation to policy subsystem
+    LabelArrayList:
+      description: LabelArrayList is an array of LabelArrays forming a set
+      type: array
+      items:
+        $ref: '#/components/schemas/LabelArray'
+    IPListEntryMetadata:
+      description: Additional metadata assigned to an IP list entry
       type: object
       properties:
-        DNSPollNames:
-          description: Names to poll for DNS Poller
-          type: array
-          items:
-            type: string
-        FQDNPolicySelectors:
-          description: Mapping of FQDNSelectors to corresponding regular expressions
-          type: array
-          items:
-            $ref: '#/components/schemas/SelectorEntry'
-    Identity:
-      description: Security identity
-      type: object
-      properties:
-        id:
-          description: Unique identifier
-          type: integer
-        labels:
-          description: Labels describing the identity
-          $ref: '#/components/schemas/Labels'
-        labelsSHA256:
-          description: SHA256 of labels
+        source:
+          description: Source of the IP entry and its metadata
           type: string
+          example: k8s
+        namespace:
+          description: Namespace of the IP (e.g. Kubernetes namespace)
+          type: string
+        name:
+          description: Name assigned to the IP (e.g. Kubernetes pod name)
+          type: string
+    Error:
+      type: string
+    SelectorCache:
+      description: cache of which identities match selectors in the policy repository
+      type: array
+      items:
+        $ref: '#/components/schemas/SelectorIdentityMapping'
     IPListEntry:
       description: IP entry with metadata
       type: object
@@ -383,27 +382,61 @@ components:
           type: integer
         metadata:
           $ref: '#/components/schemas/IPListEntryMetadata'
-    Label:
-      description: Label is Cilium's representation of a label
+    NameManager:
+      description: Internal state about DNS names in relation to policy subsystem
       type: object
       properties:
-        key:
+        DNSPollNames:
+          description: Names to poll for DNS Poller
+          type: array
+          items:
+            type: string
+        FQDNPolicySelectors:
+          description: Mapping of FQDNSelectors to corresponding regular expressions
+          type: array
+          items:
+            $ref: '#/components/schemas/SelectorEntry'
+    SelectorIdentityMapping:
+      description: mapping of selector to identities which match it
+      type: object
+      properties:
+        selector:
+          description: string form of selector
           type: string
-        value:
+        labels:
+          description: Labels is a list of labels of the policy rules currently using this selector
+          $ref: '#/components/schemas/LabelArrayList'
+        identities:
+          description: identities mapping to this selector
+          type: array
+          items:
+            type: integer
+        users:
+          description: number of users of this selector in the cache
+          type: integer
+    Policy:
+      description: 'Policy definition
+
+        Deprecated, will be removed in v1.19.
+
+        '
+      type: object
+      properties:
+        revision:
+          description: 'Revision number of the policy. Incremented each time the policy is
+
+            changed in the agent''s repository
+
+            '
+          type: integer
+        policy:
+          description: Policy definition as JSON.
           type: string
-        source:
-          description: Source can be one of the above values (e.g. LabelSourceK8s)
-          type: string
-    LabelArrayList:
-      description: LabelArrayList is an array of LabelArrays forming a set
+    LabelArray:
+      description: LabelArray is an array of labels forming a set
       type: array
       items:
-        $ref: '#/components/schemas/LabelArray'
-    Labels:
-      description: Set of labels
-      type: array
-      items:
-        type: string
+        $ref: '#/components/schemas/Label'
     DNSLookup:
       description: An IP -> DNS mapping, with metadata
       type: object
@@ -433,6 +466,19 @@ components:
         source:
           description: The reason this FQDN IP association exists. Either a DNS lookup or an ongoing connection to an IP that was created by a DNS lookup.
           type: string
+    Identity:
+      description: Security identity
+      type: object
+      properties:
+        id:
+          description: Unique identifier
+          type: integer
+        labels:
+          description: Labels describing the identity
+          $ref: '#/components/schemas/Labels'
+        labelsSHA256:
+          description: SHA256 of labels
+          type: string
     SelectorEntry:
       description: Mapping of FQDNSelector to corresponding regular expression
       type: object
@@ -442,20 +488,6 @@ components:
           type: string
         regexString:
           description: String representation of regular expression form of FQDNSelector
-          type: string
-    IPListEntryMetadata:
-      description: Additional metadata assigned to an IP list entry
-      type: object
-      properties:
-        source:
-          description: Source of the IP entry and its metadata
-          type: string
-          example: k8s
-        namespace:
-          description: Namespace of the IP (e.g. Kubernetes namespace)
-          type: string
-        name:
-          description: Name assigned to the IP (e.g. Kubernetes pod name)
           type: string
     IdentityEndpoints:
       description: Security identities owned by endpoints on the local node
@@ -467,53 +499,21 @@ components:
         refCount:
           description: number of endpoints consuming this identity locally (should always be > 0)
           type: integer
-    LabelArray:
-      description: LabelArray is an array of labels forming a set
+    Labels:
+      description: Set of labels
       type: array
       items:
-        $ref: '#/components/schemas/Label'
-    Policy:
-      description: 'Policy definition
-
-        Deprecated, will be removed in v1.19.
-
-        '
+        type: string
+    Label:
+      description: Label is Cilium's representation of a label
       type: object
       properties:
-        revision:
-          description: 'Revision number of the policy. Incremented each time the policy is
-
-            changed in the agent''s repository
-
-            '
-          type: integer
-        policy:
-          description: Policy definition as JSON.
+        key:
           type: string
-    SelectorIdentityMapping:
-      description: mapping of selector to identities which match it
-      type: object
-      properties:
-        selector:
-          description: string form of selector
+        value:
           type: string
-        labels:
-          description: Labels is a list of labels of the policy rules currently using this selector
-          $ref: '#/components/schemas/LabelArrayList'
-        identities:
-          description: identities mapping to this selector
-          type: array
-          items:
-            type: integer
-        users:
-          description: number of users of this selector in the cache
-          type: integer
-    Error:
-      type: string
-    SelectorCache:
-      description: cache of which identities match selectors in the policy repository
-      type: array
-      items:
-        $ref: '#/components/schemas/SelectorIdentityMapping'
+        source:
+          description: Source can be one of the above values (e.g. LabelSourceK8s)
+          type: string
 x-schemes:
 - unix

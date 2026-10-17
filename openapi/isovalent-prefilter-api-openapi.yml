@@ -93,6 +93,16 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    Prefilter:
+      description: Collection of endpoints to be served
+      type: object
+      properties:
+        spec:
+          $ref: '#/components/schemas/PrefilterSpec'
+        status:
+          $ref: '#/components/schemas/PrefilterStatus'
+    Error:
+      type: string
     PrefilterStatus:
       description: CIDR ranges implemented in the Prefilter
       type: object
@@ -109,16 +119,6 @@ components:
           type: array
           items:
             type: string
-    Prefilter:
-      description: Collection of endpoints to be served
-      type: object
-      properties:
-        spec:
-          $ref: '#/components/schemas/PrefilterSpec'
-        status:
-          $ref: '#/components/schemas/PrefilterStatus'
-    Error:
-      type: string
   parameters:
     prefilter-spec:
       name: prefilter-spec
